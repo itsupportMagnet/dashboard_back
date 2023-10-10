@@ -1,4 +1,4 @@
-import { getSales } from "../services/databaseServices"
+import { getSales } from "../services/databaseServices.js"
 
 export const getAllSales = (req, res) => {
     getSales()

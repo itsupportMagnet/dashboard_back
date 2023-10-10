@@ -21,6 +21,7 @@
   "homepage": "https://github.com/itsupportMagnet/pricingTool_back#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mysql2": "^3.6.1"
   }
 }

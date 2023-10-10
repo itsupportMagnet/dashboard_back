@@ -17,3 +17,14 @@ export const getAllSales = (req, res) => {
       res.status(500).json(error);
     })
   }
+
+  export const getAllProviders = (req, res) => {
+    getProviders()
+    .then(row => res.status(200).json(row))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+    
+  
+  }

@@ -31,7 +31,7 @@ export const getProviders = async () =>{
 }
 
 export const getCarriers = async () =>{
-  const query = "SELECT * FROM carriers";
+  const query = "SELECT * FROM carriers3";
   return pool.query(query)
   .then(rows => rows[0])
   .catch(error => {

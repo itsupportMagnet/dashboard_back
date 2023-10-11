@@ -29,3 +29,13 @@ export const getProviders = async () =>{
     throw error
   })
 }
+
+export const getCarriers = async () =>{
+  const query = "SELECT * FROM carriers";
+  return pool.query(query)
+  .then(rows => rows[0])
+  .catch(error => {
+    console.log(error)
+    throw error
+  })
+}

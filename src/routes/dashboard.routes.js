@@ -6,5 +6,6 @@ const router = Router();
 router.get('/salesGross', getAllSales)
 .get('/clients', getAllClients)
 .get('/providers', getAllProviders)
+.get('/carriers', getAllProviders)
 
 export default router;

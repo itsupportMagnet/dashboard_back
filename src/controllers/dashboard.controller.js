@@ -1,4 +1,4 @@
-import { getSales, getClients, getProviders } from "../services/databaseServices.js"
+import { getSales, getClients, getProviders, getCarriers } from "../services/databaseServices.js"
 
 export const getAllSales = (req, res) => {
     getSales()
@@ -20,6 +20,17 @@ export const getAllSales = (req, res) => {
 
   export const getAllProviders = (req, res) => {
     getProviders()
+    .then(row => res.status(200).json(row))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+    
+  
+  }
+
+  export const getAllCarriers = (req, res) => {
+    getCarriers()
     .then(row => res.status(200).json(row))
     .catch(error => {
       console.error(error);

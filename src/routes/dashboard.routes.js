@@ -10,7 +10,9 @@ import {
 
 const router = Router();
 
-router.get('/salesGross', getAllSales)
+router
+
+.get('/salesGross', getAllSales)
 .get("/allQuotes", getAllQuotes)
 .get('/clients', getAllClients)
 .get('/providers', getAllProviders)

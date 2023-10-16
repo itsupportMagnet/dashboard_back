@@ -1,5 +1,16 @@
 import { pool } from '../../db.js';
 
+export const getQuoteFeeById = async (id) => {
+  const query = 'SELECT * FROM carriers_fees WHERE quoteID = ?';
+  try {
+    const [rows] = await pool.query(query, [id]);
+    return [rows]
+  } catch (error) {
+    console.error("Error to get specific quote:", error);
+    throw error;
+  }
+}
+
 export const getRoutes = async () => {
   const query = "SELECT * FROM quotes_sent";
   return pool.query(query)

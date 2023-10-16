@@ -8,7 +8,8 @@ import {
     getAllRoutes,
     getCarriersByPort,
     createQuote,
-    getAllAccesorials
+    getAllAccesorials,
+    getQuotesFeeById
 } from "../controllers/dashboard.controller.js";
 
 const router = Router();
@@ -19,6 +20,7 @@ router
 .get("/allQuotes", getAllQuotes)
 .get("/allRoutes", getAllRoutes)
 .get('/clients', getAllClients)
+.get("/quotes-fees/:id", getQuotesFeeById)
 .get("/accesorials", getAllAccesorials)
 .get('/providers', getAllProviders)
 .get("/carriers/:id", getCarriersByPort)

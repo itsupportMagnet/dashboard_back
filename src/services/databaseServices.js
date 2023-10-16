@@ -1,5 +1,15 @@
 import { pool } from '../../db.js';
 
+export const getQuotes = async () => {
+  const query = "SELECT `quoteID`, `modeOfOperation`, `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `otherCommodity`, `hazardous`, `hazardousClass`, `bonded`, `loadType`, `date` FROM quotes";
+  return pool.query(query)
+    .then(rows => { return rows[0] })
+    .catch(error => {
+      console.error("Error trying to get all quotes:", error); //comment
+      throw error;
+    });
+};
+
 export const getSales = async () => {
   const query = "SELECT * FROM sales_gross";
   return pool.query(query)

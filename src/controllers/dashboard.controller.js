@@ -3,8 +3,19 @@ import {
   getClients,
   getProviders,
   getCarriers,
-  getQuotes
+  getQuotes,
+  getPorts
 } from "../services/databaseServices.js";
+
+
+export const getAllPorts = async (req, res) => {
+  getPorts()
+    .then(row => res.status(200).json(row))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+}
 
 export const getAllQuotes = async (req, res) => {
   getQuotes()

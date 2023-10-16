@@ -9,6 +9,22 @@ import {
   getQuoteFeeById
 } from "../services/databaseServices.js";
 
+export const saveFee = async (req, res) => {
+  console.log(req.body.quote);
+  const { quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis } = req.body;
+
+  try {
+    const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
+    const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
+
+    await saveNewQuoteFee(quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis)
+    return res.status(200).json({ message: 'ok' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+}
+
 export const sendFee = async (req, res) => {
 
   const { quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, accesorialsList, emailSubject, clientEmailsList } = req.body;

@@ -5,7 +5,9 @@ import {
     getAllProviders, 
     getAllCarriers,
     getAllQuotes,
-    getAllPorts
+    getAllPorts,
+    getAllRoutes,
+    getCarriersByPort,
 } from "../controllers/dashboard.controller.js";
 
 const router = Router();
@@ -14,8 +16,10 @@ router
 
 .get('/salesGross', getAllSales)
 .get("/allQuotes", getAllQuotes)
+.get("/allRoutes", getAllRoutes)
 .get('/clients', getAllClients)
+.get("/accesorials", getAllAccesorials)
 .get('/providers', getAllProviders)
-.get('/carriers', getAllCarriers)
+.get("/carriers/:id", getCarriersByPort)
 .get("/ports", getAllPorts)
 export default router;

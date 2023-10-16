@@ -11,6 +11,7 @@ import {
     getAllAccesorials,
     getQuotesFeeById,
     getQuote,
+    sendFee,
 } from "../controllers/dashboard.controller.js";
 
 const router = Router();
@@ -18,6 +19,7 @@ const router = Router();
 router
 .post("/", createQuote)
 .get('/salesGross', getAllSales)
+.post("/send-fee", sendFee)
 .get("/allQuotes", getAllQuotes)
 .get("/allRoutes", getAllRoutes)
 .get("/quotes/:id", getQuote)

@@ -9,6 +9,15 @@ import {
   getQuoteFeeById
 } from "../services/databaseServices.js";
 
+export const getQuote = async (req, res) => {
+  getQuoteById(req.params.id)
+    .then(rows => { return res.status(200).json({ message: rows[0] }) })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
+
 export const getQuotesFeeById = async (req, res) => {
   try {
     const [rows] = await getQuoteFeeById(req.params.id);

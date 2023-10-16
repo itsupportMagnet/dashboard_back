@@ -11,6 +11,16 @@ export const getQuoteFeeById = async (id) => {
   }
 }
 
+export const getQuoteById = async (id) => {
+  const query = 'SELECT * FROM quotes WHERE quoteID = ?';
+  return pool.query(query, [id])
+    .then(rows => { return rows[0] })
+    .catch(error => {
+      console.error("Error trying to get all quotes:", error);
+      throw error;
+    });
+}
+
 export const getRoutes = async () => {
   const query = "SELECT * FROM quotes_sent";
   return pool.query(query)
@@ -30,6 +40,8 @@ export const getPorts = async () => {
       throw error;
     });
 }
+
+
 
 export const getQuotes = async () => {
   const query = "SELECT `quoteID`, `modeOfOperation`, `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `otherCommodity`, `hazardous`, `hazardousClass`, `bonded`, `loadType`, `date` FROM quotes";

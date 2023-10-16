@@ -3,17 +3,18 @@ import {
     getAllSales, 
     getAllClients, 
     getAllProviders, 
-    getAllCarriers,
     getAllQuotes,
     getAllPorts,
     getAllRoutes,
     getCarriersByPort,
+    createQuote,
+    getAllAccesorials
 } from "../controllers/dashboard.controller.js";
 
 const router = Router();
 
 router
-
+.post("/", createQuote)
 .get('/salesGross', getAllSales)
 .get("/allQuotes", getAllQuotes)
 .get("/allRoutes", getAllRoutes)

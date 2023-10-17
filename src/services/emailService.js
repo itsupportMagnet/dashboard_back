@@ -19,6 +19,7 @@ export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [],
     // "operations2@magnetlogisticscorp.com",
     // "jcastro@magnetlogisticscorp.com",
     "daniel.jimenez@magnetlogisticscorp.com",
+    "feliperulzgames@hotmail.com"
     
   ];
 

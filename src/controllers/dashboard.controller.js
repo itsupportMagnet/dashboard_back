@@ -11,7 +11,8 @@ import {
   getCarriersList,
   getUserEmail,
   updateIdCounter,
-  saveNewQuote
+  saveNewQuote,
+  getQuoteById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";

@@ -12,7 +12,8 @@ import {
   getUserEmail,
   updateIdCounter,
   saveNewQuote,
-  getQuoteById
+  getQuoteById,
+  saveNewQuoteFee
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";

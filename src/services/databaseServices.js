@@ -1,5 +1,15 @@
 import { pool } from '../../db.js';
 
+export const getUserEmail = async (email)=> {
+  const query = 'SELECT * FROM users WHERE email = ?'
+  return pool.query(query, [email]).then(rows => {return rows[0]} ).catch(error => { 
+    console.error(error);
+    throw error
+  })
+    
+  
+}
+
 export const saveNewQuoteFee = async (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis) => {
   const query = "INSERT INTO carriers_fees (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
   try {
@@ -136,4 +146,14 @@ export const getAccesorials = async () => {
       console.error("Error trying to get all quotes:", error);
       throw error;
     });
+}
+
+export const getCarriersList = async () => {
+  const query = 'SELECT * FROM carriers';
+  return pool.query(query)
+  .then(rows => { rows[0]})
+  .catch(error => {
+    console.error("Error trying to get all quotes:", error);
+    throw error;
+  });
 }

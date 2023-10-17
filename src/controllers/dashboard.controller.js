@@ -7,30 +7,137 @@ import {
   getPorts,
   getAccesorials,
   getQuoteFeeById,
- 
+  getCarriersList,
+  getUserEmail,
 } from "../services/databaseServices.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+export const login = async (req, res) => {
+  const { email, password } = req.body;
 
+  getUserEmail(email)
+    .then((data) => {
+      const user = data[0];
 
+      //verify password
+      const validPassword = bcrypt.compareSync(password, user.password);
+      if (!validPassword) {
+        return res.status(400).json({ message: "password incorrect! " });
+      }
+      //make jwt
+
+      jwt.sign(user.userID, process.env.tokenPrivateKey, (err, token) => {
+        if (err) {
+          res.status(400).send({ msg: "error" });
+        } else {
+          res.send( {token, rol:user.rol} );
+        }
+      });
+    })
+    .catch(() => {
+      return res.status(400).json("hubo un error");
+    });
+};
 
 export const saveFee = async (req, res) => {
   console.log(req.body.quote);
-  const { quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis } = req.body;
+  const {
+    quoteID,
+    modeOfOperation,
+    pol,
+    deliveryAddress,
+    equipment,
+    containerSize,
+    containerType,
+    weight,
+    commodity,
+    otherCommodity,
+    hazardous,
+    hazardousClass,
+    bonded,
+    loadType,
+    date,
+    carrierEmail,
+    carrierFee,
+    carrierChassis,
+    carrierAccesorials,
+    magnetFee,
+    magnetChassis,
+    magnetAccesorials,
+    totalFee,
+    totalChassis,
+  } = req.body;
 
   try {
     const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
     const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
 
-    await saveNewQuoteFee(quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis)
-    return res.status(200).json({ message: 'ok' });
+    await saveNewQuoteFee(
+      quoteID,
+      modeOfOperation,
+      pol,
+      deliveryAddress,
+      equipment,
+      containerSize,
+      containerType,
+      weight,
+      commodity,
+      otherCommodity,
+      hazardous,
+      hazardousClass,
+      bonded,
+      loadType,
+      date,
+      carrierEmail,
+      carrierFee,
+      carrierChassis,
+      carrierAccesorialsJSON,
+      magnetFee,
+      magnetChassis,
+      magnetAccesorialsJSON,
+      totalFee,
+      totalChassis
+    );
+    return res.status(200).json({ message: "ok" });
   } catch (error) {
     console.error(error);
     return res.status(500).json(error);
   }
-}
+};
 
 export const sendFee = async (req, res) => {
-
-  const { quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, accesorialsList, emailSubject, clientEmailsList } = req.body;
+  const {
+    quoteID,
+    modeOfOperation,
+    pol,
+    deliveryAddress,
+    equipment,
+    containerSize,
+    containerType,
+    weight,
+    overWeight,
+    commodity,
+    otherCommodity,
+    hazardous,
+    hazardousClass,
+    bonded,
+    loadType,
+    date,
+    userName,
+    miles,
+    drayageQuantity,
+    drayageUnitPrice,
+    drayageTotalConcept,
+    chassisType,
+    chassisQuantity,
+    chassisUnitPrice,
+    chassisTotalConcept,
+    totalFeeToSend,
+    accesorialsWithFee,
+    accesorialsList,
+    emailSubject,
+    clientEmailsList,
+  } = req.body;
 
   const emailBody = `<html lang="en">
   <head>
@@ -294,30 +401,29 @@ export const sendFee = async (req, res) => {
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Commodity</th>
               <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
             </tr>
-            ${otherCommodity === '' ? (
-      `<tr style="display: none">
+            ${
+              otherCommodity === ""
+                ? `<tr style="display: none">
             </tr>`
-
-    ) : (
-      `<tr>
+                : `<tr>
                 <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Other Comodity</td>
                 <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${otherCommodity}</td>
               </tr>`
-    )}
+            }
             <tr class= "sendTr" >
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Hazardous</th>
               <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
             </tr >
 
-            ${hazardous === 'Yes' ? (
-      `<tr>
+            ${
+              hazardous === "Yes"
+                ? `<tr>
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Hazardous Class</th>
               <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardousClass}</td>
             </tr>`
-    ) : (
-      `<tr style="display: none">
+                : `<tr style="display: none">
             </tr>`
-    )}
+            }
            
             <tr>
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Bonded</th>
@@ -451,27 +557,39 @@ export const sendFee = async (req, res) => {
           <div style="margin-top: 1rem; text-align: center">
           
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-              ${Object.entries(accesorialsWithFee).slice(0, 6).map(([item, value]) => `
+              ${Object.entries(accesorialsWithFee)
+                .slice(0, 6)
+                .map(
+                  ([item, value]) => `
               <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
                   ${item}: $${value}
                 </p>`
-    ).join('')}
+                )
+                .join("")}
             </div>
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-            ${Object.entries(accesorialsWithFee).slice(6, 12).map(([item, value]) => `
+            ${Object.entries(accesorialsWithFee)
+              .slice(6, 12)
+              .map(
+                ([item, value]) => `
               <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
                   ${item}: $${value}
                 </p>`
-    ).join('')}
+              )
+              .join("")}
             </div>
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-            ${Object.entries(accesorialsWithFee).slice(12, 18).map(([item, value]) => `
+            ${Object.entries(accesorialsWithFee)
+              .slice(12, 18)
+              .map(
+                ([item, value]) => `
               <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
                   ${item}: $${value}
                 </p>`
-    ).join('')}
+              )
+              .join("")}
             </div>
 
   
@@ -480,27 +598,39 @@ export const sendFee = async (req, res) => {
 
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 30px;" class="accesorialWithFee">
-                ${accesorialsList.slice(0, 6).map(item => (
-      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+                ${accesorialsList
+                  .slice(0, 6)
+                  .map(
+                    (item) =>
+                      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-    )).join('')}
+                  )
+                  .join("")}
               </div>
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                ${accesorialsList.slice(6, 12).map(item => (
-      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+                ${accesorialsList
+                  .slice(6, 12)
+                  .map(
+                    (item) =>
+                      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-    )).join('')}
+                  )
+                  .join("")}
               </div>
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                ${accesorialsList.slice(12, 18).map(item => (
-      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+                ${accesorialsList
+                  .slice(12, 18)
+                  .map(
+                    (item) =>
+                      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-    )).join('')}
+                  )
+                  .join("")}
               </div>
 
             </div>
@@ -541,38 +671,72 @@ export const sendFee = async (req, res) => {
     </div >
   </body >
 </html >
-  `
+  `;
 
   sendEmail(emailSubject, emailBody, [], clientEmailsList)
     .then((data) => {
       if (data) {
-        saveQuoteSent(quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, clientEmailsList).then(data => {
-
-          if (data) {
-            res.status(200).json({ message: 'ok' });
-          } else {
-            res.status(500).json({ message: 'Something went wrong on saving the quote' });
-          }
-
-        }).catch(error => {
-          console.log(error);
-          res.status(500).json(error);
-        })
-
+        saveQuoteSent(
+          quoteID,
+          modeOfOperation,
+          pol,
+          deliveryAddress,
+          equipment,
+          containerSize,
+          containerType,
+          weight,
+          overWeight,
+          commodity,
+          otherCommodity,
+          hazardous,
+          hazardousClass,
+          bonded,
+          loadType,
+          date,
+          userName,
+          miles,
+          drayageQuantity,
+          drayageUnitPrice,
+          drayageTotalConcept,
+          chassisType,
+          chassisQuantity,
+          chassisUnitPrice,
+          chassisTotalConcept,
+          totalFeeToSend,
+          accesorialsWithFee,
+          clientEmailsList
+        )
+          .then((data) => {
+            if (data) {
+              res.status(200).json({ message: "ok" });
+            } else {
+              res
+                .status(500)
+                .json({ message: "Something went wrong on saving the quote" });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            res.status(500).json(error);
+          });
       } else {
-        res.status(500).json({ message: 'Something went wrong on sending the message' });
+        res
+          .status(500)
+          .json({ message: "Something went wrong on sending the message" });
       }
-
-    }).catch(error => {
+    })
+    .catch((error) => {
       console.log(error);
       res.status(500).json(error);
-    })
-}
+    });
+};
 
 export const getQuote = async (req, res) => {
   getQuoteById(req.params.id)
-    .then(rows => { return res.status(200).json({ message: rows[0] }) })
-    .catch(error => {
+    .then((rows) => {
+      return res.status(200).json({ message: rows[0] });
+    })
+    .catch((error) => {
       console.error(error);
       res.status(500).json(error);
     });
@@ -586,25 +750,40 @@ export const getQuotesFeeById = async (req, res) => {
     console.error(error);
     return res.status(500).json(error);
   }
-}
-
+};
 
 export const getAllAccesorials = async (req, res) => {
   getAccesorials()
-    .then(row => res.status(200).json(row))
-    .catch(error => {
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
       console.error(error);
       res.status(500).json(error);
     });
-}
+};
 
 export const createQuote = async (req, res) => {
-  const { operation, isExport, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType, carrier } = req.body;
-  const newCounter = await getIdCounter() + 1;
-  const newId = `MGT${newCounter.toString().padStart(4, '0')}`;
-  const emailSubject = `Drayage request from Magnet logistics / ${newId}`
+  const {
+    operation,
+    isExport,
+    pol,
+    address,
+    equipment,
+    containerSize,
+    ContainerType,
+    weight,
+    commodity,
+    otherCommodity,
+    hazardous,
+    slctHazardous,
+    bonded,
+    loadType,
+    carrier,
+  } = req.body;
+  const newCounter = (await getIdCounter()) + 1;
+  const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
+  const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   const bccRecipients = carrier;
-  
+
   const emailBody = `<!DOCTYPE html>
   <html lang="en">
     <head>
@@ -630,13 +809,17 @@ export const createQuote = async (req, res) => {
         </tr>
         <tr>
           <td
-            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${isExport ? 'POL' : 'POD'}</td>
+            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${
+              isExport ? "POL" : "POD"
+            }</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${pol}</td>
         </tr>
         <tr>
           <td
-            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${isExport ? 'Pick Up Address' : 'Delivery Address'}</td>
+            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${
+              isExport ? "Pick Up Address" : "Delivery Address"
+            }</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${address}</td>
         </tr>
@@ -672,38 +855,38 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
         </tr>
-        ${otherCommodity !== '' ? (
-      `<tr>
+        ${
+          otherCommodity !== ""
+            ? `<tr>
             <td
               style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Other Comodity</td>
             <td
               style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${otherCommodity}</td>
           </tr>`
-    ) : (
-      `<tr style="display: none">
+            : `<tr style="display: none">
             <td></td>
             <td></td>
           </tr>`
-    )}
+        }
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
         </tr>
-        ${slctHazardous !== '' ? (
-      `<tr>
+        ${
+          slctHazardous !== ""
+            ? `<tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous Class</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${slctHazardous}</td>
           </tr>`
-    ) : (
-      `<tr style="display: none">
+            : `<tr style="display: none">
             <td></td>
             <td></td>
           </tr>`
-    )}
+        }
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Bonded</td>
@@ -727,56 +910,70 @@ export const createQuote = async (req, res) => {
         src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/07/magnet-logo.png"
         alt="logo">
     </body>
-    </html>`
+    </html>`;
 
-  saveNewQuote(newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType)
+  saveNewQuote(
+    newId,
+    operation,
+    pol,
+    address,
+    equipment,
+    containerSize,
+    ContainerType,
+    weight,
+    commodity,
+    otherCommodity,
+    hazardous,
+    slctHazardous,
+    bonded,
+    loadType
+  )
     .then(() => {
-      return sendEmail(emailSubject, emailBody, bccRecipients, '');
+      return sendEmail(emailSubject, emailBody, bccRecipients, "");
     })
     .then(() => {
       return updateIdCounter(newCounter);
     })
     .then(() => {
-      res.status(200).json({ message: 'ok' });
+      res.status(200).json({ message: "ok" });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       res.status(500).json({ error });
     });
 };
 
 export const getAllRoutes = async (req, res) => {
-  getRoutes().then(rows => res.status(200).json(rows))
-    .catch(error => {
+  getRoutes()
+    .then((rows) => res.status(200).json(rows))
+    .catch((error) => {
       console.error(error);
       res.status(500).json(error);
     });
 };
 
-
-
 export const getCarriersByPort = async (req, res) => {
   getCarriers(req.params.id)
-    .then(row => res.status(200).json(row))
-    .catch(error => {
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
       console.error(error);
       res.status(500).json(error);
     });
-}
+};
 
 export const getAllPorts = async (req, res) => {
   getPorts()
-    .then(row => res.status(200).json(row))
-    .catch(error => {
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
       console.error(error);
       res.status(500).json(error);
     });
-}
+};
 
 export const getAllQuotes = async (req, res) => {
   getQuotes()
-    .then(rows => res.status(200).json(rows))
-    .catch(error => {
+    .then((rows) => res.status(200).json(rows))
+    .catch((error) => {
       console.error(error);
       res.status(500).json(error);
     });
@@ -802,6 +999,15 @@ export const getAllClients = (req, res) => {
 
 export const getAllProviders = (req, res) => {
   getProviders()
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getAllCarriers = (req, res) => {
+  getCarriersList()
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

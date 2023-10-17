@@ -45,6 +45,16 @@ export const getQuoteById = async (id) => {
     });
 }
 
+export const allCarriers = async () => {
+  const query = "SELECT * FROM carriers";
+  return pool.query(query)
+    .then(rows => rows[0])
+    .catch(error => {
+      console.log("Error trying to get all carriers", error);
+      throw error
+    })
+}
+
 export const getRoutes = async () => {
   const query = "SELECT * FROM quotes_sent";
   return pool.query(query)

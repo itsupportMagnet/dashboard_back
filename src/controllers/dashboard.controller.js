@@ -13,7 +13,8 @@ import {
   updateIdCounter,
   saveNewQuote,
   getQuoteById,
-  saveNewQuoteFee
+  saveNewQuoteFee,
+  saveQuoteSent
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";

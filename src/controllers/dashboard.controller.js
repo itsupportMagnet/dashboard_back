@@ -35,7 +35,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send( {token, rol:user.rol} );
+          res.send({ token, rol: user.rol });
         }
       });
     })
@@ -406,29 +406,27 @@ export const sendFee = async (req, res) => {
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Commodity</th>
               <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
             </tr>
-            ${
-              otherCommodity === ""
-                ? `<tr style="display: none">
+            ${otherCommodity === ""
+      ? `<tr style="display: none">
             </tr>`
-                : `<tr>
+      : `<tr>
                 <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Other Comodity</td>
                 <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${otherCommodity}</td>
               </tr>`
-            }
+    }
             <tr class= "sendTr" >
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Hazardous</th>
               <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
             </tr >
 
-            ${
-              hazardous === "Yes"
-                ? `<tr>
+            ${hazardous === "Yes"
+      ? `<tr>
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Hazardous Class</th>
               <td style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardousClass}</td>
             </tr>`
-                : `<tr style="display: none">
+      : `<tr style="display: none">
             </tr>`
-            }
+    }
            
             <tr>
               <td style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Bonded</th>
@@ -563,38 +561,38 @@ export const sendFee = async (req, res) => {
           
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
               ${Object.entries(accesorialsWithFee)
-                .slice(0, 6)
-                .map(
-                  ([item, value]) => `
+      .slice(0, 6)
+      .map(
+        ([item, value]) => `
               <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
                   ${item}: $${value}
                 </p>`
-                )
-                .join("")}
+      )
+      .join("")}
             </div>
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
             ${Object.entries(accesorialsWithFee)
-              .slice(6, 12)
-              .map(
-                ([item, value]) => `
+      .slice(6, 12)
+      .map(
+        ([item, value]) => `
               <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
                   ${item}: $${value}
                 </p>`
-              )
-              .join("")}
+      )
+      .join("")}
             </div>
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
             ${Object.entries(accesorialsWithFee)
-              .slice(12, 18)
-              .map(
-                ([item, value]) => `
+      .slice(12, 18)
+      .map(
+        ([item, value]) => `
               <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
                   ${item}: $${value}
                 </p>`
-              )
-              .join("")}
+      )
+      .join("")}
             </div>
 
   
@@ -604,38 +602,38 @@ export const sendFee = async (req, res) => {
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 30px;" class="accesorialWithFee">
                 ${accesorialsList
-                  .slice(0, 6)
-                  .map(
-                    (item) =>
-                      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+      .slice(0, 6)
+      .map(
+        (item) =>
+          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-                  )
-                  .join("")}
+      )
+      .join("")}
               </div>
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-                  .slice(6, 12)
-                  .map(
-                    (item) =>
-                      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+      .slice(6, 12)
+      .map(
+        (item) =>
+          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-                  )
-                  .join("")}
+      )
+      .join("")}
               </div>
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-                  .slice(12, 18)
-                  .map(
-                    (item) =>
-                      `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+      .slice(12, 18)
+      .map(
+        (item) =>
+          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-                  )
-                  .join("")}
+      )
+      .join("")}
               </div>
 
             </div>
@@ -814,17 +812,15 @@ export const createQuote = async (req, res) => {
         </tr>
         <tr>
           <td
-            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${
-              isExport ? "POL" : "POD"
-            }</td>
+            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${isExport ? "POL" : "POD"
+    }</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${pol}</td>
         </tr>
         <tr>
           <td
-            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${
-              isExport ? "Pick Up Address" : "Delivery Address"
-            }</td>
+            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">${isExport ? "Pick Up Address" : "Delivery Address"
+    }</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${address}</td>
         </tr>
@@ -860,38 +856,36 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
         </tr>
-        ${
-          otherCommodity !== ""
-            ? `<tr>
+        ${otherCommodity !== ""
+      ? `<tr>
             <td
               style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Other Comodity</td>
             <td
               style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${otherCommodity}</td>
           </tr>`
-            : `<tr style="display: none">
+      : `<tr style="display: none">
             <td></td>
             <td></td>
           </tr>`
-        }
+    }
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
         </tr>
-        ${
-          slctHazardous !== ""
-            ? `<tr>
+        ${slctHazardous !== ""
+      ? `<tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous Class</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${slctHazardous}</td>
           </tr>`
-            : `<tr style="display: none">
+      : `<tr style="display: none">
             <td></td>
             <td></td>
           </tr>`
-        }
+    }
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Bonded</td>

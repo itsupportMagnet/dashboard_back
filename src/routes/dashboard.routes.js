@@ -13,6 +13,7 @@ import {
     getQuote,
     sendFee,
     saveFee,
+    getAllCarriers
 } from "../controllers/dashboard.controller.js";
 
 const router = Router();
@@ -31,4 +32,5 @@ router
 .get('/providers', getAllProviders)
 .get("/carriers/:id", getCarriersByPort)
 .get("/ports", getAllPorts)
+.get("/carriers", getAllCarriers)
 export default router;

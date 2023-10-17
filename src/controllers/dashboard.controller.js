@@ -6,7 +6,8 @@ import {
   getQuotes,
   getPorts,
   getAccesorials,
-  getQuoteFeeById
+  getQuoteFeeById,
+  getCarriersList
 } from "../services/databaseServices.js";
 
 export const saveFee = async (req, res) => {
@@ -805,6 +806,15 @@ export const getAllProviders = (req, res) => {
       res.status(500).json(error);
     });
 };
+
+export const getAllCarriers = (req, res) => {
+  getCarriersList()
+  .then((row) => res.status(200).json(row))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  });
+}
 
 // export const getAllCarriers = (req, res) => {
 //   getCarriers()

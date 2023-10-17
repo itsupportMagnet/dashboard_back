@@ -12,6 +12,11 @@ import {
 } from "../services/databaseServices.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+export const verifyToken = async (req, res) => {
+  return res.json("Valid token");
+};
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 

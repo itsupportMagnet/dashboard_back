@@ -129,7 +129,7 @@ export const getAccesorials = async () => {
 }
 
 export const getCarriersList = async () => {
-  const query = 'SELECT * FROM carriers';
+  const query = 'SELECT * FROM carriers3';
   return pool.query(query)
   .then(rows => { return rows[0] })
   .catch(error => {

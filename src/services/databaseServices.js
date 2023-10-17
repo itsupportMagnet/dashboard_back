@@ -1,13 +1,23 @@
 import { pool } from '../../db.js';
 
-export const getUserEmail = async (email)=> {
+export const getUserEmail = async (email) => {
   const query = 'SELECT * FROM users WHERE email = ?'
-  return pool.query(query, [email]).then(rows => {return rows[0]} ).catch(error => { 
+  return pool.query(query, [email]).then(rows => { return rows[0] }).catch(error => {
     console.error(error);
     throw error
   })
-    
-  
+
+
+}
+
+export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType) => {
+  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
+  try {
+    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType]);
+  } catch (error) {
+    console.error("Error to get specific quote:", error);
+    throw error;
+  }
 }
 
 export const saveNewQuoteFee = async (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis) => {
@@ -117,14 +127,14 @@ export const getClients = async () => {
     })
 }
 
-export const getProviders = async () =>{
+export const getProviders = async () => {
   const query = "SELECT * FROM providers";
   return pool.query(query)
-  .then(rows => rows[0])
-  .catch(error => {
-    console.log(error)
-    throw error
-  })
+    .then(rows => rows[0])
+    .catch(error => {
+      console.log(error)
+      throw error
+    })
 }
 
 
@@ -151,9 +161,19 @@ export const getAccesorials = async () => {
 export const getCarriersList = async () => {
   const query = 'SELECT * FROM carriers3';
   return pool.query(query)
-  .then(rows => { return rows[0] })
-  .catch(error => {
-    console.error("Error trying to get all quotes:", error);
-    throw error;
-  });
+    .then(rows => { return rows[0] })
+    .catch(error => {
+      console.error("Error trying to get all quotes:", error);
+      throw error;
+    });
+}
+
+export const updateIdCounter = async (newCounter) => {
+  const query = "UPDATE id_countertest SET counter = ? LIMIT 1"; //CAMBIAR A FUTURO AL IDCOUNTER NORMAL
+  try {
+    await pool.query(query, [newCounter]);
+  } catch (error) {
+    console.log('Error trying to update the counter');
+    throw error
+  }
 }

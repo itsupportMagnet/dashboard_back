@@ -9,7 +9,10 @@ import {
   getQuoteFeeById,
   getCarriersList,
   getUserEmail,
+  updateIdCounter,
+  saveNewQuote
 } from "../services/databaseServices.js";
+import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -43,6 +46,18 @@ export const login = async (req, res) => {
       return res.status(400).json("hubo un error");
     });
 };
+
+export const getIdCounter = async () => {
+  try{
+    const[rows] = await pool.query('SELECT counter FROM id_countertest LIMIT 1');
+    if(rows.length > 0){
+      return rows[0].counter;
+    }
+  } catch(error){
+    console.error("Error to get id counter:", error);
+    throw error
+  }
+}
 
 export const saveFee = async (req, res) => {
   console.log(req.body.quote);

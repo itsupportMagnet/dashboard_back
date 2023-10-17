@@ -131,7 +131,7 @@ export const getAccesorials = async () => {
 export const getCarriersList = async () => {
   const query = 'SELECT * FROM carriers';
   return pool.query(query)
-  .then(rows => { rows[0]})
+  .then(rows => { return rows[0] })
   .catch(error => {
     console.error("Error trying to get all quotes:", error);
     throw error;

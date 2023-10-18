@@ -6,6 +6,7 @@ import {
     getAllQuotes,
     getAllPorts,
     getAllRoutes,
+    getAllCities,
     getCarriersByPort,
     createQuote,
     getAllAccesorials,

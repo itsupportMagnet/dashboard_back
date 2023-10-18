@@ -37,4 +37,5 @@ router
 .get("/carriers", getAllCarriers)
 .post("/users/sign_in", login)
 .get("/users/verify-token", [validarJWT], verifyToken)
+.get("/cities", getAllCities)
 export default router;

@@ -10,6 +10,7 @@ import {
   getQuoteFeeById,
   getCarriersList,
   getUserEmail,
+  getCities,
   updateIdCounter,
   saveNewQuote,
   getQuoteById,
@@ -999,6 +1000,15 @@ export const getAllQuotes = async (req, res) => {
 
 export const getAllSales = (req, res) => {
   getSales()
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getAllCities = (req, res) => {
+  getCities()
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

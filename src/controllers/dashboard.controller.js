@@ -28,7 +28,7 @@ export const newOperation = async (req,res) => {
 } = req.body
 
   res.json({idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
-    customer, bookingBL, containerID, provider, hora , wareHouseLocation, fullPickUpLocation,
+    customer, bookingBL, containerID, provider, hora ,emptyLocation ,wareHouseLocation, fullPickUpLocation,
     port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
   })
 }

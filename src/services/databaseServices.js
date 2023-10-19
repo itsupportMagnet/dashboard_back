@@ -116,6 +116,15 @@ export const getSales = async () => {
       throw error;
     })
 }
+export const getCities = async () => {
+  const query = "SELECT * FROM city_state";
+  return pool.query(query)
+    .then(rows => rows[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}
 
 export const getClients = async () => {
   const query = "SELECT * FROM clients";

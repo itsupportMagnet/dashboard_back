@@ -6,6 +6,7 @@ import {
     getAllQuotes,
     getAllPorts,
     getAllRoutes,
+    getAllCities,
     getCarriersByPort,
     createQuote,
     getAllAccesorials,
@@ -38,5 +39,9 @@ router
 .get("/carriers", getAllCarriers)
 .post("/users/sign_in", login)
 .get("/users/verify-token", [validarJWT], verifyToken)
+<<<<<<< HEAD
 .post("/sentQuotes", sentQuote)
+=======
+.get("/cities", getAllCities)
+>>>>>>> 024348679b6976ac8a1da1b6cc2ab31b307e1940
 export default router;

@@ -20,6 +20,18 @@ import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+export const sentQuote = async (req,res) => {
+  const {idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
+  customer, bookingBL, containerID, provider, hora , emptyLocation, wareHouseLocation, fullPickUpLocation,
+  port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
+} = req.body
+
+  res.json({idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
+    customer, bookingBL, containerID, provider, hora , wareHouseLocation, fullPickUpLocation,
+    port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
+  })
+}
+
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
 };

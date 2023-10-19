@@ -60,7 +60,7 @@ export const login = async (req, res) => {
       });
     })
     .catch(() => {
-      return res.status(400).json("email does not exist");
+      return res.status(400).json({ message :"email does not exist"});
     });
 };
 

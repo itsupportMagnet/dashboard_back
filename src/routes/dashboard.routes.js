@@ -17,7 +17,7 @@ import {
     getAllCarriers,
     login,
     verifyToken,
-    sentQuote,
+    newOperation,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 const router = Router();
@@ -39,6 +39,6 @@ router
 .get("/carriers", getAllCarriers)
 .post("/users/sign_in", login)
 .get("/users/verify-token", [validarJWT], verifyToken)
-.post("/sentQuotes", sentQuote)
+.post("/newOperation", newOperation)
 .get("/cities", getAllCities)
 export default router;

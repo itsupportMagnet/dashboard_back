@@ -21,7 +21,7 @@ import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const sentQuote = async (req,res) => {
+export const newOperation = async (req,res) => {
   const {idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
   customer, bookingBL, containerID, provider, hora , emptyLocation, wareHouseLocation, fullPickUpLocation,
   port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode

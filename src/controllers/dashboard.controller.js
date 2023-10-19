@@ -15,7 +15,8 @@ import {
   saveNewQuote,
   getQuoteById,
   saveNewQuoteFee,
-  saveQuoteSent
+  saveQuoteSent,
+  saveNewOperation
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -49,7 +50,7 @@ export const login = async (req, res) => {
       });
     })
     .catch(() => {
-      return res.status(400).json({ message :"email does not exist"});
+      return res.status(400).json({ message: "email does not exist" });
     });
 };
 
@@ -1044,14 +1045,43 @@ export const getAllCarriers = (req, res) => {
     });
 };
 
-export const newOperation = async (req,res) => {
-  const {idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
-  customer, bookingBL, containerID, provider, hora , emptyLocation, wareHouseLocation, fullPickUpLocation,
-  port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
-} = req.body
+export const newOperation = async (req, res) => {
+  const { customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator,
+    bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation,
+    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
+  } = req.body;
 
-  res.json({idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
-    customer, bookingBL, containerID, provider, hora ,emptyLocation ,wareHouseLocation, fullPickUpLocation,
-    port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
-  })
+  saveNewOperation(
+    customer, 
+    idOperation, 
+    status, 
+    modeOfOperation, 
+    operationMode, 
+    operationDate, 
+    idCoordinator, 
+    bookingBl, 
+    containerId, 
+    provider, 
+    cargoStatus, 
+    emptyLocation,
+    warehouseLocation, 
+    port, 
+    po, 
+    ssline, 
+    city, 
+    equipment, 
+    containerSize, 
+    containerType, 
+    weight, 
+    commodity, 
+    otherCommodity, 
+    hazardous
+  )
+
+
+
+  /*res.json({customer,idOperation,status, modeOfOperation, operationMode, operationType, operationDate, idCoordinator, 
+    bookingBl, containerId, provider, cargoStatus ,emptyLocation ,wareHouseLocation,
+    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
+  })*/
 }

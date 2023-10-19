@@ -187,3 +187,14 @@ export const updateIdCounter = async (newCounter) => {
     throw error
   }
 }
+
+export const saveNewOperation = async (customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous) => {
+  const query = "INSERT INTO new_operation(customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  try{
+    await pool.query(query, [customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous])
+  }catch(error){
+    console.error("Error to ger specific newOperation:", error);
+    throw error;
+  }
+
+}

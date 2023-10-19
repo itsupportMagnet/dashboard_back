@@ -55,12 +55,12 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send({ token, rol: user.rol });
+          res.send({ token });
         }
       });
     })
     .catch(() => {
-      return res.status(400).json("hubo un error");
+      return res.status(400).json("email does not exist");
     });
 };
 

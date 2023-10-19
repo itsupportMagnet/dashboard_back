@@ -34,6 +34,7 @@ export const saveQuoteSent = async (quoteID, modeOfOperation, pol, deliveryAddre
   const accesorialsWithFeeJSON = JSON.stringify(accesorialsWithFee);
   const clientEmailsListJSON = JSON.stringify(clientEmailsList);
   const query = "INSERT INTO quotes_sent (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, clientEmailsList) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  
   return pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFeeJSON, clientEmailsListJSON])
     .then(() => {
       return true;
@@ -96,7 +97,6 @@ export const getPorts = async () => {
 }
 
 
-
 export const getQuotes = async () => {
   const query = "SELECT `quoteID`, `modeOfOperation`, `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `otherCommodity`, `hazardous`, `hazardousClass`, `bonded`, `loadType`, `date` FROM quotes";
   return pool.query(query)
@@ -116,6 +116,7 @@ export const getSales = async () => {
       throw error;
     })
 }
+
 export const getCities = async () => {
   const query = "SELECT * FROM city_state";
   return pool.query(query)

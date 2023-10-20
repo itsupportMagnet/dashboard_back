@@ -42,5 +42,5 @@ router
 .get("/users/verify-token", [validarJWT], verifyToken)
 .get("/cities", getAllCities)
 .post("/newOperation", newOperation)
-.get("/terminals", getAllTerminals)
+.get("/terminals/:id", getAllTerminals)
 export default router;

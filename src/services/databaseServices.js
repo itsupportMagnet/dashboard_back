@@ -1,5 +1,6 @@
 import { pool } from '../../db.js';
 
+
 export const getUserEmail = async (email) => {
   const query = 'SELECT * FROM users WHERE email = ?'
   return pool.query(query, [email]).then(rows => { return rows[0] }).catch(error => {
@@ -84,6 +85,16 @@ export const getRoutes = async () => {
       console.error("Error trying to get all quotes:", error);
       throw error;
     });
+}
+
+export const getTerminals = async (id) => {
+  const query = "SELECT * from port_terminals WHERE port_id = ?"
+  return pool.query(query, [id])
+    .then(rows => {return rows[0]})
+    .catch(error => {
+      console.error("Error trying to get all terminals of port", error);
+      throw error
+    })
 }
 
 export const getPorts = async () => {

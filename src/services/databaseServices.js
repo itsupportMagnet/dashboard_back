@@ -188,10 +188,10 @@ export const updateIdCounter = async (newCounter) => {
   }
 }
 
-export const saveNewOperation = async (customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous) => {
-  const query = "INSERT INTO new_operation(customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const saveNewOperation = async (customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded) => {
+  const query = "INSERT INTO new_operation(customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try{
-    await pool.query(query, [customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous])
+    await pool.query(query, [customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded])
   }catch(error){
     console.error("Error to ger specific newOperation:", error);
     throw error;

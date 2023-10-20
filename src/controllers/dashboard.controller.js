@@ -1048,11 +1048,10 @@ export const getAllCarriers = (req, res) => {
 export const newOperation = async (req, res) => {
   const { customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator,
     bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation,
-    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
+    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded
   } = req.body;
   console.log(req.body) //Probar Console log mañana
   
-/*
   saveNewOperation(
     customer, 
     idOperation, 
@@ -1077,10 +1076,10 @@ export const newOperation = async (req, res) => {
     weight, 
     commodity, 
     otherCommodity, 
-    hazardous
+    hazardous,
+    hazardousClass,
+    bonded
   )
-  .then(() => res.status(200).json)
-
   .then(() => {
     res.status(200).json({ message: "ok" });
   })

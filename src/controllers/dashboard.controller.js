@@ -1126,7 +1126,7 @@ export const newOperation = async (req, res) => {
   })*/
 };
 export const getAllTerminals = (req, res) => {
-  const { id } = req.body.id;
+  const { id } = req.params.id;
   getTerminals(id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {

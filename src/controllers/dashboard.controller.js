@@ -17,6 +17,7 @@ import {
   saveNewQuoteFee,
   saveQuoteSent,
   saveNewOperation,
+  getTerminals
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";

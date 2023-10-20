@@ -1125,9 +1125,8 @@ export const newOperation = async (req, res) => {
     port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
   })*/
 };
-export const getAllTerminals = (req, res) => {
-  const { id } = req.params.id;
-  getTerminals(id)
+export const getAllTerminals = async (req, res) => {
+  getTerminals(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

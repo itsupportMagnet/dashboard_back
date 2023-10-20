@@ -1045,12 +1045,12 @@ export const getAllCarriers = (req, res) => {
 };
 
 export const newOperation = async (req,res) => {
-  const {idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
+  const {idOperation,status, modeOfOperation, operationMode, operationDate, idCoordinator, 
   customer, bookingBL, containerID, provider, hora , emptyLocation, wareHouseLocation, fullPickUpLocation,
   port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
 } = req.body
 
-  res.json({idOperation,statusOperation, operationMode, operationType, operationEfectiveDate, idCoordinato, 
+  res.json({idOperation,status, modeOfOperation, operationMode, operationDate, idCoordinator, 
     customer, bookingBL, containerID, provider, hora ,emptyLocation ,wareHouseLocation, fullPickUpLocation,
     port, containerType, sizeContainer, cargoType, commodity, po, ssline, city, mgtPricingCode
   })

@@ -203,7 +203,7 @@ export const saveNewOperation = async (customer, idOperation, status, modeOfOper
 export const getTerminals = async (id) => {
   const query = "SELECT * from port_terminals WHERE port_id = ?";
   return pool.query(query, [id])
-    .then(rows => {return [rows]})
+    .then(rows => {return rows[0]})
     .catch(error => {
       console.error("Error trying to get all terminals of port", error);
       throw error

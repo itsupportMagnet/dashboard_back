@@ -87,16 +87,6 @@ export const getRoutes = async () => {
     });
 }
 
-export const getTerminals = async (id) => {
-  const query = "SELECT * from port_terminals WHERE port_id = ?"
-  return pool.query(query, [id])
-    .then(rows => {return rows[0]})
-    .catch(error => {
-      console.error("Error trying to get all terminals of port", error);
-      throw error
-    })
-}
-
 export const getPorts = async () => {
   const query = "SELECT * from ports";
   return pool.query(query)
@@ -208,4 +198,14 @@ export const saveNewOperation = async (customer, idOperation, status, modeOfOper
     throw error;
   }
 
+}
+
+export const getTerminals = async (id) => {
+  const query = "SELECT * from port_terminals WHERE port_id = ?";
+  return pool.query(query, [id])
+    .then(rows => {return rows[id]})
+    .catch(error => {
+      console.error("Error trying to get all terminals of port", error);
+      throw error
+    })
 }

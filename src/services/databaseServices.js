@@ -211,7 +211,7 @@ export const getTerminals = async (id) => {
 }
 
 export const getAllOperations = async () => {
-  const query = "SELECT * FROM operations";
+  const query = "SELECT * FROM opesrations";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {

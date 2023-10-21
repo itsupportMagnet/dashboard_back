@@ -35,7 +35,7 @@ export const saveQuoteSent = async (quoteID, modeOfOperation, pol, deliveryAddre
   const accesorialsWithFeeJSON = JSON.stringify(accesorialsWithFee);
   const clientEmailsListJSON = JSON.stringify(clientEmailsList);
   const query = "INSERT INTO quotes_sent (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, clientEmailsList) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-  
+
   return pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFeeJSON, clientEmailsListJSON])
     .then(() => {
       return true;
@@ -190,10 +190,10 @@ export const updateIdCounter = async (newCounter) => {
 }
 
 export const saveNewOperation = async (customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded) => {
-  const query = "INSERT INTO new_operation(customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-  try{
+  const query = "INSERT INTO operations(customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  try {
     await pool.query(query, [customer, idOperation, status, modeOfOperation, operationMode, operationDate, idCoordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded])
-  }catch(error){
+  } catch (error) {
     console.error("Error to ger specific newOperation:", error);
     throw error;
   }
@@ -203,9 +203,19 @@ export const saveNewOperation = async (customer, idOperation, status, modeOfOper
 export const getTerminals = async (id) => {
   const query = "SELECT * from port_terminals WHERE port_id = ?";
   return pool.query(query, [id])
-    .then(rows => {return rows[0]})
+    .then(rows => { return rows[0] })
     .catch(error => {
       console.error("Error trying to get all terminals of port", error);
+      throw error
+    })
+}
+
+export const getAllOperations = async () => {
+  const query = "SELECT * FROM operations";
+  return pool.query(query)
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error trying to get all operations", error);
       throw error
     })
 }

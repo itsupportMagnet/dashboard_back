@@ -19,6 +19,4 @@ export const validarJWT = (req,res, next) =>{
             msg:'Invalid token'
         })
     }
-    console.log(token);
-   
 }

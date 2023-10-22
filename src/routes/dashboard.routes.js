@@ -46,5 +46,5 @@ router
 .post("/newOperation", newOperation)
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
-.get('/change-status', changeStatus)
+.post('/change-status', changeStatus)
 export default router;

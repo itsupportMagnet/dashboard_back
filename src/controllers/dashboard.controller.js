@@ -1141,6 +1141,7 @@ export const getOperations = async (req, res) => {
 
 export const changeStatus = async (req, res) => {
   const {idOperation, status} = req.body;
+  
   changeOperationStatus(idOperation, status)
   .then(()=> res.status(500).json({message: 'ok'}))
   .catch(error => {

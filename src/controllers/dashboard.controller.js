@@ -18,7 +18,8 @@ import {
   saveQuoteSent,
   saveNewOperation,
   getTerminals,
-  getAllOperations
+  getAllOperations,
+  changeOperationStatus
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1077,8 +1078,7 @@ export const newOperation = async (req, res) => {
     hazardousClass,
     bonded,
   } = req.body;
-  console.log(req.body); //Probar Console log mañana
-
+  
   saveNewOperation(
     customer,
     idOperation,
@@ -1137,4 +1137,14 @@ export const getOperations = async (req, res) => {
       console.log(error);
       res.status(500).json(error);
     });
+}
+
+export const changeStatus = async (req, res) => {
+  const {idOperation, status} = req.body;
+  changeOperationStatus(idOperation, status)
+  .then(()=> res.status(500).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  })
 }

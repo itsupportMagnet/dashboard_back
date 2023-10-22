@@ -19,7 +19,8 @@ import {
     verifyToken,
     newOperation,
     getAllTerminals,
-    getOperations
+    getOperations,
+    changeStatus
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 const router = Router();
@@ -45,4 +46,5 @@ router
 .post("/newOperation", newOperation)
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
+.get('/change-status', changeStatus)
 export default router;

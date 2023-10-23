@@ -1051,10 +1051,10 @@ export const getAllCarriers = (req, res) => {
 
 export const newOperation = async (req, res) => {
   const {
-    customer,
     idOperation,
     status,
     modeOfOperation,
+    customer,
     businessLine,
     operationDate,
     coordinator,
@@ -1081,10 +1081,10 @@ export const newOperation = async (req, res) => {
   } = req.body;
   
   saveNewOperation(
-    customer,
     idOperation,
     status,
     modeOfOperation,
+    customer,
     businessLine,
     operationDate,
     coordinator,

@@ -352,15 +352,15 @@ export const sendFee = async (req, res) => {
         <table cellpadding="0" cellspacing="0" width="100%"
         style="border: 4px solid #a5a5a5; text-align: center; font-size: 15px; font-weight: 600;">
         <tr>
-          <td align="center" style="width: 33%; padding: 0 5px;">
+          <td align="center" style="width: 33%; padding: 10px 5px;">
             <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
             <p style="margin-top: 0.75rem">${pol}</p>
           </td>
-          <td align="center" style="width: 100%; padding: 0 5px;" class="locationsDetailsBox truckImgContainer">
+          <td align="center" style="width: 100%; padding: 10px 5px;" class="locationsDetailsBox truckImgContainer">
             <img style="width: 7rem" class="md-w-40" src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/truck-1918551_12801.png" alt="magnet truck" /><br>
             <p style="margin-top: 0.5rem">${miles} miles</p>
           </td>
-          <td align="center" style="width: 33%; padding: 0 5px;">
+          <td align="center" style="width: 33%; padding: 10px 5px;">
             <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
             <p style="margin-top: 0.75rem">${deliveryAddress}</p>
           </td>
@@ -565,48 +565,53 @@ export const sendFee = async (req, res) => {
 
           <div style="margin-top: 1rem; text-align: center">
           
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-              ${Object.entries(accesorialsWithFee)
-      .slice(0, 6)
-      .map(
-        ([item, value]) => `
-              <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
-                  ${item}: $${value}
-                </p>`
-      )
-      .join("")}
-            </div>
+          ${!Object.entries(accesorialsWithFee).length ? (
+              ' <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+            ) : (
+              `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+                    ${Object.entries(accesorialsWithFee)
+                .slice(0, 6)
+                .map(
+                  ([item, value]) => `
+                    <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                        ${item}: $${value}
+                      </p>`
+                )
+                .join("")}
+                  </div>
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-            ${Object.entries(accesorialsWithFee)
-      .slice(6, 12)
-      .map(
-        ([item, value]) => `
-              <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
-                  ${item}: $${value}
-                </p>`
-      )
-      .join("")}
-            </div>
+                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+                  ${Object.entries(accesorialsWithFee)
+                .slice(6, 12)
+                .map(
+                  ([item, value]) => `
+                    <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                        ${item}: $${value}
+                      </p>`
+                )
+                .join("")}
+                  </div>
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-            ${Object.entries(accesorialsWithFee)
-      .slice(12, 18)
-      .map(
-        ([item, value]) => `
-              <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
-                  ${item}: $${value}
-                </p>`
-      )
-      .join("")}
-            </div>
-
-  
+                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+                  ${Object.entries(accesorialsWithFee)
+                .slice(12, 18)
+                .map(
+                  ([item, value]) => `
+                    <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                        ${item}: $${value}
+                      </p>`
+                )
+                .join("")}
+                  </div>
+        `
+            )}
+        
+            
               <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; padding: 25px 0; text-decoration: underline;">Also may apply</h3>
           
 
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 30px;" class="accesorialWithFee">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 15px;" class="accesorialWithFee">
                 ${accesorialsList
       .slice(0, 6)
       .map(
@@ -1060,7 +1065,7 @@ export const newOperation = async (req, res) => {
     hazardousClass,
     bonded,
   } = req.body;
-  
+
   saveNewOperation(
     idOperation,
     status,
@@ -1123,12 +1128,12 @@ export const getOperations = async (req, res) => {
 }
 
 export const changeStatus = async (req, res) => {
-  const {idOperation, status} = req.body;
+  const { idOperation, status } = req.body;
 
   changeOperationStatus(idOperation, status)
-  .then(()=> res.status(500).json({message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(500).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
 }

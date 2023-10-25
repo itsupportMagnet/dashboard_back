@@ -560,51 +560,22 @@ export const sendFee = async (req, res) => {
         </div>
 
         <div style="margin-top: 1rem" class="mayApply">
-        
-          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
+    <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
 
-          <div style="margin-top: 1rem; text-align: center">
-          
-          ${!Object.entries(accesorialsWithFee).length ? (
-              ' <p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
-            ) : (
-              `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                    ${Object.entries(accesorialsWithFee)
-                .slice(0, 7)
-                .map(
-                  ([item, value]) => `
-                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
+    <div style="margin-top: 1rem; text-align: center">
+        ${!Object.entries(accesorialsWithFee).length ? (
+            '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+        ) : (
+            '<table style="width: 100%; table-layout: fixed; border-collapse: collapse;"><tr>'
+            + Object.entries(accesorialsWithFee)
+                .map(([item, value]) => `
+                    <td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">
                         ${item}: $${value}
-                      </p>`
-                )
-                .join("")}
-                  </div>
-
-                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                  ${Object.entries(accesorialsWithFee)
-                .slice(7, 13)
-                .map(
-                  ([item, value]) => `
-                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
-                        ${item}: $${value}
-                      </p>`
-                )
-                .join("")}
-                  </div>
-
-                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                  ${Object.entries(accesorialsWithFee)
-                .slice(13, 18)
-                .map(
-                  ([item, value]) => `
-                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
-                        ${item}: $${value}
-                      </p>`
-                )
-                .join("")}
-                  </div>
-        `
-            )}
+                    </td>
+                `)
+                .join('')
+            + '</tr></table>'
+        )}
         
             
               <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; margin-top: 25px; text-decoration: underline;">Also may apply</h3>
@@ -613,7 +584,7 @@ export const sendFee = async (req, res) => {
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 15px;" class="accesorialWithFee">
                 ${accesorialsList
-      .slice(0, 6)
+      .slice(0, 7)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
@@ -625,7 +596,7 @@ export const sendFee = async (req, res) => {
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-      .slice(6, 12)
+      .slice(7, 13)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
@@ -637,7 +608,7 @@ export const sendFee = async (req, res) => {
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-      .slice(12, 18)
+      .slice(13, 18)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">

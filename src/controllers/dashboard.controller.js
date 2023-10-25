@@ -566,13 +566,19 @@ export const sendFee = async (req, res) => {
             ${!Object.entries(accesorialsWithFee).length ? (
                 '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
             ) : (
-                '<table style="width: 100%; table-layout: fixed; border-collapse: collapse;"><tr>'
+                '<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">'
                 + Object.entries(accesorialsWithFee)
                     .map(([item, value], index) => {
-                        if (index > 0 && index % 6 === 0) {
-                            return `</tr><tr><td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
+                        if (index % 5 === 0) {
+                            if (index > 0) {
+                                return '</tr></table><table style="width: 100%; table-layout: fixed; border-collapse: collapse;"><tr>'
+                                    + `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
+                            } else {
+                                return `<tr><td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
+                            }
+                        } else {
+                            return `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
                         }
-                        return `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
                     })
                     .join('')
                 + '</tr></table>'

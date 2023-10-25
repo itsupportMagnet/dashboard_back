@@ -559,30 +559,31 @@ export const sendFee = async (req, res) => {
           </div>
         </div>
 
-        <div style="margin-top: 1rem" class="mayApply">
-        <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
-    
-        <div style="margin-top: 1rem; text-align: center">
-            ${!Object.entries(accesorialsWithFee).length ? (
-                '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
-            ) : (
-                '<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">'
-                + Object.entries(accesorialsWithFee)
-                    .map(([item, value], index) => {
-                        if (index % 6 === 0) {
-                            if (index > 0) {
-                                return '</tr><tr>' +
-                                    `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">${item}: $${value}</td>`;
-                            } else {
-                                return `<tr><td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border-top: 1px solid #000;">${item}: $${value}</td>`;
-                            }
+       <div style="margin-top: 1rem" class="mayApply">
+    <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
+
+    <div style="margin-top: 1rem; text-align: center">
+        ${!Object.entries(accesorialsWithFee).length ? (
+            '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+        ) : (
+            '<style>table td { border-top: 1px solid #000; }</style>' +
+            '<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">'
+            + Object.entries(accesorialsWithFee)
+                .map(([item, value], index) => {
+                    if (index % 6 === 0) {
+                        if (index > 0) {
+                            return '</tr></table><style>table td { border-top: none; }</style><table style="width: 100%; table-layout: fixed; border-collapse: collapse;"><tr>'
+                                + `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
                         } else {
-                            return `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">${item}: $${value}</td>`;
+                            return `<tr><td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
                         }
-                    })
-                    .join('')
-                + '</tr></table>'
-            )}
+                    } else {
+                        return `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: 1px solid #000;">${item}: $${value}</td>`;
+                    }
+                })
+                .join('')
+            + '</tr></table>'
+        )}
         
             
               <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; margin-top: 25px; text-decoration: underline;">Also may apply</h3>

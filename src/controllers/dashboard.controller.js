@@ -584,7 +584,7 @@ export const sendFee = async (req, res) => {
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 15px;" class="accesorialWithFee">
                 ${accesorialsList
-      .slice(0, 7)
+      .slice(0, 6)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
@@ -596,7 +596,7 @@ export const sendFee = async (req, res) => {
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-      .slice(7, 13)
+      .slice(6, 12)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
@@ -608,7 +608,7 @@ export const sendFee = async (req, res) => {
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-      .slice(13, 18)
+      .slice(12, 18)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">

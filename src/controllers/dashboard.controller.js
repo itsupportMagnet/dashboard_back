@@ -349,49 +349,23 @@ export const sendFee = async (req, res) => {
       <div style="margin-top: 3rem" class="main">
         <div class="customerDetails"></div>
 
-        <center
-          style="
-            width: 98.5%;
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-            gap: 2.5rem;
-            justify-content: space-evenly;
-            align-items: center;
-            border-style: solid;
-            border-width: 4px;
-            border-color: #a5a5a5;
-            text-align: center;
-            font-size: 18px;
-	    font-weight: 600;
-          "
-          class="locationsDetails md-flex-row"
-        >
-          <center>
-            <img
-              src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png"
-              alt="location icon"
-            />
+        <table cellpadding="0" cellspacing="0" width="100%"
+        style="border: 4px solid #a5a5a5; text-align: center; font-size: 18px; font-weight: 600;">
+        <tr>
+          <td style="width: 33%;">
+            <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
             <p style="margin-top: 0.75rem">${pol}</p>
-          </center>
-
-          <center class="locationsDetailsBox truckImgContainer">
-            <img
-              style="width: 7rem"
-              class="md-w-40"
-              src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/truck-1918551_12801.png"
-              alt="magnet truck"
-            />
+          </td>
+          <td style="width: 33%;" class="locationsDetailsBox truckImgContainer">
+            <img style="width: 7rem" class="md-w-40" src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/truck-1918551_12801.png" alt="magnet truck" /><br>
             <p style="margin-top: 0.5rem">${miles} miles</p>
-          </center>
-
-          <center>
-            <img
-              src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png"
-              alt="location icon"
-            />
+          </td>
+          <td style="width: 33%;">
+            <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
             <p style="margin-top: 0.75rem">${deliveryAddress}</p>
-          </center>
-        </center>
+          </td>
+        </tr>
+      </table>
 
         <div style="margin-top: 2.5rem" class="shipmentDetails">
           <h1
@@ -587,100 +561,90 @@ export const sendFee = async (req, res) => {
 
         <div style="margin-top: 1rem" class="mayApply">
         
-        ${Object.entries(accesorialsWithFee).length ? (
-      `  <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; padding: 25px 0; text-decoration: underline;">Also may apply</h3>
+          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APLLY</h1>
+
+          <div style="margin-top: 1rem; text-align: center">
+          
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+              ${Object.entries(accesorialsWithFee)
+      .slice(0, 6)
+      .map(
+        ([item, value]) => `
+              <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                  ${item}: $${value}
+                </p>`
+      )
+      .join("")}
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+            ${Object.entries(accesorialsWithFee)
+      .slice(6, 12)
+      .map(
+        ([item, value]) => `
+              <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                  ${item}: $${value}
+                </p>`
+      )
+      .join("")}
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+            ${Object.entries(accesorialsWithFee)
+      .slice(12, 18)
+      .map(
+        ([item, value]) => `
+              <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                  ${item}: $${value}
+                </p>`
+      )
+      .join("")}
+            </div>
+
+  
+              <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; padding: 25px 0; text-decoration: underline;">Also may apply</h3>
           
 
 
             <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 30px;" class="accesorialWithFee">
                 ${accesorialsList
-        .slice(0, 6)
-        .map(
-          (item) =>
-            `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+      .slice(0, 6)
+      .map(
+        (item) =>
+          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-        )
-        .join("")}
+      )
+      .join("")}
               </div>
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-        .slice(6, 12)
-        .map(
-          (item) =>
-            `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+      .slice(6, 12)
+      .map(
+        (item) =>
+          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-        )
-        .join("")}
+      )
+      .join("")}
               </div>
 
               <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                 ${accesorialsList
-        .slice(12, 18)
-        .map(
-          (item) =>
-            `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+      .slice(12, 18)
+      .map(
+        (item) =>
+          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
-        )
-        .join("")}
+      )
+      .join("")}
               </div>
 
             </div>
           </div>
-        </div>`
-
-    ) : (
-      `
-          <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; padding: 25px 0; text-decoration: underline;">Also may apply</h3>
-      
-
-
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 30px;" class="accesorialWithFee">
-            ${accesorialsList
-        .slice(0, 6)
-        .map(
-          (item) =>
-            `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
-                  ${item.accesorial}
-              </p>`
-        )
-        .join("")}
-          </div>
-
-          <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-            ${accesorialsList
-        .slice(6, 12)
-        .map(
-          (item) =>
-            `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
-                  ${item.accesorial}
-              </p>`
-        )
-        .join("")}
-          </div>
-
-          <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-            ${accesorialsList
-        .slice(12, 18)
-        .map(
-          (item) =>
-            `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
-                  ${item.accesorial}
-              </p>`
-        )
-        .join("")}
-          </div>
-
         </div>
-      </div>
-    </div>`
-    )}
-          
-
-  
 
 
         <div style="margin-top: 2.5rem" class="remarksDetails">
@@ -1096,7 +1060,7 @@ export const newOperation = async (req, res) => {
     hazardousClass,
     bonded,
   } = req.body;
-
+  
   saveNewOperation(
     idOperation,
     status,
@@ -1159,12 +1123,12 @@ export const getOperations = async (req, res) => {
 }
 
 export const changeStatus = async (req, res) => {
-  const { idOperation, status } = req.body;
+  const {idOperation, status} = req.body;
 
   changeOperationStatus(idOperation, status)
-    .then(() => res.status(500).json({ message: 'ok' }))
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ error })
-    })
+  .then(()=> res.status(500).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  })
 }

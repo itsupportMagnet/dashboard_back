@@ -559,24 +559,52 @@ export const sendFee = async (req, res) => {
           </div>
         </div>
 
-       <div style="margin-top: 1rem" class="mayApply">
-    <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
+        <div style="margin-top: 1rem" class="mayApply">
+        
+          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
 
-    <div style="margin-top: 1rem; text-align: center">
-        ${!Object.entries(accesorialsWithFee).length ? (
-      '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
-    ) : (
-      '<table style="width: 100%; table-layout: fixed; border-collapse;">' +
-      Object.entries(accesorialsWithFee)
-        .map(([item, value], index) => {
-          const marginTop = index === 1 ? '5px' : '0';
+          <div style="margin-top: 1rem; text-align: center">
+          
+          ${!Object.entries(accesorialsWithFee).length ? (
+              ' <p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+            ) : (
+              `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+                    ${Object.entries(accesorialsWithFee)
+                .slice(0, 7)
+                .map(
+                  ([item, value]) => `
+                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
+                        ${item}: $${value}
+                      </p>`
+                )
+                .join("")}
+                  </div>
 
-          return (index % 6 === 0 ? (index > 0 ? '</tr><tr style="margin-top:' + marginTop + ';">' : '<tr>') : '') +
-            `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border-top: 1px solid #000;">${item}: $${value}</td>`;
-        })
-        .join('') +
-      '</tr></table>'
-    )}
+                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+                  ${Object.entries(accesorialsWithFee)
+                .slice(7, 13)
+                .map(
+                  ([item, value]) => `
+                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
+                        ${item}: $${value}
+                      </p>`
+                )
+                .join("")}
+                  </div>
+
+                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+                  ${Object.entries(accesorialsWithFee)
+                .slice(13, 18)
+                .map(
+                  ([item, value]) => `
+                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
+                        ${item}: $${value}
+                      </p>`
+                )
+                .join("")}
+                  </div>
+        `
+            )}
         
             
               <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; margin-top: 25px; text-decoration: underline;">Also may apply</h3>

@@ -352,15 +352,15 @@ export const sendFee = async (req, res) => {
         <table cellpadding="0" cellspacing="0" width="100%"
         style="border: 4px solid #a5a5a5; text-align: center; font-size: 15px; font-weight: 600;">
         <tr>
-          <td style="width: 33%;">
+          <td align="center" style="width: 33%;">
             <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
             <p style="margin-top: 0.75rem">${pol}</p>
           </td>
-          <td style="width: 100%; text-align:center" class="locationsDetailsBox truckImgContainer">
+          <td align="center" style="width: 100%; text-align:center" class="locationsDetailsBox truckImgContainer">
             <img style="width: 7rem" class="md-w-40" src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/truck-1918551_12801.png" alt="magnet truck" /><br>
             <p style="margin-top: 0.5rem">${miles} miles</p>
           </td>
-          <td style="width: 33%;">
+          <td align="center" style="width: 33%;">
             <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
             <p style="margin-top: 0.75rem">${deliveryAddress}</p>
           </td>

@@ -16,9 +16,10 @@ export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [],
 
   const recipients = [
 
-     "valeria.acosta@magnetlogisticscorp.com",
-     "operations2@magnetlogisticscorp.com",
-     "jcastro@magnetlogisticscorp.com",
+    //  "valeria.acosta@magnetlogisticscorp.com",
+    //  "operations2@magnetlogisticscorp.com",
+    //  "jcastro@magnetlogisticscorp.com",
+    'josias.salgado.f@gmail.com'
   ];
 
   if (propCcRecipients && propCcRecipients.length !== 0) {

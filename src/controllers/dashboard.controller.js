@@ -167,6 +167,7 @@ export const sendFee = async (req, res) => {
     accesorialsWithFee,
     accesorialsList,
     emailSubject,
+    client,
     clientEmailsList,
   } = req.body;
 
@@ -733,6 +734,7 @@ export const sendFee = async (req, res) => {
           chassisTotalConcept,
           totalFeeToSend,
           accesorialsWithFee,
+          client,
           clientEmailsList
         )
           .then((data) => {

@@ -567,15 +567,16 @@ export const sendFee = async (req, res) => {
       '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
     ) : (
       '<table style="width: 100%; table-layout: fixed; border-collapse;">' +
-      Object.entries(accesorialsWithFee)
-        .map(([item, value], index) => {
-          const borderStyle = index === 0 ? '1px solid #000;' : 'none;';
+  Object.entries(accesorialsWithFee)
+    .map(([item, value], index) => {
+      const isFirstRow = index === 0;
+      const borderStyle = isFirstRow ? '1px solid #000;' : 'none;';
 
-          return (index % 6 === 0 ? (index > 0 ? '</tr></table><table style="width: 100%; table-layout: fixed; border-collapse;">' : '<tr>') : '') +
-            `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: ${borderStyle}">${item}: $${value}</td>`;
-        })
-        .join('') +
-      '</tr></table>'
+      return (index % 6 === 0 ? (index > 0 ? '</tr><tr>' : '<tr>') : '') +
+        `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border-top: ${borderStyle}">${item}: $${value}</td>`;
+    })
+    .join('') +
+  '</tr></table>'
     )}
         
             

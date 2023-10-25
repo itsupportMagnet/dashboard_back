@@ -350,7 +350,7 @@ export const sendFee = async (req, res) => {
         <div class="customerDetails"></div>
 
         <table cellpadding="0" cellspacing="0" width="100%"
-        style="border: 4px solid #a5a5a5; text-align: center; font-size: 18px; font-weight: 600;">
+        style="border: 4px solid #a5a5a5; text-align: center; font-size: 14px; font-weight: 600;">
         <tr>
           <td style="width: 33%;">
             <img src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/08/Screenshot-2023-08-22-125419.png" alt="location icon" /><br>
@@ -561,7 +561,7 @@ export const sendFee = async (req, res) => {
 
         <div style="margin-top: 1rem" class="mayApply">
         
-          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APLLY</h1>
+          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
 
           <div style="margin-top: 1rem; text-align: center">
           

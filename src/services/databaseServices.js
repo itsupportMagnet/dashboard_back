@@ -180,7 +180,7 @@ export const getCarriersList = async () => {
 }
 
 export const updateIdCounter = async (newCounter) => {
-  const query = "UPDATE id_countertest SET counter = ? LIMIT 1"; //CAMBIAR A FUTURO AL IDCOUNTER NORMAL
+  const query = "UPDATE id_counter SET counter = ? LIMIT 1"; //CAMBIAR A FUTURO AL IDCOUNTER NORMAL
   try {
     await pool.query(query, [newCounter]);
   } catch (error) {

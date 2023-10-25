@@ -564,24 +564,19 @@ export const sendFee = async (req, res) => {
 
     <div style="margin-top: 1rem; text-align: center">
         ${!Object.entries(accesorialsWithFee).length ? (
-            '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
-        ) : (
-          '<table style="width: 100%; table-layout: fixed; border-collapse;">' +
-          Object.entries(accesorialsWithFee)
-            .map(([item, value], index) => {
-              const isFirstRow = index === 0;
-              const borderStyle = isFirstRow ? '1px solid #000;' : 'none;';
-        
-              if (index % 6 === 0) {
-                return `${isFirstRow ? '<tr>' : '</tr></table><table style="width: 100%; table-layout: fixed; border-collapse;"><tr>'}` +
-                  `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: ${borderStyle}">${item}: $${value}</td>`;
-              } else {
-                return `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: ${borderStyle}">${item}: $${value}</td>`;
-              }
-            })
-            .join('') +
-          '</tr></table>'
-        )}
+      '<p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+    ) : (
+      '<table style="width: 100%; table-layout: fixed; border-collapse;">' +
+      Object.entries(accesorialsWithFee)
+        .map(([item, value], index) => {
+          const borderStyle = index === 0 ? '1px solid #000;' : 'none;';
+
+          return (index % 6 === 0 ? (index > 0 ? '</tr></table><table style="width: 100%; table-layout: fixed; border-collapse;">' : '<tr>') : '') +
+            `<td style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px; border: ${borderStyle}">${item}: $${value}</td>`;
+        })
+        .join('') +
+      '</tr></table>'
+    )}
         
             
               <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; margin-top: 25px; text-decoration: underline;">Also may apply</h3>

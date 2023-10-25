@@ -566,7 +566,7 @@ export const sendFee = async (req, res) => {
           <div style="margin-top: 1rem; text-align: center">
           
           ${!Object.entries(accesorialsWithFee).length ? (
-              ' <p style="width: 97%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+              ' <p style="width: 95%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
             ) : (
               `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                     ${Object.entries(accesorialsWithFee)

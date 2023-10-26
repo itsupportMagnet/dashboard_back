@@ -35,7 +35,8 @@ export const login = async (req, res) => {
   getUserEmail(email)
     .then((data) => {
       const user = data[0];
-      console.log (data);
+      console.log (data + " Estoy enviando todo los datos");
+      console.log (data.nombre + " Envio Solo el nombre")
 
       //verify password
       const validPassword = bcrypt.compareSync(password, user.password);

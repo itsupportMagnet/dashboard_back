@@ -566,14 +566,14 @@ export const sendFee = async (req, res) => {
           <div style="margin-top: 1rem; text-align: center">
           
           ${!Object.entries(accesorialsWithFee).length ? (
-              ' <p style="width: 100%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+              ' <p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
             ) : (
               `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                     ${Object.entries(accesorialsWithFee)
-                .slice(0, 6)
+                .slice(0, 7)
                 .map(
                   ([item, value]) => `
-                    <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
                         ${item}: $${value}
                       </p>`
                 )
@@ -582,10 +582,10 @@ export const sendFee = async (req, res) => {
 
                   <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                   ${Object.entries(accesorialsWithFee)
-                .slice(6, 12)
+                .slice(7, 13)
                 .map(
                   ([item, value]) => `
-                    <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
                         ${item}: $${value}
                       </p>`
                 )
@@ -594,10 +594,10 @@ export const sendFee = async (req, res) => {
 
                   <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                   ${Object.entries(accesorialsWithFee)
-                .slice(12, 18)
+                .slice(13, 18)
                 .map(
                   ([item, value]) => `
-                    <p style="width: 16.5%; text-align: center; font-weight: 600; font-size: 17px; margin-bottom: 10px; padding: 0 15px;">
+                    <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
                         ${item}: $${value}
                       </p>`
                 )
@@ -616,7 +616,7 @@ export const sendFee = async (req, res) => {
       .slice(0, 6)
       .map(
         (item) =>
-          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+          `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
       )
@@ -628,7 +628,7 @@ export const sendFee = async (req, res) => {
       .slice(6, 12)
       .map(
         (item) =>
-          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+          `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
       )
@@ -640,7 +640,7 @@ export const sendFee = async (req, res) => {
       .slice(12, 18)
       .map(
         (item) =>
-          `<p style="width: 12%; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
+          `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
                       ${item.accesorial}
                   </p>`
       )

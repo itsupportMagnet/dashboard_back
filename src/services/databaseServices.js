@@ -229,22 +229,13 @@ export const changeOperationStatus = async (idOperation, status) => {
     });
 }
 
-// export const getAccesorials = async () => {
-//   const query = 'SELECT * FROM accesorials';
+
+// export const getMaxIdOperation = async () => {
+//   const query = "SELECT max(id) from operations";
 //   return pool.query(query)
-//     .then(rows => rows[0])
+//     .then(rows => rows.max)
 //     .catch(error => {
-//       console.error("Error trying to get all quotes:", error);
+//       console.log("Error trying to get max id", error);
 //       throw error;
 //     });
 // }
-
-export const getMaxIdOperation = async () => {
-  query ="SELECT MAX(id) from operations"
-  return pool.query(query)
-    .then(rows => rows[0])
-    .catch(error => {
-      console.log("Error trying to get max id", error);
-      throw
-    })
-}

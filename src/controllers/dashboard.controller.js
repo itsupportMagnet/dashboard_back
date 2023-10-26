@@ -19,8 +19,7 @@ import {
   saveNewOperation,
   getTerminals,
   getAllOperations,
-  changeOperationStatus,
-  // getMaxIdOperation
+  changeOperationStatus
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -36,9 +35,9 @@ export const login = async (req, res) => {
   getUserEmail(email)
     .then((data) => {
       const user = data[0];
+      const userName = user.nombre;
       console.log (data) ;
       console.log (user.nombre)
-      console.log (data.nombre)
 
       //verify password
       const validPassword = bcrypt.compareSync(password, user.password);
@@ -51,7 +50,8 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send({ token });
+          res.send({ token: token, name: userName });
+
         }
       });
     })
@@ -1141,11 +1141,3 @@ export const changeStatus = async (req, res) => {
       res.status(500).json({ error })
     })
 }
-// export const maxIdOperation = async (req,res) => {
-//   getMaxIdOperation()
-//     .then(row => res.status(200).json(row))
-//     .catch(error=>{
-//       console.log(error);
-//       res.status(500).json({error})
-//     })
-// }

@@ -189,10 +189,10 @@ export const updateIdCounter = async (newCounter) => {
   }
 }
 
-export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded) => {
-  const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine) => {
+  const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
-    await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine,  operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded])
+    await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine,  operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
     throw error;

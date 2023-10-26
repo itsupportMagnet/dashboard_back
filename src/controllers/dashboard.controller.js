@@ -50,7 +50,8 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send({ token });
+          res.send({ token , userName});
+          console.log (res)
 
         }
       });

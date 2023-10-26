@@ -19,7 +19,8 @@ import {
   saveNewOperation,
   getTerminals,
   getAllOperations,
-  changeOperationStatus
+  changeOperationStatus,
+  getMaxIdOperation
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1131,9 +1132,17 @@ export const changeStatus = async (req, res) => {
   const { idOperation, status } = req.body;
 
   changeOperationStatus(idOperation, status)
-    .then(() => res.status(500).json({ message: 'ok' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
+    })
+}
+export const maxIdOperation = async (req,res) => {
+  getMaxIdOperation()
+    .then(row => res.status(200).json(row))
+    .catch(error=>{
+      console.log(error);
+      res.status(500).json({error})
     })
 }

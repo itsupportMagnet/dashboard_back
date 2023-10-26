@@ -20,7 +20,8 @@ import {
     newOperation,
     getAllTerminals,
     getOperations,
-    changeStatus
+    changeStatus,
+    maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 const router = Router();
@@ -47,4 +48,5 @@ router
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
 .post('/change-status', changeStatus)
+.get('/maxIdOperation', maxIdOperation )
 export default router;

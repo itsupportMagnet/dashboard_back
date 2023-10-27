@@ -171,7 +171,7 @@ export const sendFee = async (req, res) => {
     totalFeeToSend,
     accesorialsWithFee,
     accesorialsList,
-    emailSubject,
+    // emailSubject,
     client,
     clientEmailsList,
   } = req.body;
@@ -692,7 +692,9 @@ export const sendFee = async (req, res) => {
 </html >
   `;
 
-  sendEmail(emailSubject, emailBody, [], clientEmailsList)
+  const subject = `New Quotation / ${quoteID}`
+
+  sendEmail(subject, emailBody, [], clientEmailsList)
     .then((data) => {
       if (data) {
         saveQuoteSent(

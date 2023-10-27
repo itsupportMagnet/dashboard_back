@@ -379,7 +379,8 @@ export const sendFee = async (req, res) => {
               line-height: 1.75rem;
               text-align: center;
               padding: 0.25rem;
-              background-color: #d1d5db;
+              background-color: #1d4ed8;
+              color: #fff;
             "
             class="md-text-2xl"
           >
@@ -457,7 +458,8 @@ export const sendFee = async (req, res) => {
               line-height: 1.75rem;
               text-align: center;
               padding: 0.25rem;
-              background-color: #d1d5db;
+              background-color: #1d4ed8;
+              color: #fff;
             "
             class="md-text-2xl"
           >
@@ -566,7 +568,14 @@ export const sendFee = async (req, res) => {
 
         <div style="margin-top: 1rem" class="mayApply">
         
-          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
+          <h1 style="font-size: 1.125rem; 
+          line-height: 1.75rem; 
+          text-align: center; 
+          padding: 0.25rem; 
+          background-color: #1d4ed8;
+          color: #fff;
+          " 
+          class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
 
           <div style="margin-top: 1rem; text-align: center">
           
@@ -664,7 +673,8 @@ export const sendFee = async (req, res) => {
               line-height: 1.75rem;
               text-align: center;
               padding: 0.25rem;
-              background-color: #d1d5db;
+              background-color: #1d4ed8;
+              color: #fff;
             "
             class="md-text-2xl"
           >

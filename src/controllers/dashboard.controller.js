@@ -810,6 +810,7 @@ export const createQuote = async (req, res) => {
     bonded,
     loadType,
     carrier,
+    quoteStatus,
   } = req.body;
   const newCounter = (await getIdCounter()) + 1;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
@@ -954,7 +955,8 @@ export const createQuote = async (req, res) => {
     hazardous,
     slctHazardous,
     bonded,
-    loadType
+    loadType,
+    quoteStatus,
   )
     .then(() => {
       return sendEmail(emailSubject, emailBody, bccRecipients, "");

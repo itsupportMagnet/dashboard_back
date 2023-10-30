@@ -238,6 +238,15 @@ export const changeBookingBl = async (idOperation, bookingBl) => {
   });
 }
 
+export const changeContainerId = async (idOperation, containerId) => {
+  const query = "UPDATE operations SET containerId = ? WHERE idOperation = ?";
+  return pool.query(query, [containerId, idOperation])
+  .then(() => { return true }).catch(error => {
+    console.error("Error on SQL:", error);
+    throw error;
+  });
+}
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

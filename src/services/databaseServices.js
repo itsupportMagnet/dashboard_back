@@ -229,6 +229,15 @@ export const changeOperationStatus = async (idOperation, status) => {
     });
 }
 
+export const changeBookingBl = async (idOperation, bookingBl) => {
+  const query = "UPDATE operations SET bookingBl = ? WHERE idOperation = ?";
+  return pool.query(query, [bookingBl, idOperation])
+  .then(() => { return true }).catch(error => {
+    console.error("Error on SQL:", error);
+    throw error;
+  });
+}
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

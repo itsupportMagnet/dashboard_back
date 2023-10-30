@@ -21,6 +21,7 @@ import {
     getAllTerminals,
     getOperations,
     changeStatus,
+    updateBookingBl,
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -48,5 +49,6 @@ router
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
 .post('/change-status', changeStatus)
+.post('/updateBookingBl', updateBookingBl)
 // .get('/maxIdOperation', maxIdOperation )
 export default router;

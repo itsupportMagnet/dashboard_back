@@ -19,7 +19,8 @@ import {
   saveNewOperation,
   getTerminals,
   getAllOperations,
-  changeOperationStatus
+  changeOperationStatus,
+  changeBookingBl
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1153,6 +1154,16 @@ export const changeStatus = async (req, res) => {
 
   changeOperationStatus(idOperation, status)
     .then(() => res.status(500).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+
+export const updateBookingBl = async (req, res) => {
+  const { idOperation, bookingBl } = req.body;
+  changeBookingBl(idOperation, bookingBl)
+  .then(() => res.status(500).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })

@@ -1184,7 +1184,11 @@ export const updateContainerId = async (req, res) => {
 }
 
 export const getOperation = async (req, res) => {
-  getOperationById(req.params.id)
-  .then(data => res.status(200).json(data))
-  .catch(error => res.status(500).json({error}))
+  try {
+    const [rows] = await getOperationById(req.params.id);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
 }

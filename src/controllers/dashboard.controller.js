@@ -21,7 +21,8 @@ import {
   getAllOperations,
   changeOperationStatus,
   changeBookingBl,
-  changeContainerId
+  changeContainerId,
+  getOperationById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1180,4 +1181,10 @@ export const updateContainerId = async (req, res) => {
       res.status(500).json({ error })
     })
 
+}
+
+export const getOperation = async (req, res) => {
+  getOperationById(req.params.id)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({error}))
 }

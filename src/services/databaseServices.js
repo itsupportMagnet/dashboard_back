@@ -247,6 +247,16 @@ export const changeContainerId = async (idOperation, containerId) => {
   });
 }
 
+export const getOperationById = async (operationId) => {
+  const sql = 'SELECT * WHERE idOperation = ?';
+  pool.query(sql, [operationId])
+  .then(data => data[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  })
+}
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

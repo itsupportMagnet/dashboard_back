@@ -195,6 +195,7 @@ export const saveNewOperation = async (idOperation, status, modeOfOperation, cus
     await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine,  operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
+    console.log('Estoy en el query')
     throw error;
   }
 

@@ -1088,6 +1088,8 @@ export const newOperation = async (req, res) => {
     timeLine
   } = req.body;
 
+  console.log(req.body)
+
   saveNewOperation(
     idOperation,
     status,
@@ -1119,10 +1121,12 @@ export const newOperation = async (req, res) => {
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
+      console.log('se envio bien la informacion')
     })
     .catch((error) => {
       console.error(error);
       res.status(500).json({ error });
+      console.log('estoy aca en el catch')
     });
 
   /*res.json({customer,idOperation,status, modeOfOperation, operationMode, operationType, operationDate, idCoordinator, 

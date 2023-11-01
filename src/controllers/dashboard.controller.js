@@ -1193,10 +1193,11 @@ export const getOperation = async (req, res) => {
 }
 
 export const addClient = async (req, res) => {
-  addNewClient(req.body.clientObjt)
-  .then(() => res.satus(200).json({ message: "ok" }))
-  .catch(error => {
-    res.status(500).json(error);
-    console.log(error);
-  })
+  console.log(req.body.clientObjt);
+  // addNewClient(req.body.clientObjt)
+  // .then(() => res.satus(200).json({ message: "ok" }))
+  // .catch(error => {
+  //   res.status(500).json(error);
+  //   console.log(error);
+  // })
 }

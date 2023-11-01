@@ -262,8 +262,7 @@ export const getOperationById = async (operationId) => {
 export const addNewClient = async (name, address, contact, businessLine, customerType, emailsJSON, phonesJSON) => {
   const query = "INSERT INTO clients (customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?)"
 
-  console.log(name, address, contact, businessLine, customerType, emailsJSON, phonesJSON);
-  return pool.query(query, [name, address, contact, businessLine, customerType, emailsJSON, phonesJSON])
+  return pool.query(query, [name, address, phonesJSON, emailsJSON, contact, businessLine, customerType])
   .then(() => true)
   .catch(error => {
     console.error("Error on SQL:", error);

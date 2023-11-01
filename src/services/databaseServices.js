@@ -32,6 +32,7 @@ export const saveNewQuoteFee = async (quoteID, modeOfOperation, pol, deliveryAdd
 }
 
 export const saveQuoteSent = async (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, client, clientEmailsList) => {
+
   const accesorialsWithFeeJSON = JSON.stringify(accesorialsWithFee);
   const clientEmailsListJSON = JSON.stringify(clientEmailsList);
   const query = "INSERT INTO quotes_sent (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, client, clientEmailsList) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -258,15 +259,10 @@ export const getOperationById = async (operationId) => {
     })
 }
 
-export const addNewClient = async (clientObjt) => {
-  const { name, address, contact, businessLine, customerType } = clientObjt;
-  const emailsJSON = JSON.stringify(clientObjt.customerEmails);
-  const phonesJSON = JSON.stringify(clientObjt.phoneNumbers);
-
-  console.log(emailsJSON, phonesJSON);
-
+export const addNewClient = async (name, address, contact, businessLine, customerType, emailsJSON, phonesJSON) => {
   const query = "INSERT INTO clients (customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?)"
 
+  console.log(name, address, contact, businessLine, customerType, emailsJSON, phonesJSON);
   return pool.query(query, [name, address, contact, businessLine, customerType, emailsJSON, phonesJSON])
   .then(() => true)
   .catch(error => {

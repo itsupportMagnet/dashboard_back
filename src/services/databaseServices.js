@@ -263,14 +263,16 @@ export const addNewClient = async (clientObjt) => {
   const emailsJSON = JSON.parse(clientObjt.customerEmails);
   const phonesJSON = JSON.parse(clientObjt.phoneNumbers);
 
-  const query = "INSERT INTO clients (customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?)"
+  console.log(emailsJSON, phonesJSON);
 
-  return pool.query(query,name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL:", error);
-    throw error;
-  });
+  // const query = "INSERT INTO clients (customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?)"
+
+  // return pool.query(query,name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  // .then(() => true)
+  // .catch(error => {
+  //   console.error("Error on SQL:", error);
+  //   throw error;
+  // });
 }
 
 // export const getMaxIdOperation = async () => {

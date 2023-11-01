@@ -1188,7 +1188,7 @@ export const getOperation = async (req, res) => {
 }
 
 export const addClient = async (req, res) => {
-  console.log(req.clientObjt);
+  console.log(req.body);
   // addNewClient(req.body.clientObjt)
   // .then(() => res.satus(200).json({ message: "ok" }))
   // .catch(error => {

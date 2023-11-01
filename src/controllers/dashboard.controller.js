@@ -22,7 +22,8 @@ import {
   changeOperationStatus,
   changeBookingBl,
   changeContainerId,
-  getOperationById
+  getOperationById,
+  addNewClient
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1089,8 +1090,6 @@ export const newOperation = async (req, res) => {
     timeLine
   } = req.body;
 
-  console.log(req.body)
-
   saveNewOperation(
     idOperation,
     status,
@@ -1191,4 +1190,13 @@ export const getOperation = async (req, res) => {
   getOperationById(req.params.id)
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({error}))
+}
+
+export const addClient = async (req, res) => {
+  addNewClient(req.body.clientObjt)
+  .then(() => res.satus(200).json({ message: "ok" }))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log(error);
+  })
 }

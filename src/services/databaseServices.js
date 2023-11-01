@@ -192,7 +192,7 @@ export const updateIdCounter = async (newCounter) => {
 export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine) => {
   const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded, cargoCut, timeLine) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
-    await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine,  operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine])
+    await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
     console.log('Estoy en el query')
@@ -233,31 +233,45 @@ export const changeOperationStatus = async (idOperation, status) => {
 export const changeBookingBl = async (idOperation, bookingBl) => {
   const query = "UPDATE operations SET bookingBl = ? WHERE idOperation = ?";
   return pool.query(query, [bookingBl, idOperation])
-  .then(() => { return true }).catch(error => {
-    console.error("Error on SQL:", error);
-    throw error;
-  });
+    .then(() => { return true }).catch(error => {
+      console.error("Error on SQL:", error);
+      throw error;
+    });
 }
 
 export const changeContainerId = async (idOperation, containerId) => {
   const query = "UPDATE operations SET containerId = ? WHERE idOperation = ?";
   return pool.query(query, [containerId, idOperation])
-  .then(() => { return true }).catch(error => {
-    console.error("Error on SQL:", error);
-    throw error;
-  });
+    .then(() => { return true }).catch(error => {
+      console.error("Error on SQL:", error);
+      throw error;
+    });
 }
 
 export const getOperationById = async (operationId) => {
   const query = 'SELECT * FROM operations WHERE idOperation = ?';
   return pool.query(query, [operationId])
-  .then(data => data[0])
-  .catch(error => {
-    console.log(error);
-    throw error;
-  })
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
 }
 
+export const addNewClient = async (clientObjt) => {
+  const { name, address, contact, businessLine, customerType } = clientObjt;
+  const emailsJSON = JSON.parse(clientObjt.customerEmails);
+  const phonesJSON = JSON.parse(clientObjt.phoneNumbers);
+
+  const query = "INSERT INTO clients (customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?)"
+
+  return pool.query(query,name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL:", error);
+    throw error;
+  });
+}
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

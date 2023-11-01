@@ -1129,11 +1129,6 @@ export const newOperation = async (req, res) => {
       res.status(500).json({ error });
       console.log('estoy aca en el catch')
     });
-
-  /*res.json({customer,idOperation,status, modeOfOperation, operationMode, operationType, operationDate, idCoordinator, 
-    bookingBl, containerId, provider, cargoStatus ,emptyLocation ,wareHouseLocation,
-    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
-  })*/
 };
 
 export const getAllTerminals = async (req, res) => {
@@ -1193,7 +1188,7 @@ export const getOperation = async (req, res) => {
 }
 
 export const addClient = async (req, res) => {
-  console.log(req.body.clientObjt);
+  console.log(req.clientObjt);
   // addNewClient(req.body.clientObjt)
   // .then(() => res.satus(200).json({ message: "ok" }))
   // .catch(error => {

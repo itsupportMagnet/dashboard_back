@@ -1194,7 +1194,7 @@ export const addClient = async (req, res) => {
   const phonesJSON = JSON.stringify(phoneNumbers);
 
   addNewClient(name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
-  .then(() => res.satus(200).json({ message: "ok" }))
+  .then(() => res.status(200).json({ message: "ok" }))
   .catch(error => {
     res.status(500).json(error);
     console.log(error);

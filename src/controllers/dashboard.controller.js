@@ -20,7 +20,7 @@ import {
   getTerminals,
   getAllOperations,
   changeOperationStatus,
-  // getMaxIdOperation
+ 
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1068,6 +1068,8 @@ export const newOperation = async (req, res) => {
     hazardous,
     hazardousClass,
     bonded,
+    // containerStatus,
+    // notes,
   } = req.body;
 
   saveNewOperation(
@@ -1098,6 +1100,8 @@ export const newOperation = async (req, res) => {
     hazardous,
     hazardousClass,
     bonded
+    // containerStatus,
+    // notes,
   )
     .then(() => {
       res.status(200).json({ message: "ok" });

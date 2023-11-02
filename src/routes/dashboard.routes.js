@@ -48,5 +48,5 @@ router
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
 .post('/change-status', changeStatus)
-// .get('/maxIdOperation', maxIdOperation )
+
 export default router;

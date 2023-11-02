@@ -189,8 +189,8 @@ export const updateIdCounter = async (newCounter) => {
   }
 }
 
-export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded) => {
-  const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, containerStatus, notes) => {
+  const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded, containerStatus, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
     await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine,  operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded])
   } catch (error) {
@@ -229,13 +229,3 @@ export const changeOperationStatus = async (idOperation, status) => {
     });
 }
 
-
-// export const getMaxIdOperation = async () => {
-//   const query = "SELECT max(id) from operations";
-//   return pool.query(query)
-//     .then(rows => rows.max)
-//     .catch(error => {
-//       console.log("Error trying to get max id", error);
-//       throw error;
-//     });
-// }

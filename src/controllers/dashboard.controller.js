@@ -20,7 +20,10 @@ import {
   getTerminals,
   getAllOperations,
   changeOperationStatus,
- 
+  changeBookingBl,
+  changeContainerId,
+  getOperationById,
+  addNewClient
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -36,9 +39,9 @@ export const login = async (req, res) => {
   getUserEmail(email)
     .then((data) => {
       const user = data[0];
+      const userName = user.userName;
       console.log (data) ;
-      console.log (user.nombre)
-      console.log (data.nombre)
+
 
       //verify password
       const validPassword = bcrypt.compareSync(password, user.password);
@@ -51,7 +54,9 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send({ token });
+          res.send({ token , userName});
+          console.log (res)
+
         }
       });
     })
@@ -170,7 +175,7 @@ export const sendFee = async (req, res) => {
     totalFeeToSend,
     accesorialsWithFee,
     accesorialsList,
-    emailSubject,
+    // emailSubject,
     client,
     clientEmailsList,
   } = req.body;
@@ -378,7 +383,8 @@ export const sendFee = async (req, res) => {
               line-height: 1.75rem;
               text-align: center;
               padding: 0.25rem;
-              background-color: #d1d5db;
+              background-color: #1d4ed8;
+              color: #fff;
             "
             class="md-text-2xl"
           >
@@ -456,7 +462,8 @@ export const sendFee = async (req, res) => {
               line-height: 1.75rem;
               text-align: center;
               padding: 0.25rem;
-              background-color: #d1d5db;
+              background-color: #1d4ed8;
+              color: #fff;
             "
             class="md-text-2xl"
           >
@@ -565,7 +572,14 @@ export const sendFee = async (req, res) => {
 
         <div style="margin-top: 1rem" class="mayApply">
         
-          <h1 style="font-size: 1.125rem; line-height: 1.75rem; text-align: center; padding: 0.25rem; background-color: #d1d5db;" class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
+          <h1 style="font-size: 1.125rem; 
+          line-height: 1.75rem; 
+          text-align: center; 
+          padding: 0.25rem; 
+          background-color: #1d4ed8;
+          color: #fff;
+          " 
+          class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
 
           <div style="margin-top: 1rem; text-align: center">
           
@@ -663,7 +677,8 @@ export const sendFee = async (req, res) => {
               line-height: 1.75rem;
               text-align: center;
               padding: 0.25rem;
-              background-color: #d1d5db;
+              background-color: #1d4ed8;
+              color: #fff;
             "
             class="md-text-2xl"
           >
@@ -691,7 +706,9 @@ export const sendFee = async (req, res) => {
 </html >
   `;
 
-  sendEmail(emailSubject, emailBody, [], clientEmailsList)
+  const subject = `New Quotation / ${quoteID}`
+
+  sendEmail(subject, emailBody, [], clientEmailsList)
     .then((data) => {
       if (data) {
         saveQuoteSent(
@@ -797,6 +814,7 @@ export const createQuote = async (req, res) => {
     bonded,
     loadType,
     carrier,
+    quoteStatus,
   } = req.body;
   const newCounter = (await getIdCounter()) + 1;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
@@ -941,7 +959,8 @@ export const createQuote = async (req, res) => {
     hazardous,
     slctHazardous,
     bonded,
-    loadType
+    loadType,
+    quoteStatus,
   )
     .then(() => {
       return sendEmail(emailSubject, emailBody, bccRecipients, "");
@@ -1051,12 +1070,11 @@ export const newOperation = async (req, res) => {
     bookingBl,
     containerId,
     provider,
-    cargoStatus,
     emptyLocation,
+    fullLocation,
     warehouseLocation,
     port,
     terminal,
-    po,
     ssline,
     city,
     equipment,
@@ -1068,8 +1086,10 @@ export const newOperation = async (req, res) => {
     hazardous,
     hazardousClass,
     bonded,
-    // containerStatus,
-    // notes,
+    containerStatus,
+    notes,
+    cargoCut,
+    timeLine
   } = req.body;
 
   saveNewOperation(
@@ -1083,12 +1103,11 @@ export const newOperation = async (req, res) => {
     bookingBl,
     containerId,
     provider,
-    cargoStatus,
     emptyLocation,
+    fullLocation,
     warehouseLocation,
     port,
     terminal,
-    po,
     ssline,
     city,
     equipment,
@@ -1099,22 +1118,21 @@ export const newOperation = async (req, res) => {
     otherCommodity,
     hazardous,
     hazardousClass,
-    bonded
-    // containerStatus,
-    // notes,
+    bonded,
+    containerStatus,
+    notes,
+    cargoCut,
+    timeLine
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
+      console.log('se envio bien la informacion')
     })
     .catch((error) => {
       console.error(error);
       res.status(500).json({ error });
+      console.log('estoy aca en el catch')
     });
-
-  /*res.json({customer,idOperation,status, modeOfOperation, operationMode, operationType, operationDate, idCoordinator, 
-    bookingBl, containerId, provider, cargoStatus ,emptyLocation ,wareHouseLocation,
-    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
-  })*/
 };
 
 export const getAllTerminals = async (req, res) => {
@@ -1145,11 +1163,44 @@ export const changeStatus = async (req, res) => {
       res.status(500).json({ error })
     })
 }
-// export const maxIdOperation = async (req,res) => {
-//   getMaxIdOperation()
-//     .then(row => res.status(200).json(row))
-//     .catch(error=>{
-//       console.log(error);
-//       res.status(500).json({error})
-//     })
-// }
+
+export const updateBookingBl = async (req, res) => {
+  const { idOperation, bookingBl } = req.body;
+  changeBookingBl(idOperation, bookingBl)
+  .then(() => res.status(500).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+
+export const updateContainerId = async (req, res) => {
+  const { idOperation, containerId } = req.body;
+  changeContainerId(idOperation, containerId)
+  .then(() => res.status(500).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+
+}
+
+export const getOperation = async (req, res) => {
+  getOperationById(req.params.id)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({error}))
+}
+
+export const addClient = async (req, res) => {
+
+  const { name, address, contact, businessLine, customerType, customerEmails, phoneNumbers } = req.body;
+  const emailsJSON = JSON.stringify(customerEmails);
+  const phonesJSON = JSON.stringify(phoneNumbers);
+
+  addNewClient(name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  .then(() => res.status(200).json({ message: "ok" }))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log(error);
+  })
+}

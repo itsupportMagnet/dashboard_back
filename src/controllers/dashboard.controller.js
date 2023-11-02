@@ -1082,9 +1082,7 @@ export const newOperation = async (req, res) => {
     containerType,
     weight,
     commodity,
-    otherCommodity,
     hazardous,
-    hazardousClass,
     bonded,
     cargoCut,
     timeLine
@@ -1113,9 +1111,7 @@ export const newOperation = async (req, res) => {
     containerType,
     weight,
     commodity,
-    otherCommodity,
     hazardous,
-    hazardousClass,
     bonded,
     cargoCut,
     timeLine

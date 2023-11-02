@@ -190,10 +190,10 @@ export const updateIdCounter = async (newCounter) => {
   }
 }
 
-export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine) => {
-  const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded, cargoCut, timeLine) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const saveNewOperation = async (idOperation, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine) => {
+  const query = "INSERT INTO operations(idOperation, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
-    await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, cargoCut, timeLine])
+    await pool.query(query, [idOperation, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
     console.log('Estoy en el query')

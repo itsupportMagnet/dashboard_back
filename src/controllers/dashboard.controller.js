@@ -1062,6 +1062,7 @@ export const newOperation = async (req, res) => {
   const {
     idOperation,
     status,
+    containerStatus,
     modeOfOperation,
     customer,
     businessLine,
@@ -1085,12 +1086,14 @@ export const newOperation = async (req, res) => {
     hazardous,
     bonded,
     cargoCut,
-    timeLine
+    timeLine,
+    notes,
   } = req.body;
 
   saveNewOperation(
     idOperation,
     status,
+    containerStatus,
     modeOfOperation,
     customer,
     businessLine,
@@ -1114,7 +1117,8 @@ export const newOperation = async (req, res) => {
     hazardous,
     bonded,
     cargoCut,
-    timeLine
+    timeLine,
+    notes,
   )
     .then(() => {
       res.status(200).json({ message: "ok" });

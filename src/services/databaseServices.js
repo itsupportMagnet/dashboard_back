@@ -292,6 +292,16 @@ export const getStates = async () => {
 }
 
 
+export const getAllContainerStatus = async (req, res) => {
+  const query = "SELECT * FROM container_status";
+  return pool.query(query)
+  .then(row => row[0])
+  .catch(error => {
+    console.error("Error trying to get the ports:", error);
+    throw error;
+  });
+}
+
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";
 //   return pool.query(query)

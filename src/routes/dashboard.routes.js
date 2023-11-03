@@ -24,7 +24,9 @@ import {
     updateBookingBl,
     updateContainerId,
     getOperation,
-    addClient
+    addClient,
+    addCarrier,
+    getAllStates
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -56,5 +58,7 @@ router
 .post("/updateContainerID", updateContainerId)
 .get("/getOperation/:id", getOperation)
 .post("/addClient", addClient)
+.post("/addCarrier", addCarrier)
+.get("/states", getAllStates)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

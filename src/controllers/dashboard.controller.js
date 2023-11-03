@@ -21,7 +21,9 @@ import {
   getAllOperations,
   changeOperationStatus,
   changeBookingBl,
-  changeContainerId
+  changeContainerId,
+  getOperationById,
+  addNewClient
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1060,6 +1062,7 @@ export const newOperation = async (req, res) => {
   const {
     idOperation,
     status,
+    containerStatus,
     modeOfOperation,
     customer,
     businessLine,
@@ -1069,10 +1072,10 @@ export const newOperation = async (req, res) => {
     containerId,
     provider,
     emptyLocation,
+    fullLocation,
     warehouseLocation,
     port,
     terminal,
-    po,
     ssline,
     city,
     equipment,
@@ -1080,17 +1083,17 @@ export const newOperation = async (req, res) => {
     containerType,
     weight,
     commodity,
-    otherCommodity,
     hazardous,
-    hazardousClass,
     bonded,
     cargoCut,
-    timeLine
+    timeLine,
+    notes,
   } = req.body;
 
   saveNewOperation(
     idOperation,
     status,
+    containerStatus,
     modeOfOperation,
     customer,
     businessLine,
@@ -1100,10 +1103,10 @@ export const newOperation = async (req, res) => {
     containerId,
     provider,
     emptyLocation,
+    fullLocation,
     warehouseLocation,
     port,
     terminal,
-    po,
     ssline,
     city,
     equipment,
@@ -1111,25 +1114,21 @@ export const newOperation = async (req, res) => {
     containerType,
     weight,
     commodity,
-    otherCommodity,
     hazardous,
-    hazardousClass,
     bonded,
     cargoCut,
-    timeLine
+    timeLine,
+    notes,
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
+      console.log('se envio bien la informacion')
     })
     .catch((error) => {
       console.error(error);
       res.status(500).json({ error });
+      console.log('estoy aca en el catch')
     });
-
-  /*res.json({customer,idOperation,status, modeOfOperation, operationMode, operationType, operationDate, idCoordinator, 
-    bookingBl, containerId, provider, cargoStatus ,emptyLocation ,wareHouseLocation,
-    port, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous
-  })*/
 };
 
 export const getAllTerminals = async (req, res) => {
@@ -1180,4 +1179,24 @@ export const updateContainerId = async (req, res) => {
       res.status(500).json({ error })
     })
 
+}
+
+export const getOperation = async (req, res) => {
+  getOperationById(req.params.id)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({error}))
+}
+
+export const addClient = async (req, res) => {
+
+  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers } = req.body;
+  const emailsJSON = JSON.stringify(customerEmails);
+  const phonesJSON = JSON.stringify(phoneNumbers);
+
+  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  .then(() => res.status(200).json({ message: "ok" }))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log(error);
+  })
 }

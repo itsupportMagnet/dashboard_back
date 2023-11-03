@@ -281,6 +281,17 @@ export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipco
   });
 }
 
+export const getStates = async () => {
+  const query = "SELECT * from States";
+  return pool.query(query)
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error trying to get the ports:", error);
+      throw error;
+    });
+}
+
+
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";
 //   return pool.query(query)

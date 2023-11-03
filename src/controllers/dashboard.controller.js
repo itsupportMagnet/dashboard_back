@@ -24,7 +24,8 @@ import {
   changeContainerId,
   getOperationById,
   addNewClient,
-  addNewCarrier
+  addNewCarrier,
+  getStates
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1214,3 +1215,12 @@ export const addCarrier = async (req, res) => {
     console.log(error);
   })
 }
+
+export const getAllStates = async (req, res) => {
+  getStates(req.params.id)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};

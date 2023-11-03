@@ -1228,7 +1228,7 @@ export const getAllStates = async (req, res) => {
 
 export const getContainerStatus = async (req, res) => {
   getAllContainerStatus()
-  .then(data => res.status(200))
+  .then(data => res.status(200).json(row))
   .catch(error => {
     console.log(error);
     return res.status(500)

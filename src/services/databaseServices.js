@@ -12,9 +12,9 @@ export const getUserEmail = async (email) => {
 }
 
 export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType, quoteStatus) => {
-  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, quoteStatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
+  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
   try {
-    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType, quoteStatus]);
+    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType]);
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;
@@ -291,6 +291,16 @@ export const getStates = async () => {
     });
 }
 
+
+export const getAllContainerStatus = async (req, res) => {
+  const query = "SELECT * FROM container_status";
+  return pool.query(query)
+  .then(row => row[0])
+  .catch(error => {
+    console.error("Error trying to get the ports:", error);
+    throw error;
+  });
+}
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

@@ -26,7 +26,8 @@ import {
     getOperation,
     addClient,
     addCarrier,
-    getAllStates
+    getAllStates,
+    getContainerStatus
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -60,5 +61,7 @@ router
 .post("/addClient", addClient)
 .post("/addCarrier", addCarrier)
 .get("/states", getAllStates)
+.get('/container-status', getContainerStatus)
+
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

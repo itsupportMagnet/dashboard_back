@@ -270,6 +270,17 @@ export const addNewClient = async (customerId, name, address, contact, businessL
   });
 }
 
+export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON) => {
+  const query = "INSERT INTO carriers3 (id, carrier_name, mc, dot, w2, carrier_address, carrier_zipcode, carrier_state, days_of_credit_terms, line_of_business, carrier_type, carrier_phone_number, carrier_contact_email) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+
+  return pool.query(query, [carrierId, name, mc, dot, w2, zipcode, address, state, doct, businessLine, carrierType, phonesJSON, emailsJSON])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL:", error);
+    throw error;
+  });
+}
+
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";
 //   return pool.query(query)

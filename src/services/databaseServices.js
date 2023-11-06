@@ -282,7 +282,7 @@ export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipco
 }
 
 export const getStates = async () => {
-  const query = "SELECT * from States";
+  const query = "SELECT * from states";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {

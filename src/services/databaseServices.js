@@ -100,7 +100,7 @@ export const getPorts = async () => {
 
 
 export const getQuotes = async () => {
-  const query = "SELECT `quoteID`, `modeOfOperation`,`quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date` FROM quotes";
+  const query = "SELECT `quoteID`, `modeOfOperation`, `quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date` FROM quotes";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {

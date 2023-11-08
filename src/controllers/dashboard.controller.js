@@ -1220,3 +1220,24 @@ export const getContainerStatus = async (req, res) => {
     return res.status(500)
   })
 }
+
+export const changeStatusQuote = async (req,res) => {
+  const {status,id} = req.body
+  changeQuote(status, id)
+  .then(()=> res.status(500).json({message: 'ok'}))
+  .catch((error)=>{
+    console.log(error);
+    res.status(500).json({error})
+  })
+}
+
+// export const updateContainerId = async (req, res) => {
+//   const { idOperation, containerId } = req.body;
+//   changeContainerId(idOperation, containerId)
+//   .then(() => res.status(500).json({ message: 'ok' }))
+//     .catch(error => {
+//       console.log(error);
+//       res.status(500).json({ error })
+//     })
+
+// }

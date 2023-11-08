@@ -299,6 +299,23 @@ export const getStates = async () => {
     });
 }
 
+export const changeQuote = async (status, id) => {
+  const query = "UPDATE quotes SET quoteStatus = ? WHERE quoteID = ?"
+  return pool.query(query, [status, id])
+  .then(() => {return true})
+  .catch(error => {
+    console.log(error);
+    throw error;
+  })
+}
+// export const changeOperationContainerStatus = async (idOperation, status) => {
+//   const query = "UPDATE operations SET containerStatus = ? WHERE idOperation = ?";
+//   return pool.query(query, [status, idOperation])
+//     .then(() => { return true }).catch(error => {
+//       console.error("Error on SQL:", error);
+//       throw error;
+//     });
+// }
 
 export const getAllContainerStatus = async (req, res) => {
   const query = "SELECT * FROM container_status";
@@ -309,6 +326,7 @@ export const getAllContainerStatus = async (req, res) => {
     throw error;
   });
 }
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

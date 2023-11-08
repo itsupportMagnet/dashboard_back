@@ -11,7 +11,7 @@ export const getUserEmail = async (email) => {
 
 }
 
-export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType) => {
+export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType, quoteStatus) => {
   const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
   try {
     await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, otherCommodity, hazardous, slctHazardous, bonded, loadType]);
@@ -32,6 +32,7 @@ export const saveNewQuoteFee = async (quoteID, modeOfOperation, pol, deliveryAdd
 }
 
 export const saveQuoteSent = async (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, client, clientEmailsList) => {
+
   const accesorialsWithFeeJSON = JSON.stringify(accesorialsWithFee);
   const clientEmailsListJSON = JSON.stringify(clientEmailsList);
   const query = "INSERT INTO quotes_sent (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, overWeight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, userName, miles, drayageQuantity, drayageUnitPrice, drayageTotalConcept, chassisType, chassisQuantity, chassisUnitPrice, chassisTotalConcept, totalFeeToSend, accesorialsWithFee, client, clientEmailsList) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -189,12 +190,13 @@ export const updateIdCounter = async (newCounter) => {
   }
 }
 
-export const saveNewOperation = async (idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded) => {
-  const query = "INSERT INTO operations(idOperation, status, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous , hazardousClass, bonded) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const saveNewOperation = async (idOperation, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes) => {
+  const query = "INSERT INTO operations(idOperation, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
-    await pool.query(query, [idOperation, status, modeOfOperation, customer, businessLine,  operationDate, coordinator, bookingBl, containerId, provider, cargoStatus, emptyLocation, warehouseLocation, port, terminal, po, ssline, city, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded])
+    await pool.query(query, [idOperation, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
+    console.log('Estoy en el query')
     throw error;
   }
 
@@ -228,3 +230,84 @@ export const changeOperationStatus = async (idOperation, status) => {
       throw error;
     });
 }
+
+export const changeBookingBl = async (idOperation, bookingBl) => {
+  const query = "UPDATE operations SET bookingBl = ? WHERE idOperation = ?";
+  return pool.query(query, [bookingBl, idOperation])
+    .then(() => { return true }).catch(error => {
+      console.error("Error on SQL:", error);
+      throw error;
+    });
+}
+
+export const changeContainerId = async (idOperation, containerId) => {
+  const query = "UPDATE operations SET containerId = ? WHERE idOperation = ?";
+  return pool.query(query, [containerId, idOperation])
+    .then(() => { return true }).catch(error => {
+      console.error("Error on SQL:", error);
+      throw error;
+    });
+}
+
+export const getOperationById = async (operationId) => {
+  const query = 'SELECT * FROM operations WHERE idOperation = ?';
+  return pool.query(query, [operationId])
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}
+
+export const addNewClient = async (customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON) => {
+  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?,?)"
+
+  return pool.query(query, [customerId, name, address, phonesJSON, emailsJSON, contact, businessLine, customerType])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL:", error);
+    throw error;
+  });
+}
+
+export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON) => {
+  const query = "INSERT INTO carriers3 (id, carrier_name, mc, dot, w2, carrier_address, carrier_zipcode, carrier_state, days_of_credit_terms, line_of_business, carrier_type, carrier_phone_number, carrier_contact_mail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+
+  return pool.query(query, [carrierId, name, mc, dot, w2, zipcode, address, state, doct, businessLine, carrierType, phonesJSON, emailsJSON])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL:", error);
+    throw error;
+  });
+}
+
+export const getStates = async () => {
+  const query = "SELECT * from States";
+  return pool.query(query)
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error trying to get the ports:", error);
+      throw error;
+    });
+}
+
+
+export const getAllContainerStatus = async (req, res) => {
+  const query = "SELECT * FROM container_status";
+  return pool.query(query)
+  .then(row => row[0])
+  .catch(error => {
+    console.error("Error trying to get the ports:", error);
+    throw error;
+  });
+}
+
+// export const getMaxIdOperation = async () => {
+//   const query = "SELECT max(id) from operations";
+//   return pool.query(query)
+//     .then(rows => rows.max)
+//     .catch(error => {
+//       console.log("Error trying to get max id", error);
+//       throw error;
+//     });
+// }

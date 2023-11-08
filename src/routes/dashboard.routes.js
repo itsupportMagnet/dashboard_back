@@ -20,7 +20,15 @@ import {
     newOperation,
     getAllTerminals,
     getOperations,
-    changeStatus
+    changeStatus,
+    updateBookingBl,
+    updateContainerId,
+    getOperation,
+    addClient,
+    addCarrier,
+    getAllStates,
+    getContainerStatus
+    // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 const router = Router();
@@ -46,5 +54,14 @@ router
 .post("/newOperation", newOperation)
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
-.post('/change-status', changeStatus)
+.post("/change-status", changeStatus)
+.post("/updateBookingBl", updateBookingBl)
+.post("/updateContainerID", updateContainerId)
+.get("/getOperation/:id", getOperation)
+.post("/addClient", addClient)
+.post("/addCarrier", addCarrier)
+.get("/states", getAllStates)
+.get('/container-status', getContainerStatus)
+
+// .get("/maxIdOperation", maxIdOperation )
 export default router;

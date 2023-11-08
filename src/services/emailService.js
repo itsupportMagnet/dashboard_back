@@ -15,7 +15,6 @@ export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [],
 
 
   const recipients = [
-
      "valeria.acosta@magnetlogisticscorp.com",
      "operations2@magnetlogisticscorp.com",
      "jcastro@magnetlogisticscorp.com",

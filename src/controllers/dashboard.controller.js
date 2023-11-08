@@ -20,6 +20,7 @@ import {
   getTerminals,
   getAllOperations,
   changeOperationStatus,
+  changeOperationContainerStatus,
   changeBookingBl,
   changeContainerId,
   getOperationById,
@@ -1130,6 +1131,17 @@ export const changeStatus = async (req, res) => {
   const { idOperation, status } = req.body;
 
   changeOperationStatus(idOperation, status)
+    .then(() => res.status(500).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+
+export const changeContainerStatus = async (req, res) => {
+  const { idOperation, containerStatus } = req.body;
+
+  changeOperationContainerStatus(idOperation, containerStatus)
     .then(() => res.status(500).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

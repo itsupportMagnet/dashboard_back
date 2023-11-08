@@ -21,6 +21,7 @@ import {
     getAllTerminals,
     getOperations,
     changeStatus,
+    changeContainerStatus,
     updateBookingBl,
     updateContainerId,
     getOperation,
@@ -55,6 +56,7 @@ router
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)
 .post("/change-status", changeStatus)
+.post("/change-containerStatus", changeContainerStatus)
 .post("/updateBookingBl", updateBookingBl)
 .post("/updateContainerID", updateContainerId)
 .get("/getOperation/:id", getOperation)
@@ -62,6 +64,7 @@ router
 .post("/addCarrier", addCarrier)
 .get("/states", getAllStates)
 .get('/container-status', getContainerStatus)
+
 
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

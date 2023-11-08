@@ -230,6 +230,14 @@ export const changeOperationStatus = async (idOperation, status) => {
       throw error;
     });
 }
+export const changeOperationContainerStatus = async (idOperation, status) => {
+  const query = "UPDATE operations SET containerStatus = ? WHERE idOperation = ?";
+  return pool.query(query, [status, idOperation])
+    .then(() => { return true }).catch(error => {
+      console.error("Error on SQL:", error);
+      throw error;
+    });
+}
 
 export const changeBookingBl = async (idOperation, bookingBl) => {
   const query = "UPDATE operations SET bookingBl = ? WHERE idOperation = ?";

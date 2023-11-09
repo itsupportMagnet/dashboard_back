@@ -59,7 +59,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send({ token , userName});
+          res.status(200).send({ token , userName});
           console.log (res)
 
         }
@@ -1121,7 +1121,7 @@ export const getAllTerminals = async (req, res) => {
 
 export const getOperations = async (req, res) => {
   getAllOperations()
-    .then(row => res.status(500).json(row))
+    .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);
       res.status(500).json(error);
@@ -1132,7 +1132,7 @@ export const changeStatus = async (req, res) => {
   const { idOperation, status } = req.body;
 
   changeOperationStatus(idOperation, status)
-    .then(() => res.status(500).json({ message: 'ok' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1143,7 +1143,7 @@ export const changeContainerStatus = async (req, res) => {
   const { idOperation, containerStatus } = req.body;
 
   changeOperationContainerStatus(idOperation, containerStatus)
-    .then(() => res.status(500).json({ message: 'ok' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1153,7 +1153,7 @@ export const changeContainerStatus = async (req, res) => {
 export const updateBookingBl = async (req, res) => {
   const { idOperation, bookingBl } = req.body;
   changeBookingBl(idOperation, bookingBl)
-  .then(() => res.status(500).json({ message: 'ok' }))
+  .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1163,7 +1163,7 @@ export const updateBookingBl = async (req, res) => {
 export const updateContainerId = async (req, res) => {
   const { idOperation, containerId } = req.body;
   changeContainerId(idOperation, containerId)
-  .then(() => res.status(500).json({ message: 'ok' }))
+  .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1225,7 +1225,7 @@ export const getContainerStatus = async (req, res) => {
 export const changeStatusQuote = async (req,res) => {
   const {status,id} = req.body
   changeQuote(status, id)
-  .then(()=> res.status(500).json({message: 'ok'}))
+  .then(()=> res.status(200).json({message: 'ok'}))
   .catch((error)=>{
     console.log(error);
     res.status(500).json({error})

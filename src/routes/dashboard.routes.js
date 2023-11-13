@@ -11,6 +11,7 @@ import {
     createQuote,
     getAllAccesorials,
     getQuotesFeeById,
+    getCarriersFeeByID,
     getQuote,
     sendFee,
     saveFee,
@@ -46,6 +47,7 @@ router
 .get("/quotes/:id", getQuote)
 .get("/clients", getAllClients)
 .get("/quotes-fees/:id", getQuotesFeeById)
+.get("/carriers-fees/:id", getCarriersFeeByID)
 .get("/accesorials", getAllAccesorials)
 .get("/providers", getAllProviders)
 .get("/carriers/:id", getCarriersByPort)

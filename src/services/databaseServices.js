@@ -58,17 +58,6 @@ export const getQuoteFeeById = async (id) => {
   }
 }
 
-export const getCarrierFeeByQuoteId = async (id) => {
-  const query = 'SELECT * FROM carriers_fees WHERE quoteID = ?';
-  try {
-    const [rows] = await pool.query(query, [id]);
-    return [rows]
-  } catch (error) {
-    console.error("Error to get specific quote:", error);
-    throw error;
-  }
-}
-
 export const getQuoteById = async (id) => {
   const query = 'SELECT * FROM quotes WHERE quoteID = ?';
   return pool.query(query, [id])
@@ -202,7 +191,7 @@ export const updateIdCounter = async (newCounter) => {
 }
 
 export const saveNewOperation = async (idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes) => {
-  const query = "INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
     await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes])
   } catch (error) {

@@ -58,6 +58,17 @@ export const getQuoteFeeById = async (id) => {
   }
 }
 
+export const getCarrierFeeByQuoteId = async (id) => {
+  const query = 'SELECT * FROM  WHERE quoteID = ?';
+  try {
+    const [rows] = await pool.query(query, [id]);
+    return [rows]
+  } catch (error) {
+    console.error("Error to get specific quote:", error);
+    throw error;
+  }
+}
+
 export const getQuoteById = async (id) => {
   const query = 'SELECT * FROM quotes WHERE quoteID = ?';
   return pool.query(query, [id])

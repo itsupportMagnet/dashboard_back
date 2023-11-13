@@ -14,6 +14,7 @@ import {
   updateIdCounter,
   saveNewQuote,
   getQuoteById,
+  getCarrierFeeByQuoteId,
   saveNewQuoteFee,
   saveQuoteSent,
   saveNewOperation,
@@ -786,6 +787,16 @@ export const getQuote = async (req, res) => {
 export const getQuotesFeeById = async (req, res) => {
   try {
     const [rows] = await getQuoteFeeById(req.params.id);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+};
+
+export const getCarriersFeeByID = async (req, res) => {
+  try {
+    const [rows] = await getCarrierFeeByQuoteId(req.params.id);
     res.status(200).json(rows);
   } catch (error) {
     console.error(error);

@@ -338,6 +338,16 @@ export const getAllContainerStatus = async (req, res) => {
   });
 }
 
+export const getAllQuoteIds = async () => {
+  const query = "SELECT quoteID FROM quotes";
+  return pool.query(query)
+  .then(row => row[0])
+  .catch(error => {
+    console.error("Error trying to get the ports:", error);
+    throw error;
+  });
+}
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

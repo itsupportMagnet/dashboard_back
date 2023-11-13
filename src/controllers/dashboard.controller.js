@@ -29,7 +29,8 @@ import {
   addNewCarrier,
   getStates,
   getAllContainerStatus,
-  changeQuote
+  changeQuote,
+  getAllQuoteIds
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1241,6 +1242,15 @@ export const changeStatusQuote = async (req,res) => {
     console.log(error);
     res.status(500).json({error})
   })
+}
+
+export const getQuoteIds = async (req,res) => {
+  getAllQuoteIds()
+    .then(row => res.status(200).json(row))
+    .catch((error)=>{
+      console.log(error);
+      res.status(500).json({error})
+    })
 }
 
 // export const updateContainerId = async (req, res) => {

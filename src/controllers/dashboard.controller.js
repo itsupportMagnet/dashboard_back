@@ -1041,6 +1041,7 @@ export const getAllCarriers = (req, res) => {
 export const newOperation = async (req, res) => {
   const {
     idOperation,
+    quoteID,
     status,
     containerStatus,
     modeOfOperation,
@@ -1072,6 +1073,7 @@ export const newOperation = async (req, res) => {
 
   saveNewOperation(
     idOperation,
+    quoteID,
     status,
     containerStatus,
     modeOfOperation,

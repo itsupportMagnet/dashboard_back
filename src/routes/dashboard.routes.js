@@ -31,7 +31,8 @@ import {
     getAllStates,
     getContainerStatus,
     changeStatusQuote,
-    getQuoteIds
+    getQuoteIds,
+    changeNoteQuote
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -70,6 +71,6 @@ router
 .get("/container-status", getContainerStatus)
 .post("/change-status-quote", changeStatusQuote)
 .get("/getQuoteIds", getQuoteIds)
-
+.post("/change-notes", changeNoteQuote)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

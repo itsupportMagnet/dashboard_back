@@ -131,7 +131,7 @@ export const getSales = async () => {
 }
 
 export const getCities = async () => {
-  const query = "SELECT * FROM city_state";
+  const query = "SELECT * FROM cities";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {

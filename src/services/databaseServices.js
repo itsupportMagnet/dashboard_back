@@ -140,6 +140,16 @@ export const getCities = async () => {
     })
 }
 
+export const getCitiesID = async () => {
+  const query = "SELECT * FROM cities WHERE state_id = ?";
+  return pool.query(query, [id])
+    .then(rows => rows[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}
+
 export const getClients = async () => {
   const query = "SELECT * FROM clients";
   return pool.query(query)

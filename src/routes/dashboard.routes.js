@@ -7,6 +7,7 @@ import {
     getAllPorts,
     getAllRoutes,
     getAllCities,
+    getAllCitiesID,
     getCarriersByPort,
     createQuote,
     getAllAccesorials,
@@ -57,6 +58,7 @@ router
 .post("/users/sign_in", login)
 .get("/users/verify-token", [validarJWT], verifyToken)
 .get("/cities", getAllCities)
+.get("/cities/:id", getAllCitiesID)
 .post("/newOperation", newOperation)
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)

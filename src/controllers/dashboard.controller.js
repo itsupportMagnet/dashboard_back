@@ -11,6 +11,7 @@ import {
   getCarriersList,
   getUserEmail,
   getCities,
+  getCitiesID,
   updateIdCounter,
   saveNewQuote,
   getQuoteById,
@@ -1016,6 +1017,15 @@ export const getAllSales = (req, res) => {
 
 export const getAllCities = (req, res) => {
   getCities()
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getAllCitiesID = (req, res) => {
+  getCitiesID()
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

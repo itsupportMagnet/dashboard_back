@@ -115,6 +115,7 @@ export const saveFee = async (req, res) => {
     magnetAccesorials,
     totalFee,
     totalChassis,
+    notes
   } = req.body;
 
   try {
@@ -145,7 +146,8 @@ export const saveFee = async (req, res) => {
       magnetChassis,
       magnetAccesorialsJSON,
       totalFee,
-      totalChassis
+      totalChassis,
+      notes
     );
     return res.status(200).json({ message: "ok" });
   } catch (error) {

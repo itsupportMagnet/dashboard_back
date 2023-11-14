@@ -30,7 +30,8 @@ import {
   getStates,
   getAllContainerStatus,
   changeQuote,
-  getAllQuoteIds
+  getAllQuoteIds,
+  changeNote
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1255,6 +1256,18 @@ export const getQuoteIds = async (req,res) => {
     })
 }
 
+export const changeNoteQuote = async (req,res) => {
+  //formato json enviado por el cliente
+  const {note, idOperation} = req.body
+  //ejecucion de query
+  changeNote(note, idOperation)
+  //respuesta
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch((error)=> {
+    console.log(error);
+    res.status(500).json({error})
+  })
+}
 // export const updateContainerId = async (req, res) => {
 //   const { idOperation, containerId } = req.body;
 //   changeContainerId(idOperation, containerId)

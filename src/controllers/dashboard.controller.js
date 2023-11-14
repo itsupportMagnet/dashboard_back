@@ -1025,7 +1025,7 @@ export const getAllCities = (req, res) => {
 };
 
 export const getAllCitiesID = (req, res) => {
-  getCitiesID(req.params.stateId)
+  getCitiesID(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

@@ -142,7 +142,7 @@ export const getCities = async () => {
 
 export const getCitiesID = async () => {
   const query = "SELECT * FROM cities WHERE state_id = ?";
-  return pool.query(query, [id])
+  return pool.query(query, [stateId])
     .then(rows => rows[0])
     .catch(error => {
       console.log(error);

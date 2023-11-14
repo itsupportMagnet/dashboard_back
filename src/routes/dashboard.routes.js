@@ -58,7 +58,7 @@ router
 .post("/users/sign_in", login)
 .get("/users/verify-token", [validarJWT], verifyToken)
 .get("/cities", getAllCities)
-.get("/cities/:id", getAllCitiesID)
+.get("/cities/:stateId", getAllCitiesID)
 .post("/newOperation", newOperation)
 .get("/terminals/:id", getAllTerminals)
 .get("/all-operations", getOperations)

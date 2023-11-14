@@ -1080,6 +1080,7 @@ export const newOperation = async (req, res) => {
     port,
     terminal,
     ssline,
+    state,
     city,
     equipment,
     containerSize,
@@ -1112,6 +1113,7 @@ export const newOperation = async (req, res) => {
     port,
     terminal,
     ssline,
+    state,
     city,
     equipment,
     containerSize,
@@ -1131,7 +1133,6 @@ export const newOperation = async (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).json({ error });
-      console.log('estoy aca en el catch')
     });
 };
 

@@ -11,22 +11,28 @@ import {
   getCarriersList,
   getUserEmail,
   getCities,
+  getCitiesID,
   updateIdCounter,
   saveNewQuote,
   getQuoteById,
+  getCarrierFeeByQuoteId,
   saveNewQuoteFee,
   saveQuoteSent,
   saveNewOperation,
   getTerminals,
   getAllOperations,
   changeOperationStatus,
+  changeOperationContainerStatus,
   changeBookingBl,
   changeContainerId,
   getOperationById,
   addNewClient,
   addNewCarrier,
   getStates,
-  getAllContainerStatus
+  getAllContainerStatus,
+  changeQuote,
+  getAllQuoteIds,
+  changeNote
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -57,7 +63,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.send({ token , userName});
+          res.status(200).send({ token , userName});
           console.log (res)
 
         }
@@ -109,6 +115,7 @@ export const saveFee = async (req, res) => {
     magnetAccesorials,
     totalFee,
     totalChassis,
+    notes
   } = req.body;
 
   try {
@@ -139,7 +146,8 @@ export const saveFee = async (req, res) => {
       magnetChassis,
       magnetAccesorialsJSON,
       totalFee,
-      totalChassis
+      totalChassis,
+      notes
     );
     return res.status(200).json({ message: "ok" });
   } catch (error) {
@@ -791,6 +799,16 @@ export const getQuotesFeeById = async (req, res) => {
   }
 };
 
+export const getCarriersFeeByID = async (req, res) => {
+  try {
+    const [rows] = await getCarrierFeeByQuoteId(req.params.id);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+};
+
 export const getAllAccesorials = async (req, res) => {
   getAccesorials()
     .then((row) => res.status(200).json(row))
@@ -811,9 +829,7 @@ export const createQuote = async (req, res) => {
     ContainerType,
     weight,
     commodity,
-    otherCommodity,
     hazardous,
-    slctHazardous,
     bonded,
     loadType,
     carrier,
@@ -893,36 +909,14 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
         </tr>
-        ${otherCommodity !== ""
-      ? `<tr>
-            <td
-              style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Other Comodity</td>
-            <td
-              style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${otherCommodity}</td>
-          </tr>`
-      : `<tr style="display: none">
-            <td></td>
-            <td></td>
-          </tr>`
-    }
+       
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
         </tr>
-        ${slctHazardous !== ""
-      ? `<tr>
-          <td
-            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous Class</td>
-          <td
-            style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${slctHazardous}</td>
-          </tr>`
-      : `<tr style="display: none">
-            <td></td>
-            <td></td>
-          </tr>`
-    }
+    
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Bonded</td>
@@ -958,9 +952,7 @@ export const createQuote = async (req, res) => {
     ContainerType,
     weight,
     commodity,
-    otherCommodity,
     hazardous,
-    slctHazardous,
     bonded,
     loadType,
     quoteStatus,
@@ -1034,6 +1026,15 @@ export const getAllCities = (req, res) => {
     });
 };
 
+export const getAllCitiesID = (req, res) => {
+  getCitiesID(req.params.id)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
+
 export const getAllClients = (req, res) => {
   getClients()
     .then((row) => res.status(200).json(row))
@@ -1064,6 +1065,7 @@ export const getAllCarriers = (req, res) => {
 export const newOperation = async (req, res) => {
   const {
     idOperation,
+    quoteID,
     status,
     containerStatus,
     modeOfOperation,
@@ -1080,6 +1082,7 @@ export const newOperation = async (req, res) => {
     port,
     terminal,
     ssline,
+    state,
     city,
     equipment,
     containerSize,
@@ -1095,6 +1098,7 @@ export const newOperation = async (req, res) => {
 
   saveNewOperation(
     idOperation,
+    quoteID,
     status,
     containerStatus,
     modeOfOperation,
@@ -1111,6 +1115,7 @@ export const newOperation = async (req, res) => {
     port,
     terminal,
     ssline,
+    state,
     city,
     equipment,
     containerSize,
@@ -1130,7 +1135,6 @@ export const newOperation = async (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).json({ error });
-      console.log('estoy aca en el catch')
     });
 };
 
@@ -1145,7 +1149,7 @@ export const getAllTerminals = async (req, res) => {
 
 export const getOperations = async (req, res) => {
   getAllOperations()
-    .then(row => res.status(500).json(row))
+    .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);
       res.status(500).json(error);
@@ -1156,7 +1160,18 @@ export const changeStatus = async (req, res) => {
   const { idOperation, status } = req.body;
 
   changeOperationStatus(idOperation, status)
-    .then(() => res.status(500).json({ message: 'ok' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+
+export const changeContainerStatus = async (req, res) => {
+  const { idOperation, containerStatus } = req.body;
+
+  changeOperationContainerStatus(idOperation, containerStatus)
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1166,7 +1181,7 @@ export const changeStatus = async (req, res) => {
 export const updateBookingBl = async (req, res) => {
   const { idOperation, bookingBl } = req.body;
   changeBookingBl(idOperation, bookingBl)
-  .then(() => res.status(500).json({ message: 'ok' }))
+  .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1176,7 +1191,7 @@ export const updateBookingBl = async (req, res) => {
 export const updateContainerId = async (req, res) => {
   const { idOperation, containerId } = req.body;
   changeContainerId(idOperation, containerId)
-  .then(() => res.status(500).json({ message: 'ok' }))
+  .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1234,3 +1249,45 @@ export const getContainerStatus = async (req, res) => {
     return res.status(500)
   })
 }
+
+export const changeStatusQuote = async (req,res) => {
+  const {status,id} = req.body
+  changeQuote(status, id)
+  .then(()=> res.status(200).json({message: 'ok'}))
+  .catch((error)=>{
+    console.log(error);
+    res.status(500).json({error})
+  })
+}
+
+export const getQuoteIds = async (req,res) => {
+  getAllQuoteIds()
+    .then(row => res.status(200).json(row))
+    .catch((error)=>{
+      console.log(error);
+      res.status(500).json({error})
+    })
+}
+
+export const changeNoteQuote = async (req,res) => {
+  //formato json enviado por el cliente
+  const {note, idOperation} = req.body
+  //ejecucion de query
+  changeNote(note, idOperation)
+  //respuesta
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch((error)=> {
+    console.log(error);
+    res.status(500).json({error})
+  })
+}
+// export const updateContainerId = async (req, res) => {
+//   const { idOperation, containerId } = req.body;
+//   changeContainerId(idOperation, containerId)
+//   .then(() => res.status(500).json({ message: 'ok' }))
+//     .catch(error => {
+//       console.log(error);
+//       res.status(500).json({ error })
+//     })
+
+// }

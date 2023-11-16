@@ -70,7 +70,7 @@ export const getQuoteFeeById = async (id) => {
 }
 
 export const updateCarrierFeeById = async (carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes) => {
-  const query = "UPDATE carriers_fees SET carrierEmail = ?, carrierFee = ?, carrierChassis = ?, carrierAccesorials = ?, magnetFee = ?, magnetChassis = ?, magnetAccesorials = ?, totalFee = ?, totalChassis = ?, notes = ?";
+  const query = "UPDATE carriers_fees SET carrierFee = ?, carrierChassis = ?, carrierAccesorials = ?, magnetFee = ?, magnetChassis = ?, magnetAccesorials = ?, totalFee = ?, totalChassis = ?, notes = ? WHERE carrierEmail = ?";
 
   return pool.query(query, [carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes])
   .then(row => row[0])

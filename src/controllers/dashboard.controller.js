@@ -1294,8 +1294,8 @@ export const changeNoteQuote = async (req,res) => {
 }
 export const changeQuoteId = async (req,res)=> {
   //recibimos el json(destructuracion de obj)
-  const {idOperation, quoteID} = req.body
-  changeQuotexId
+  const {quoteID, idOperation} = req.body
+  changeQuotexId(quoteID, idOperation)
   .then(()=> res.status(200).json({message: 'ok'}))
   .catch((error)=>{
     console.log(error);

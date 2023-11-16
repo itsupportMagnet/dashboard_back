@@ -8,6 +8,7 @@ import {
   getPorts,
   getAccesorials,
   getQuoteFeeById,
+  updateCarrierFeeById,
   getCarriersList,
   getUserEmail,
   getCities,
@@ -808,6 +809,15 @@ export const getCarriersFeeByID = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
+export const updateCarrierFee = async (req, res) => {
+  const {carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes} = req.body
+  updateCarrierFeeById(carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes).then(()=> res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json(error)
+  })
+}
 
 export const getAllAccesorials = async (req, res) => {
   getAccesorials()

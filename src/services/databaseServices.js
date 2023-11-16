@@ -69,6 +69,17 @@ export const getQuoteFeeById = async (id) => {
   }
 }
 
+export const updateCarrierFeeById = async (carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes) => {
+  const query = "UPDATE arriers_fees SET carrierEmail = ?, carrierFee = ?, carrierChassis = ?, carrierAccesorials = ?, magnetFee = ?, magnetChassis = ?, magnetAccesorials = ?, totalFee = ?, totalChassis = ?, notes = ?";
+
+  return pool.query(query, [carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes])
+  .then(row => row[0])
+  .catch(error => {
+    console.log("Error trying to update fee", error);
+    throw error
+  })
+}
+
 export const getQuoteById = async (id) => {
   const query = 'SELECT * FROM quotes WHERE quoteID = ?';
   return pool.query(query, [id])
@@ -170,7 +181,6 @@ export const getProviders = async () => {
     })
 }
 
-
 export const getCarriers = async (id) => {
   const query = "SELECT * from carriers WHERE port_id = ?";
   return pool.query(query, [id])
@@ -251,6 +261,7 @@ export const changeOperationStatus = async (idOperation, status) => {
       throw error;
     });
 }
+
 export const changeOperationContainerStatus = async (idOperation, status) => {
   const query = "UPDATE operations SET containerStatus = ? WHERE idOperation = ?";
   return pool.query(query, [status, idOperation])

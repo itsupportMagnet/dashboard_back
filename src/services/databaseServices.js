@@ -73,7 +73,7 @@ export const updateCarrierFeeById = async (id, carrierEmail, carrierFee, carrier
   const query = "UPDATE carriers_fees SET carrierFee = ?, carrierChassis = ?, carrierAccesorials = ?, magnetFee = ?, magnetChassis = ?, magnetAccesorials = ?, totalFee = ?, totalChassis = ?, notes = ?, carrierEmail = ? WHERE id = ?";
 
   return pool.query(query, (query, [carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes, carrierEmail, id]))
-  .then(row => row[0])
+  .then(() => true)
   .catch(error => {
     console.log("Error trying to update fee", error);
     throw error

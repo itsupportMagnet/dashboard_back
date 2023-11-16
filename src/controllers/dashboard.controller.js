@@ -814,7 +814,11 @@ export const getCarriersFeeByID = async (req, res) => {
 
 export const updateCarrierFee = async (req, res) => {
   const {id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes} = req.body
-  updateCarrierFeeById(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes).then(()=> res.status(200).json({message: 'ok'}))
+  updateCarrierFeeById(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes)
+  .then(()=> {
+    console.log(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes);
+    res.status(200).json({message: 'ok'})
+  })
   .catch(error => {
     console.log(error);
     res.status(500).json(error)

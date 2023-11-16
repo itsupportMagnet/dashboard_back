@@ -818,6 +818,7 @@ export const updateCarrierFee = async (req, res) => {
   const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
   const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
   
+  console.log(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes);
   updateCarrierFeeById(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes)
   .then(()=> res.status(200).json({message: 'ok'}))
   .catch(error => {

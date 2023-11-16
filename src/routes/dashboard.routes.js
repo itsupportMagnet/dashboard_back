@@ -51,7 +51,7 @@ router
 .get("/clients", getAllClients)
 .get("/quotes-fees/:id", getQuotesFeeById)
 .get("/carriers-fees/:id", getCarriersFeeByID)
-.update("/update-carrier-fee", updateCarrierFee)
+.post("/update-carrier-fee", updateCarrierFee)
 .get("/accesorials", getAllAccesorials)
 .get("/providers", getAllProviders)
 .get("/carriers/:id", getCarriersByPort)

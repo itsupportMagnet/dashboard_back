@@ -33,7 +33,8 @@ import {
   getAllContainerStatus,
   changeQuote,
   getAllQuoteIds,
-  changeNote
+  changeNote,
+  changeQuotexId
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1289,6 +1290,16 @@ export const changeNoteQuote = async (req,res) => {
   .catch((error)=> {
     console.log(error);
     res.status(500).json({error})
+  })
+}
+export const changeQuoteId = async (req,res)=> {
+  //recibimos el json(destructuracion de obj)
+  const {idOperation, quoteID} = req.body
+  changeQuotexId
+  .then(()=> res.status(200).json({message: 'ok'}))
+  .catch((error)=>{
+    console.log(error);
+    res.status(500).json(error)
   })
 }
 // export const updateContainerId = async (req, res) => {

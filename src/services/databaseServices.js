@@ -372,6 +372,17 @@ export const changeNote = async (note, idOperation) => {
     throw(error)
   })
 }
+export const changeQuotexId = async (quoteID, idOperation) => {
+  const query = "UPDATE operations SET quoteID = ? WHERE idOperation = ?;";
+
+  return pool.query(query,[quoteID, idOperation])
+  .then(() => {return true})
+  .catch(error => {
+    console.log(error);
+    throw error
+  })
+}
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

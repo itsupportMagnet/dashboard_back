@@ -12,7 +12,7 @@ export const getUserEmail = async (email) => {
 }
 
 export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType,cordinator) => {
-  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
+  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, cordinator) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
   try {
     await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, cordinator]);
   } catch (error) {

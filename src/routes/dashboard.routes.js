@@ -12,6 +12,7 @@ import {
     createQuote,
     getAllAccesorials,
     getQuotesFeeById,
+    updateCarrierFee,
     getCarriersFeeByID,
     getQuote,
     sendFee,
@@ -33,7 +34,8 @@ import {
     getContainerStatus,
     changeStatusQuote,
     getQuoteIds,
-    changeNoteQuote
+    changeNoteQuote,
+    changeQuoteId
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -50,6 +52,7 @@ router
 .get("/clients", getAllClients)
 .get("/quotes-fees/:id", getQuotesFeeById)
 .get("/carriers-fees/:id", getCarriersFeeByID)
+.post("/update-carrier-fee", updateCarrierFee)
 .get("/accesorials", getAllAccesorials)
 .get("/providers", getAllProviders)
 .get("/carriers/:id", getCarriersByPort)
@@ -74,5 +77,6 @@ router
 .post("/change-status-quote", changeStatusQuote)
 .get("/getQuoteIds", getQuoteIds)
 .post("/change-notes", changeNoteQuote)
+.post("/change-quoteid", changeQuoteId)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

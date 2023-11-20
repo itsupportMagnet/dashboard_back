@@ -11,10 +11,10 @@ export const getUserEmail = async (email) => {
 
 }
 
-export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType) => {
-  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
+export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType,quoteStatus,cordinator) => {
+  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType,quoteStatus, cordinator) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
   try {
-    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType]);
+    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType,quoteStatus, cordinator]);
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;
@@ -69,6 +69,17 @@ export const getQuoteFeeById = async (id) => {
   }
 }
 
+export const updateCarrierFeeById = async (id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes) => {
+  const query = "UPDATE carriers_fees SET carrierFee = ?, carrierChassis = ?, carrierAccesorials = ?, magnetFee = ?, magnetChassis = ?, magnetAccesorials = ?, totalFee = ?, totalChassis = ?, notes = ?, carrierEmail = ? WHERE id = ?";
+
+  return pool.query(query, (query, [carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes, carrierEmail, id]))
+  .then(() => true)
+  .catch(error => {
+    console.log("Error trying to update fee", error);
+    throw error
+  })
+}
+
 export const getQuoteById = async (id) => {
   const query = 'SELECT * FROM quotes WHERE quoteID = ?';
   return pool.query(query, [id])
@@ -111,7 +122,7 @@ export const getPorts = async () => {
 
 
 export const getQuotes = async () => {
-  const query = "SELECT `quoteID`, `modeOfOperation`, `quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date` FROM quotes";
+  const query = "SELECT `quoteID`, `modeOfOperation`, `quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date`,`cordinator` FROM quotes";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {
@@ -169,7 +180,6 @@ export const getProviders = async () => {
       throw error
     })
 }
-
 
 export const getCarriers = async (id) => {
   const query = "SELECT * from carriers WHERE port_id = ?";
@@ -251,6 +261,7 @@ export const changeOperationStatus = async (idOperation, status) => {
       throw error;
     });
 }
+
 export const changeOperationContainerStatus = async (idOperation, status) => {
   const query = "UPDATE operations SET containerStatus = ? WHERE idOperation = ?";
   return pool.query(query, [status, idOperation])
@@ -361,6 +372,17 @@ export const changeNote = async (note, idOperation) => {
     throw(error)
   })
 }
+export const changeQuotexId = async (quoteID, idOperation) => {
+  const query = "UPDATE operations SET quoteID = ? WHERE idOperation = ?;";
+
+  return pool.query(query,[quoteID, idOperation])
+  .then(() => {return true})
+  .catch(error => {
+    console.log(error);
+    throw error
+  })
+}
+
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

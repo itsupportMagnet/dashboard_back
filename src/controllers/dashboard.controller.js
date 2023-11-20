@@ -8,6 +8,7 @@ import {
   getPorts,
   getAccesorials,
   getQuoteFeeById,
+  updateCarrierFeeById,
   getCarriersList,
   getUserEmail,
   getCities,
@@ -32,7 +33,9 @@ import {
   getAllContainerStatus,
   changeQuote,
   getAllQuoteIds,
-  changeNote
+  changeNote,
+  changeQuotexId
+  
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -809,6 +812,21 @@ export const getCarriersFeeByID = async (req, res) => {
   }
 };
 
+export const updateCarrierFee = async (req, res) => {
+  const {id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes} = req.body
+
+  const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
+  const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
+  
+  console.log(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes);
+  updateCarrierFeeById(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes)
+  .then(()=> res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json(error)
+  })
+}
+
 export const getAllAccesorials = async (req, res) => {
   getAccesorials()
     .then((row) => res.status(200).json(row))
@@ -834,6 +852,7 @@ export const createQuote = async (req, res) => {
     loadType,
     carrier,
     quoteStatus,
+    cordinator
   } = req.body;
   const newCounter = (await getIdCounter()) + 1;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
@@ -956,6 +975,7 @@ export const createQuote = async (req, res) => {
     bonded,
     loadType,
     quoteStatus,
+    cordinator
   )
     .then(() => {
       return sendEmail(emailSubject, emailBody, bccRecipients, "");
@@ -1279,6 +1299,16 @@ export const changeNoteQuote = async (req,res) => {
   .catch((error)=> {
     console.log(error);
     res.status(500).json({error})
+  })
+}
+export const changeQuoteId = async (req,res)=> {
+  //recibimos el json(destructuracion de obj)
+  const {quoteID, idOperation} = req.body
+  changeQuotexId(quoteID, idOperation)
+  .then(()=> res.status(200).json({message: 'ok'}))
+  .catch((error)=>{
+    console.log(error);
+    res.status(500).json(error)
   })
 }
 // export const updateContainerId = async (req, res) => {

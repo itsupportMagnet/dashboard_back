@@ -34,8 +34,8 @@ import {
   changeQuote,
   getAllQuoteIds,
   changeNote,
-  changeQuotexId
-  
+  changeQuotexId,
+  changeWeigthxId
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1310,6 +1310,12 @@ export const changeQuoteId = async (req,res)=> {
     console.log(error);
     res.status(500).json(error)
   })
+}
+export const changeWeigth = async(req,res)=> {
+  const {weigth, idOperation} = req.body
+  changeWeigthxId(weigth, idOperation)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch((error) => res.status(500).json({error}))
 }
 // export const updateContainerId = async (req, res) => {
 //   const { idOperation, containerId } = req.body;

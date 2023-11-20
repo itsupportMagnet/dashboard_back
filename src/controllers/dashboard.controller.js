@@ -1312,8 +1312,8 @@ export const changeQuoteId = async (req,res)=> {
   })
 }
 export const changeWeigth = async(req,res)=> {
-  const {weigth, idOperation} = req.body
-  changeWeigthxId(weigth, idOperation)
+  const {weight, idOperation} = req.body
+  changeWeigthxId(weight, idOperation)
   .then(() => res.status(200).json({message: 'ok'}))
   .catch((error) => res.status(500).json({error}))
 }

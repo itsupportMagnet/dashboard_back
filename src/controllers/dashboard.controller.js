@@ -1329,7 +1329,7 @@ export const changeWeigth = async(req,res)=> {
 
 // }
 
-export const getTestTabla = async (req, res) => {
+export const getAllOperationsTable = async (req, res) => {
   getAllOperationsForTable(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {

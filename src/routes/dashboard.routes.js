@@ -37,7 +37,7 @@ import {
     changeNoteQuote,
     changeQuoteId,
     changeWeigth,
-    getTestTabla,
+    getAllOperationsTable,
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -81,6 +81,6 @@ router
 .post("/change-notes", changeNoteQuote)
 .post("/change-quoteid", changeQuoteId)
 .post("/change-weigth", changeWeigth)
-.get("/test-tabla", getTestTabla)
+.get("/allOperationsTable", getAllOperationsTable)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

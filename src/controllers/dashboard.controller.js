@@ -35,7 +35,8 @@ import {
   getAllQuoteIds,
   changeNote,
   changeQuotexId,
-  changeWeigthxId
+  changeWeigthxId,
+  getAllOperationsForTable
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1327,3 +1328,12 @@ export const changeWeigth = async(req,res)=> {
 //     })
 
 // }
+
+export const getTestTabla = async (req, res) => {
+  getAllOperationsForTable(req.params.id)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};

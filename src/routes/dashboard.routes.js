@@ -38,6 +38,7 @@ import {
     changeQuoteId,
     changeWeigth,
     getAllOperationsTable,
+    getFloridaQuotes
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
@@ -82,5 +83,6 @@ router
 .post("/change-quoteid", changeQuoteId)
 .post("/change-weigth", changeWeigth)
 .get("/allOperationsTable", getAllOperationsTable)
+.get("allFloridaQuotes", getFloridaQuotes)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

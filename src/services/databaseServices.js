@@ -411,3 +411,13 @@ export const getAllOperationsForTable = async () => {
       throw error
     })
 }
+
+
+export const getAllFloridaQuotes = async () => {
+  const query = "SELECT * FROM florida_quotes";
+  return pool.query(query).then(row => row[0])
+  .catch(error => {
+    console.error("Error trying to get all florida operations", error);
+    throw error
+  })
+}

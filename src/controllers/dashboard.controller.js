@@ -34,8 +34,10 @@ import {
   changeQuote,
   getAllQuoteIds,
   changeNote,
-  changeQuotexId
-  
+  changeQuotexId,
+  changeWeigthxId,
+  getAllOperationsForTable,
+  getAllFloridaQuotes
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1311,6 +1313,12 @@ export const changeQuoteId = async (req,res)=> {
     res.status(500).json(error)
   })
 }
+export const changeWeigth = async(req,res)=> {
+  const {weight, idOperation} = req.body
+  changeWeigthxId(weight, idOperation)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch((error) => res.status(500).json({error}))
+}
 // export const updateContainerId = async (req, res) => {
 //   const { idOperation, containerId } = req.body;
 //   changeContainerId(idOperation, containerId)
@@ -1321,3 +1329,21 @@ export const changeQuoteId = async (req,res)=> {
 //     })
 
 // }
+
+export const getAllOperationsTable = async (req, res) => {
+  getAllOperationsForTable(req.params.id)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getFloridaQuotes = async (req, res) => {
+  getAllFloridaQuotes()
+  .then(row => res.status(200).json(row))
+  .catch((error) => {
+    console.log(error);
+    res.status(500).json(error);
+  });
+}

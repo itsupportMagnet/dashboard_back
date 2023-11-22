@@ -1352,9 +1352,10 @@ export const updateOperationById = async(req,res) => {
     bonded,
     cargoCut,
     notes,
+    fld
   } = req.body
   updateOperation(
-    
+    fld,
     quoteID,
     status,
     containerStatus,

@@ -387,9 +387,45 @@ export const changeWeigthxId = async(weight, idOperation) => {
   return pool.query(query, [weight, idOperation])
   .then(() => {return true})
   .catch((error) => console.log(error))
-    
 }
+export const updateOperation = async(
+  quoteID,
+  status,
+  containerStatus,
+  modeOfOperation,
+  customer,
+  businessLine,
+  operationDate,
+  coordinator,
+  bookingBl,
+  containerId,
+  provider,
+  emptyLocation,
+  fullLocation,
+  warehouseLocation,
+  port,
+  terminal,
+  ssline,
+  state,
+  city,
+  equipment,
+  containerSize,
+  containerType,
+  weight,
+  commodity,
+  hazardous,
+  bonded,
+  cargoCut,
+  timeLine,
+  notes,
+  idOperation,) => {
+    const query = "UPDATE operations SET status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, emptyLocation = ?, fullLocation = ?, warehouseLocation = ?, port = ?, terminal = ?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ?, timeLine = ?, notes = ?  WHERE idOperation = ?"
+    return pool.query(query, [status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal,ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, idOperation])
+    .then(() => true)
+    .catch((error) => console.log(error))
+  }
 
+  // idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";

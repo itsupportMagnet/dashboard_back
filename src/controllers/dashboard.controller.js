@@ -36,7 +36,9 @@ import {
   changeNote,
   changeQuotexId,
   changeWeigthxId,
-  updateOperation,
+  getAllOperationsForTable,
+  getAllFloridaQuotes,
+  updateOperation
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1405,3 +1407,21 @@ export const updateOperationById = async(req,res) => {
 //     })
 
 // }
+
+export const getAllOperationsTable = async (req, res) => {
+  getAllOperationsForTable(req.params.id)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getFloridaQuotes = async (req, res) => {
+  getAllFloridaQuotes()
+  .then(row => res.status(200).json(row))
+  .catch((error) => {
+    console.log(error);
+    res.status(500).json(error);
+  });
+}

@@ -436,3 +436,24 @@ export const updateOperation = async(
 //       throw error;
 //     });
 // }
+
+
+export const getAllOperationsForTable = async () => {
+  const query = "SELECT idOperation, status, containerStatus, operationDate, bookingBl, containerId, customer, provider, notes, coordinator, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, businessLine FROM operations";
+  return pool.query(query)
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error trying to get all operations", error);
+      throw error
+    })
+}
+
+
+export const getAllFloridaQuotes = async () => {
+  const query = "SELECT * FROM florida_quotes";
+  return pool.query(query).then(row => row[0])
+  .catch(error => {
+    console.error("Error trying to get all florida operations", error);
+    throw error
+  })
+}

@@ -37,6 +37,8 @@ import {
     changeNoteQuote,
     changeQuoteId,
     changeWeigth,
+    getAllOperationsTable,
+    getFloridaQuotes,
     updateOperationById
     // maxIdOperation
 } from "../controllers/dashboard.controller.js";
@@ -81,7 +83,8 @@ router
 .post("/change-notes", changeNoteQuote)
 .post("/change-quoteid", changeQuoteId)
 .post("/change-weigth", changeWeigth)
+.get("/allOperationsTable", getAllOperationsTable)
+.get("/allFloridaQuotes", getFloridaQuotes)
 .post("/updateOperation", updateOperationById)
-// .get("/operation/:id", getOperationById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

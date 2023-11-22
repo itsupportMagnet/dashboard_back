@@ -1351,7 +1351,6 @@ export const updateOperationById = async(req,res) => {
     hazardous,
     bonded,
     cargoCut,
-    timeLine,
     notes,
   } = req.body
   updateOperation(
@@ -1383,7 +1382,6 @@ export const updateOperationById = async(req,res) => {
     hazardous,
     bonded,
     cargoCut,
-    timeLine,
     notes,
     idOperation,
   )

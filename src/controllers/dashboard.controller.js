@@ -1352,10 +1352,10 @@ export const updateOperationById = async(req,res) => {
     bonded,
     cargoCut,
     notes,
-    fld
+    lfd
   } = req.body
   updateOperation(
-    fld,
+    lfd,
     quoteID,
     status,
     containerStatus,
@@ -1395,7 +1395,7 @@ export const updateOperationById = async(req,res) => {
 //   getOperation(id)
 //   .then(() => res.status(200).json({message: 'ok'}))
 //   .catch((error) => res.status(500).json(error))
-// }
+// }s
 // export const updateContainerId = async (req, res) => {
 //   const { idOperation, containerId } = req.body;
 //   changeContainerId(idOperation, containerId)

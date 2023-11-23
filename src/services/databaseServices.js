@@ -440,7 +440,7 @@ export const updateOperation = async(
 
 
 export const getAllOperationsForTable = async () => {
-  const query = "SELECT idOperation, status, containerStatus, operationDate, bookingBl, containerId, customer, provider, notes, coordinator, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, businessLine FROM operations";
+  const query = "SELECT idOperation, status, containerStatus, operationDate, bookingBl, containerId, customer, provider, coordinator, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, businessLine, notes FROM operations";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {

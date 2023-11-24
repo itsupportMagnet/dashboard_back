@@ -87,6 +87,6 @@ router
 .get("/allOperationsTable", getAllOperationsTable)
 .get("/allFloridaQuotes", getFloridaQuotes)
 .post("/updateOperation", updateOperationById)
-.delete("/deleteOperation", deleteOperationFromTable)
+.delete("/deleteOperation/:idOperation", deleteOperationFromTable)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

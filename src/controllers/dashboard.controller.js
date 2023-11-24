@@ -38,7 +38,8 @@ import {
   changeWeigthxId,
   getAllOperationsForTable,
   getAllFloridaQuotes,
-  updateOperation
+  updateOperation,
+  deleteOperationByID
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1423,4 +1424,15 @@ export const getFloridaQuotes = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   });
+}
+
+export const deleteOperationFromTable = async (req, res) => {
+  const { idOperation } = req.params;
+
+  deleteOperationByID(idOperation)
+  .then(() => res.status(200).json({ message: "Operation Deleted Successfully"}))
+  .catch(error => {
+    console.error(error);
+    res.status(500).json( { error: "Error Deleting Operation"})
+  })
 }

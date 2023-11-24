@@ -459,7 +459,7 @@ export const getAllFloridaQuotes = async () => {
   })
 }
 
-export const deleteOperationByID = async () => {
+export const deleteOperationByID = async (idOperation) => {
   const query = "DELETE FROM operations WHERE idOperation = ?"
   return pool.execute(query, [idOperation])
     .then(() => { console.log("Operation Deleted Successfully")})

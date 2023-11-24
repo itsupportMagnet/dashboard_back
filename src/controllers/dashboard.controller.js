@@ -37,7 +37,9 @@ import {
   changeQuotexId,
   changeWeigthxId,
   getAllOperationsForTable,
-  getAllFloridaQuotes
+  getAllFloridaQuotes,
+  updateOperation,
+  deleteOperationByID
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1319,6 +1321,82 @@ export const changeWeigth = async(req,res)=> {
   .then(() => res.status(200).json({message: 'ok'}))
   .catch((error) => res.status(500).json({error}))
 }
+
+export const updateOperationById = async(req,res) => {
+  const {
+    idOperation,
+    quoteID,
+    status,
+    containerStatus,
+    modeOfOperation,
+    customer,
+    businessLine,
+    operationDate,
+    coordinator,
+    bookingBl,
+    containerId,
+    provider,
+    emptyLocation,
+    fullLocation,
+    warehouseLocation,
+    port,
+    terminal,
+    ssline,
+    state,
+    city,
+    equipment,
+    containerSize,
+    containerType,
+    weight,
+    commodity,
+    hazardous,
+    bonded,
+    cargoCut,
+    notes,
+    lfd
+  } = req.body
+  updateOperation(
+    lfd,
+    quoteID,
+    status,
+    containerStatus,
+    modeOfOperation,
+    customer,
+    businessLine,
+    operationDate,
+    coordinator,
+    bookingBl,
+    containerId,
+    provider,
+    emptyLocation,
+    fullLocation,
+    warehouseLocation,
+    port,
+    terminal,
+    ssline,
+    state,
+    city,
+    equipment,
+    containerSize,
+    containerType,
+    weight,
+    commodity,
+    hazardous,
+    bonded,
+    cargoCut,
+    notes,
+    idOperation,
+  )
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => res.status(500).json(error))
+}
+
+// export const getOperationById = async(req,res) => {
+//   const {id} = req.params
+//   getOperation(id)
+//   .then(() => res.status(200).json({message: 'ok'}))
+//   .catch((error) => res.status(500).json(error))
+// }s
 // export const updateContainerId = async (req, res) => {
 //   const { idOperation, containerId } = req.body;
 //   changeContainerId(idOperation, containerId)
@@ -1346,4 +1424,16 @@ export const getFloridaQuotes = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   });
+}
+
+export const deleteOperationFromTable = async (req, res) => {
+  const { idOperation } = req.params;
+  console.log (idOperation)
+
+  deleteOperationByID(idOperation)
+  .then(() => res.status(200).json({ message: "Operation Deleted Successfully"}))
+  .catch(error => {
+    console.error(error);
+    res.status(500).json( { error: "Error Deleting Operation"})
+  })
 }

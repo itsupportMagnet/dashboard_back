@@ -387,9 +387,46 @@ export const changeWeigthxId = async(weight, idOperation) => {
   return pool.query(query, [weight, idOperation])
   .then(() => {return true})
   .catch((error) => console.log(error))
-    
 }
+export const updateOperation = async(
+  lfd,
+  quoteID,
+  status,
+  containerStatus,
+  modeOfOperation,
+  customer,
+  businessLine,
+  operationDate,
+  coordinator,
+  bookingBl,
+  containerId,
+  provider,
+  emptyLocation,
+  fullLocation,
+  warehouseLocation,
+  port,
+  terminal,
+  ssline,
+  state,
+  city,
+  equipment,
+  containerSize,
+  containerType,
+  weight,
+  commodity,
+  hazardous,
+  bonded,
+  cargoCut,
+  notes,
+  idOperation
+  ) => {
+    const query = "UPDATE operations SET lfd = ?, status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, emptyLocation = ?, fullLocation = ?, warehouseLocation = ?, port = ?, terminal = ?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ?, notes = ?  WHERE idOperation = ?"
+    return pool.query(query, [ lfd,status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal,ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, notes, idOperation])
+    .then(() => true)
+    .catch((error) => console.log(error))
+  }
 
+  // idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes
 
 // export const getMaxIdOperation = async () => {
 //   const query = "SELECT max(id) from operations";
@@ -403,7 +440,7 @@ export const changeWeigthxId = async(weight, idOperation) => {
 
 
 export const getAllOperationsForTable = async () => {
-  const query = "SELECT idOperation, status, containerStatus, operationDate, bookingBl, containerId, customer, provider, notes, coordinator, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, businessLine FROM operations";
+  const query = "SELECT idOperation, status, containerStatus, operationDate, bookingBl, containerId, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, businessLine, notes FROM operations";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {
@@ -420,4 +457,15 @@ export const getAllFloridaQuotes = async () => {
     console.error("Error trying to get all florida operations", error);
     throw error
   })
+}
+
+export const deleteOperationByID = async (idOperation) => {
+  const query = "DELETE FROM operations WHERE idOperation = ?"
+  return pool.execute(query, [idOperation])
+    .then(() => { console.log("Operation Deleted Successfully")})
+    .catch(error => {
+      console.log("Error Operation Delete", error)
+      throw error
+    })
+
 }

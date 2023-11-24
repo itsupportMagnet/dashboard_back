@@ -38,8 +38,10 @@ import {
     changeQuoteId,
     changeWeigth,
     getAllOperationsTable,
-    getFloridaQuotes
-    // maxIdOperation
+    getFloridaQuotes,
+    updateOperationById,
+    // maxIdOperation,
+    deleteOperationFromTable
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 const router = Router();
@@ -84,5 +86,7 @@ router
 .post("/change-weigth", changeWeigth)
 .get("/allOperationsTable", getAllOperationsTable)
 .get("/allFloridaQuotes", getFloridaQuotes)
+.post("/updateOperation", updateOperationById)
+.delete("/deleteOperation/:idOperation", deleteOperationFromTable)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

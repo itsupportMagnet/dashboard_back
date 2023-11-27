@@ -1429,7 +1429,7 @@ export const getFloridaQuotes = async (req, res) => {
 
 export const newAccount = async (req,res) => {
   const {userName, email, password} = req.body
-  passwordHasheado = bcrypt.hash(password)
+  let passwordHasheado = bcrypt.hash(password)
   create(userName,email,passwordHasheado)
     .then((data) => res.status(201).json({message:data}))
     .catch((error) => res.status(500).json({error}))

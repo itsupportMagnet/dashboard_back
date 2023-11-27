@@ -3,7 +3,8 @@ import { pool } from '../../db.js';
 
 export const getUserEmail = async (email) => {
   const query = 'SELECT * FROM users WHERE email = ?'
-  return pool.query(query, [email]).then(rows => { return rows[0] }).catch(error => {
+  return pool.query(query, [email])
+  .then(rows => { return rows[0] }).catch(error => {
     console.error(error);
     throw error
   })
@@ -468,4 +469,12 @@ export const deleteOperationByID = async (idOperation) => {
       throw error
     })
 
+}
+
+export const create = async(userName, email, password) => {
+  const query = "INSERT INTO users (userID,email, password,rol, userName) VALUES (?,?,?,?,?)";
+  let userID = `users${Math.floor(Math.random()* 100000)+100}`
+  return pool.execute(query,[userID, email, password,1, userName])
+    .then(() => 'Se creo con éxito')
+    .catch((error) =>error )
 }

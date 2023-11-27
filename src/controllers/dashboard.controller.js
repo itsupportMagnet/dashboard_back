@@ -39,7 +39,8 @@ import {
   getAllOperationsForTable,
   getAllFloridaQuotes,
   updateOperation,
-  deleteOperationByID
+  deleteOperationByID,
+  create
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1424,6 +1425,13 @@ export const getFloridaQuotes = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   });
+}
+
+export const newAccount = async (req,res) => {
+  const {userName, email, password} = req.body
+  create(userName,email,password)
+    .then((data) => res.status(201).json({message:data}))
+    .catch((error) => res.status(500).json({error}))
 }
 
 export const deleteOperationFromTable = async (req, res) => {

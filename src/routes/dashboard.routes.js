@@ -41,7 +41,8 @@ import {
     getFloridaQuotes,
     updateOperationById,
     // maxIdOperation,
-    deleteOperationFromTable
+    deleteOperationFromTable,
+    newAccount
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 const router = Router();
@@ -88,5 +89,6 @@ router
 .get("/allFloridaQuotes", getFloridaQuotes)
 .post("/updateOperation", updateOperationById)
 .delete("/deleteOperation/:idOperation", deleteOperationFromTable)
+.post("/users/register", newAccount)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

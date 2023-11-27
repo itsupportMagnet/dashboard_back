@@ -1430,9 +1430,24 @@ export const getFloridaQuotes = async (req, res) => {
 export const newAccount = async (req,res) => {
   const {userName, email, password} = req.body
   let passwordHasheado = bcrypt.hash(password)
-  create(userName,email,passwordHasheado)
-    .then((data) => res.status(201).json({message:data}))
-    .catch((error) => res.status(500).json({error}))
+
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({error: 'error encrypt'})
+    }
+
+    bcrypt.hash(password, salt, async(err, hash) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({error: 'error encrypt'})
+      }
+
+      create(userName,email,hash)
+        .then((data) => res.status(201).json({message:data}))
+        .catch((error) => res.status(500).json({error}))
+    })
+  })
 }
 
 export const deleteOperationFromTable = async (req, res) => {

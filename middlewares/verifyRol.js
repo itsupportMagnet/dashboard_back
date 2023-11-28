@@ -18,8 +18,9 @@ export const validateRole = async (req, res, next) => {
   pool
     .query(query, [email])
     .then((rows) => {
-      user = rows[0];
-      if (user.rol == rol && rol == 1) {
+      const user = rows[0];
+      const userRol = user.rol
+      if (userRol == rol && userRol == 1) {
         next();
       } else {
         return res

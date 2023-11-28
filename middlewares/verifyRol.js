@@ -19,7 +19,7 @@ export const validateRole = async (req, res, next) => {
   pool
     .query(query, [email])
     .then((rows) => {
-      const user = rows[0];
+      const user = rows[0][0];
       console.log(user);
       const userRol = user.rol
       

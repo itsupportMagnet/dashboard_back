@@ -20,7 +20,9 @@ export const validateRole = async (req, res, next) => {
     .query(query, [email])
     .then((rows) => {
       const user = rows[0];
+      console.log(user);
       const userRol = user.rol
+      
       console.log('user rol de bd: '+ userRol );
       if (userRol == rol && userRol == 1) {
         next();

@@ -58,6 +58,7 @@ export const login = async (req, res) => {
       const user = data[0];
       const userName = user.userName;
       const rol = user.rol
+      
       console.log (data) ;
 
 

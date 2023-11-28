@@ -45,6 +45,7 @@ import {
     newAccount
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
+import { validateRole } from "../../middlewares/verifyRol.js";
 const router = Router();
 
 router
@@ -89,6 +90,6 @@ router
 .get("/allFloridaQuotes", getFloridaQuotes)
 .post("/updateOperation", updateOperationById)
 .delete("/deleteOperation/:idOperation", deleteOperationFromTable)
-.post("/users/register", newAccount)
+.post("/users/register",[validateRole],newAccount)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

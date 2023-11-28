@@ -5,15 +5,23 @@ export const validateRole = async (req, res, next) => {
   //verificar si el rol(localStorage) es igual al de la bd
   //v- puede seguir con la acción
   //f- tirara error
-  const { email } = req.body;
-  !email || res.status(500).json({ message: "email isn't exits or appear" });
 
+  const email = req.header('email')
+  const rol = req.header('rol')
+
+  !email || res.status(500).json({ message: "email doesn't exits or appear" });
+  !rol || res.status(500).json({message: "rol doesn't exits or appear"})
   //consulta a la bd
   query = "SELECT `rol` FROM users WHERE email = ?";
   pool
     .query(query, [email])
     .then((rows) => {
       user = rows[0]
+      if( user.rol  == rol ){
+        next()
+      }else{
+        return res.status(500).json({message: 'this rol was altered'})
+      }
 
     })
     .catch((error) => {

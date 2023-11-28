@@ -1,5 +1,6 @@
 import { pool } from "../db.js";
-
+//rol 1 is ADMIN
+//rol 2 is user or client 
 export const validateRole = async (req, res, next) => {
   //traer la info del cliente mediante la base de datos
   //verificar si el rol(localStorage) es igual al de la bd
@@ -17,10 +18,10 @@ export const validateRole = async (req, res, next) => {
     .query(query, [email])
     .then((rows) => {
       user = rows[0]
-      if( user.rol  == rol ){
+      if( user.rol  == rol && rol == 1 ){
         next()
       }else{
-        return res.status(500).json({message: 'this rol was altered'})
+        return res.status(500).json({message: "this rol was altered or this rol doesn't is admin"})
       }
 
     })

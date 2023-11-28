@@ -52,11 +52,12 @@ export const verifyToken = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-
+  
   getUserEmail(email)
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
+      const rol = user.rol
       console.log (data) ;
 
 

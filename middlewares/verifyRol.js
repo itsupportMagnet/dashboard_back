@@ -11,6 +11,7 @@ export const validateRole = async (req, res, next) => {
   const rol = req.header("rol");
   console.log(email);
   console.log(rol);
+  console.log(typeof rol)
   !email && res.status(500).json({ message: "email doesn't exits or appear" });
   !rol && res.status(500).json({ message: "rol doesn't exits or appear" });
   //consulta a la bd
@@ -20,6 +21,7 @@ export const validateRole = async (req, res, next) => {
     .then((rows) => {
       const user = rows[0];
       const userRol = user.rol
+      console.log('user rol de bd: '+ userRol );
       if (userRol == rol && userRol == 1) {
         next();
       } else {

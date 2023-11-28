@@ -9,7 +9,8 @@ export const validateRole = async (req, res, next) => {
 
   const email = req.header('email')
   const rol = req.header('rol')
-
+  console.log(email);
+  console.log(rol);
   !email || res.status(500).json({ message: "email doesn't exits or appear" });
   !rol || res.status(500).json({message: "rol doesn't exits or appear"})
   //consulta a la bd

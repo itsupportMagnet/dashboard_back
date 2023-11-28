@@ -30,7 +30,7 @@ export const validateRole = async (req, res, next) => {
         return res
           .status(500)
           .json({
-            message: "this rol was altered or this rol doesn't is admin",
+            message: "this rol was altered or this rol doesn't have enough permissions",
           });
       }
     })

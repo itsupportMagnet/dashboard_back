@@ -71,7 +71,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.status(200).send({ token , userName});
+          res.status(200).send({ token , userName, rol});
           console.log (res)
 
         }

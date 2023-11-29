@@ -478,3 +478,24 @@ export const create = async(userName, email, password) => {
     .then(() => 'Se creo con éxito')
     .catch((error) =>error )
 }
+
+export const newInputQuerySaleGross = async (bookingBl, containerId, provider, customer, date) => {
+  const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, month_of_invoice) VALUES (?,?,?,?,?)"
+
+  return pool.query(query, [bookingBl, containerId, provider, customer, date])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL Query", error);
+    throw error;
+  });
+
+}
+
+export const changeProviderSalesGross = async (idSalesGross, providerInvoice) => {
+  const query = "UPDATE sales_gross SET provider_invoice = ? WHERE id = ?";
+  return pool.query(query, [providerInvoice, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQL: ", error)
+    throw error
+  })
+}

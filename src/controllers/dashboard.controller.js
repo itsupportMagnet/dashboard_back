@@ -43,7 +43,8 @@ import {
   create,
   newInputQuerySaleGross,
   changeProviderSalesGross,
-  changeCustomerInvoiceSalesGross
+  changeCustomerInvoiceSalesGross,
+  changeStatusSalesGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1491,7 +1492,7 @@ export const updateProviderSalesGross = async (req, res) => {
   changeProviderSalesGross(idSalesGross, providerInvoice)
   .then(() => res.status(200).json({ message: "ok"}))
   .catch(error => {
-    console.log('Error updateProviderSales Controller : ' + error)
+    console.log('Error Controller updateProviderSales  : ' + error)
     res.status(500).json({ error })
   })
 }
@@ -1501,7 +1502,17 @@ export const updateCustomerInvoiceSalesGross = async (req, res) => {
   changeCustomerInvoiceSalesGross(idSalesGross, customerInvoice)
   .then(() => res.status(200).json({ message: "ok"}))
   .catch(error => {
-    console.log('Error updateCustomerInvoiceSalesGross Controller : ')
+    console.log('Error Controller updateCustomerInvoiceSalesGross  : ')
+    res.status(500).json({ error })
+  })
+}
+
+export const updateStatusSalesGross = async (req, res) => {
+  const { idSalesGross, statusSalesGross} = req.body
+  changeStatusSalesGross(idSalesGross, statusSalesGross)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .cathc(error => {
+    console.log('Error Controller updateStatusSalesGross  :  ' + error)
     res.status(500).json({ error })
   })
 }

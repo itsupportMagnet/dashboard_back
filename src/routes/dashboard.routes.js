@@ -45,7 +45,8 @@ import {
     newAccount,
     newInputSaleGross,
     updateProviderSalesGross,
-    updateCustomerInvoiceSalesGross
+    updateCustomerInvoiceSalesGross,
+    updateStatusSalesGross
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -97,5 +98,6 @@ router
 .post("/newInfoSaleGross", newInputSaleGross)
 .post("/updateProviderSalesGross", updateProviderSalesGross)
 .post("/updateCustomerInvoiceSalesGross", updateCustomerInvoiceSalesGross)
+.post("/updateStatusSalesGross", updateStatusSalesGross)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

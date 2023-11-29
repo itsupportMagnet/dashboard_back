@@ -490,3 +490,12 @@ export const newInputQuerySaleGross = async (bookingBl, containerId, provider, c
   });
 
 }
+
+export const changeProviderSalesGross = async (idSalesGross, providerInvoice) => {
+  const query = "UPDATE sales_gross SET provider_invoice = ? WHERE id = ?";
+  return pool.query(query, [providerInvoice, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQL: ", error)
+    throw error
+  })
+}

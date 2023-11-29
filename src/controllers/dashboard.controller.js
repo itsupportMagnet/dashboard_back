@@ -40,7 +40,8 @@ import {
   getAllFloridaQuotes,
   updateOperation,
   deleteOperationByID,
-  create
+  create,
+  newInputQuerySaleGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1461,4 +1462,23 @@ export const deleteOperationFromTable = async (req, res) => {
     console.error(error);
     res.status(500).json( { error: "Error Deleting Operation"})
   })
+}
+
+export const newInputSaleGross = async (req, res) => {
+  const { 
+    bookingBl,
+    containerId,
+    provider,
+    customer
+  } = req.params;
+  console.log ('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer)
+
+  newInputQuerySaleGross(bookingBl, containerId, provider, customer)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log("Error en Controlador " + error);
+  })
+
+
 }

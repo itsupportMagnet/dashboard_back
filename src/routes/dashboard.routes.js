@@ -42,7 +42,8 @@ import {
     updateOperationById,
     // maxIdOperation,
     deleteOperationFromTable,
-    newAccount
+    newAccount,
+    newInputSaleGross
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -91,5 +92,6 @@ router
 .post("/updateOperation", updateOperationById)
 .delete("/deleteOperation/:idOperation", deleteOperationFromTable)
 .post("/users/register",[validateRole],newAccount)
+.post("/newInfoSaleGross", newInputSaleGross)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

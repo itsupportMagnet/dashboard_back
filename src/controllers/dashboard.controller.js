@@ -1470,7 +1470,7 @@ export const newInputSaleGross = async (req, res) => {
     containerId,
     provider,
     customer
-  } = req.params;
+  } = req.body;
   console.log ('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer)
 
   newInputQuerySaleGross(bookingBl, containerId, provider, customer)

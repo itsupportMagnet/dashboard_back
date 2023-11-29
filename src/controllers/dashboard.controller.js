@@ -42,7 +42,8 @@ import {
   deleteOperationByID,
   create,
   newInputQuerySaleGross,
-  changeProviderSalesGross
+  changeProviderSalesGross,
+  changeCustomerInvoiceSalesGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1490,7 +1491,17 @@ export const updateProviderSalesGross = async (req, res) => {
   changeProviderSalesGross(idSalesGross, providerInvoice)
   .then(() => res.status(200).json({ message: "ok"}))
   .catch(error => {
-    console.log('Error updateProviderSales Controller :' + error)
+    console.log('Error updateProviderSales Controller : ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const updateCustomerInvoiceSalesGross = async (req, res) => {
+  const { idSalesGross, customerInvoice } = req.body
+  changeCustomerInvoiceSalesGross(idSalesGross, customerInvoice)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    console.log('Error updateCustomerInvoiceSalesGross Controller : ')
     res.status(500).json({ error })
   })
 }

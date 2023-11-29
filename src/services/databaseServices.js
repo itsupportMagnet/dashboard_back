@@ -499,3 +499,12 @@ export const changeProviderSalesGross = async (idSalesGross, providerInvoice) =>
     throw error
   })
 }
+
+export const changeCustomerInvoiceSalesGross = async (idSalesGross, customerInvoice) => {
+  const query = "UPDATE sales_gross SET invoice = ? WHERE id = ?";
+  return pool.query(query, [customerInvoice, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQL: ", error)
+    throw error
+  })
+}

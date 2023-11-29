@@ -474,7 +474,7 @@ export const deleteOperationByID = async (idOperation) => {
 export const create = async(userName, email, password) => {
   const query = "INSERT INTO users (userID,email, password,rol, userName) VALUES (?,?,?,?,?)";
   let userID = `users${Math.floor(Math.random()* 100000)+100}`
-  return pool.execute(query,[userID, email, password,1, userName])
+  return pool.execute(query,[userID, email, password,2, userName])
     .then(() => 'Se creo con éxito')
     .catch((error) =>error )
 }

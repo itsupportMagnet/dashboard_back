@@ -1511,7 +1511,7 @@ export const updateStatusSalesGross = async (req, res) => {
   const { idSalesGross, statusSalesGross} = req.body
   changeStatusSalesGross(idSalesGross, statusSalesGross)
   .then(() => res.status(200).json({ message: "ok"}))
-  .cathc(error => {
+  .catch(error => {
     console.log('Error Controller updateStatusSalesGross  :  ' + error)
     res.status(500).json({ error })
   })

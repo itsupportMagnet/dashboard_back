@@ -3,7 +3,8 @@ import { pool } from '../../db.js';
 
 export const getUserEmail = async (email) => {
   const query = 'SELECT * FROM users WHERE email = ?'
-  return pool.query(query, [email]).then(rows => { return rows[0] }).catch(error => {
+  return pool.query(query, [email])
+  .then(rows => { return rows[0] }).catch(error => {
     console.error(error);
     throw error
   })
@@ -440,7 +441,7 @@ export const updateOperation = async(
 
 
 export const getAllOperationsForTable = async () => {
-  const query = "SELECT idOperation, operationDate, status, containerId, containerStatus, bookingBl, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID FROM operations";
+  const query = "SELECT idOperation, operationDate, status, containerId, containerStatus, bookingBl, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, notes FROM operations";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {
@@ -468,4 +469,78 @@ export const deleteOperationByID = async (idOperation) => {
       throw error
     })
 
+}
+
+export const create = async(userName, email, password) => {
+  const query = "INSERT INTO users (userID,email, password,rol, userName) VALUES (?,?,?,?,?)";
+  let userID = `users${Math.floor(Math.random()* 100000)+100}`
+  return pool.execute(query,[userID, email, password,2, userName])
+    .then(() => 'Se creo con éxito')
+    .catch((error) =>error )
+}
+
+export const newInputQuerySaleGross = async (bookingBl, containerId, provider, customer, date) => {
+  const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, month_of_invoice) VALUES (?,?,?,?,?)"
+
+  return pool.query(query, [bookingBl, containerId, provider, customer, date])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL Query", error);
+    throw error;
+  });
+
+}
+
+export const changeProviderSalesGross = async (idSalesGross, providerInvoice) => {
+  const query = "UPDATE sales_gross SET provider_invoice = ? WHERE id = ?";
+  return pool.query(query, [providerInvoice, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQL: ", error)
+    throw error
+  })
+}
+
+export const changeCustomerInvoiceSalesGross = async (idSalesGross, customerInvoice) => {
+  const query = "UPDATE sales_gross SET invoice = ? WHERE id = ?";
+  return pool.query(query, [customerInvoice, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQL: ", error)
+    throw error
+  })
+}
+
+export const changeStatusSalesGross = async (idSalesGross, statusSalesGross) => {
+  const query = "UPDATE sales_gross SET status = ? WHERE id = ?";
+  return pool.query(query, [statusSalesGross, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQL :", error)
+    throw error
+  })
+}
+
+export const changeBuySalesGross = async (idSalesGross, buySalesGross) => {
+  const query = "UPDATE sales_gross SET buy = ? WHERE id = ?";
+  return pool.query(query, [buySalesGross, idSalesGross])
+  .then(() => {return true}).catch(error =>{
+    console.error("Error on SQL : " + error)
+    throw error
+  })
+}
+
+export const changeSellSalesGross = async (idSalesGross, sellSalesGross) => {
+  const query = "UPDATE sales_gross SET sell = ? WHERE id = ?";
+  return pool.query(query, [sellSalesGross, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQl : " + error)
+    throw error
+  })
+}
+
+export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => {
+  const query = "UPDATE sales_gross SET profit = ? WHERE id = ?";
+  return pool.query(query, [profitSalesGross, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQl :" + error)
+    throw error
+  })
 }

@@ -39,7 +39,15 @@ import {
   getAllOperationsForTable,
   getAllFloridaQuotes,
   updateOperation,
-  deleteOperationByID
+  deleteOperationByID,
+  create,
+  newInputQuerySaleGross,
+  changeProviderSalesGross,
+  changeCustomerInvoiceSalesGross,
+  changeStatusSalesGross,
+  changeBuySalesGross,
+  changeSellSalesGross,
+  changeProfitSalesGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -51,11 +59,13 @@ export const verifyToken = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-
+  
   getUserEmail(email)
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
+      const rol = user.rol
+      
       console.log (data) ;
 
 
@@ -70,7 +80,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.status(200).send({ token , userName});
+          res.status(200).send({ token , userName, rol});
           console.log (res)
 
         }
@@ -1426,6 +1436,28 @@ export const getFloridaQuotes = async (req, res) => {
   });
 }
 
+export const newAccount = async (req,res) => {
+  const {userName, email, password} = req.body
+
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({error: 'error encrypt'})
+    }
+
+    bcrypt.hash(password, salt, async(err, hash) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({error: 'error encrypt'})
+      }
+
+      create(userName,email,hash)
+        .then((data) => res.status(201).json({message:data}))
+        .catch((error) => res.status(500).json({error}))
+    })
+  })
+}
+
 export const deleteOperationFromTable = async (req, res) => {
   const { idOperation } = req.params;
   console.log (idOperation)
@@ -1435,5 +1467,85 @@ export const deleteOperationFromTable = async (req, res) => {
   .catch(error => {
     console.error(error);
     res.status(500).json( { error: "Error Deleting Operation"})
+  })
+}
+
+export const newInputSaleGross = async (req, res) => {
+  const { 
+    bookingBl,
+    containerId,
+    provider,
+    customer,
+    date
+  } = req.body;
+  console.log ('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + ' con la fecha de: ' + date
+
+  newInputQuerySaleGross(bookingBl, containerId, provider, customer, date)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log("Error en Controlador " + error);
+  })
+
+
+}
+
+export const updateProviderSalesGross = async (req, res) => {
+  const { idSalesGross , providerInvoice } = req.body
+  changeProviderSalesGross(idSalesGross, providerInvoice)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    console.log('Error Controller updateProviderSales  : ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const updateCustomerInvoiceSalesGross = async (req, res) => {
+  const { idSalesGross, customerInvoice } = req.body
+  changeCustomerInvoiceSalesGross(idSalesGross, customerInvoice)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    console.log('Error Controller updateCustomerInvoiceSalesGross  : ')
+    res.status(500).json({ error })
+  })
+}
+
+export const updateStatusSalesGross = async (req, res) => {
+  const { idSalesGross, statusSalesGross} = req.body
+  changeStatusSalesGross(idSalesGross, statusSalesGross)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    console.log('Error Controller updateStatusSalesGross  :  ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const updateBuySalesGross = async (req, res) => {
+  const { idSalesGross, buySalesGross} = req.body
+  changeBuySalesGross( idSalesGross, buySalesGross)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    console.log('Error Controller updateBuySalesGross : ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const updateSellSalesGross = async (req, res) => {
+  const { idSalesGross, sellSalesGross} = req.body
+  changeSellSalesGross( idSalesGross, sellSalesGross)
+  .then(() => res.status(200).json( {message: "ok"}))
+  .catch(error => {
+    console.log('Error Controller updateSellSalesGross: ' + error)
+    res.status(500).json({ error })
+  }) 
+}
+
+export const updateProfitSalesGross = async (req, res) => {
+  const { idSalesGross, profitSalesGross} = req.body
+  changeProfitSalesGross( idSalesGross, profitSalesGross)
+  .then(() => res.status(200).json( {message: "updated profit"}))
+  .catch(error => {
+    console.log('Error Controller updateProfitSalesGross: ' + error)
+    res.status(500).json({ error })
   })
 }

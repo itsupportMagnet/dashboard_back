@@ -41,9 +41,18 @@ import {
     getFloridaQuotes,
     updateOperationById,
     // maxIdOperation,
-    deleteOperationFromTable
+    deleteOperationFromTable,
+    newAccount,
+    newInputSaleGross,
+    updateProviderSalesGross,
+    updateCustomerInvoiceSalesGross,
+    updateStatusSalesGross,
+    updateBuySalesGross,
+    updateSellSalesGross,
+    updateProfitSalesGross
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
+import { validateRole } from "../../middlewares/verifyRol.js";
 const router = Router();
 
 router
@@ -88,5 +97,13 @@ router
 .get("/allFloridaQuotes", getFloridaQuotes)
 .post("/updateOperation", updateOperationById)
 .delete("/deleteOperation/:idOperation", deleteOperationFromTable)
+.post("/users/register",[validateRole],newAccount)
+.post("/newInfoSaleGross", newInputSaleGross)
+.post("/updateProviderSalesGross", updateProviderSalesGross)
+.post("/updateCustomerInvoiceSalesGross", updateCustomerInvoiceSalesGross)
+.post("/updateStatusSalesGross", updateStatusSalesGross)
+.post("/updateBuySalesGross", updateBuySalesGross)
+.post("/updateSellSalesGross", updateSellSalesGross)
+.post("/updateProfitSalesGross", updateProfitSalesGross)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -38,7 +38,8 @@ import {
   changeWeigthxId,
   getAllOperationsForTable,
   getAllFloridaQuotes,
-  updateOperation
+  updateOperation,
+  deleteOperationByID
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1351,11 +1352,11 @@ export const updateOperationById = async(req,res) => {
     hazardous,
     bonded,
     cargoCut,
-    timeLine,
     notes,
+    lfd
   } = req.body
   updateOperation(
-    
+    lfd,
     quoteID,
     status,
     containerStatus,
@@ -1383,7 +1384,6 @@ export const updateOperationById = async(req,res) => {
     hazardous,
     bonded,
     cargoCut,
-    timeLine,
     notes,
     idOperation,
   )
@@ -1396,7 +1396,7 @@ export const updateOperationById = async(req,res) => {
 //   getOperation(id)
 //   .then(() => res.status(200).json({message: 'ok'}))
 //   .catch((error) => res.status(500).json(error))
-// }
+// }s
 // export const updateContainerId = async (req, res) => {
 //   const { idOperation, containerId } = req.body;
 //   changeContainerId(idOperation, containerId)
@@ -1424,4 +1424,16 @@ export const getFloridaQuotes = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   });
+}
+
+export const deleteOperationFromTable = async (req, res) => {
+  const { idOperation } = req.params;
+  console.log (idOperation)
+
+  deleteOperationByID(idOperation)
+  .then(() => res.status(200).json({ message: "Operation Deleted Successfully"}))
+  .catch(error => {
+    console.error(error);
+    res.status(500).json( { error: "Error Deleting Operation"})
+  })
 }

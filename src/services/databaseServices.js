@@ -519,10 +519,19 @@ export const changeStatusSalesGross = async (idSalesGross, statusSalesGross) => 
 }
 
 export const changeBuySalesGross = async (idSalesGross, buySalesGross) => {
-  const query = "UPDATE sales_gross SET status = ? WHERE id = ?";
+  const query = "UPDATE sales_gross SET buy = ? WHERE id = ?";
   return pool.query(query, [buySalesGross, idSalesGross])
   .then(() => {return true}).catch(error =>{
     console.error("Error on SQL : " + error)
+    throw error
+  })
+}
+
+export const changeSellSalesGross = async (idSalesGross, sellSalesGross) => {
+  const query = "UPDATE sales_gross SET sell = ? WHERE id = ?";
+  return pool.query(query, [sellSalesGross, idSalesGross])
+  .then(() => {return true}).catch(error => {
+    console.error("Error on SQl : " + error)
     throw error
   })
 }

@@ -44,7 +44,8 @@ import {
   newInputQuerySaleGross,
   changeProviderSalesGross,
   changeCustomerInvoiceSalesGross,
-  changeStatusSalesGross
+  changeStatusSalesGross,
+  changeBuySalesGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1513,6 +1514,16 @@ export const updateStatusSalesGross = async (req, res) => {
   .then(() => res.status(200).json({ message: "ok"}))
   .catch(error => {
     console.log('Error Controller updateStatusSalesGross  :  ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const updateBuySalesGross = async (req, res) => {
+  const { idSalesGross, buySalesGross} = req.body
+  changeBuySalesGross( idSalesGross, buySalesGross)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    console.log('Error Controller updateBuySalesGross : ' + error)
     res.status(500).json({ error })
   })
 }

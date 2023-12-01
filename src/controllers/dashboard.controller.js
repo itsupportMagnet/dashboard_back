@@ -1550,8 +1550,8 @@ export const updateProfitSalesGross = async (req, res) => {
 }
 
 export const deleteSale = async (req, res) => {
-  const { id } = req.params
-  console.log(id);
+  const { id } = req.params;
+  
   deleteSaleById(id)
   .then(res.status(200).json({message: 'ok'}))
   .catch(error => {

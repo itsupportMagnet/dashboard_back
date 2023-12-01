@@ -1553,6 +1553,9 @@ export const updateProfitSalesGross = async (req, res) => {
 
 export const deleteSale = async (req, res) => {
   const { saleId } = req.params;
+
+  console.log('controller '+saleId);
+
   deleteSaleById(saleId)
   .then(res.status(200).json({message: 'ok'}))
   .catch(error => {

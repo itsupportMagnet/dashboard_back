@@ -547,7 +547,6 @@ export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => 
 }
 
 export const deleteSaleById = async (sale_id) => {
-  console.log(sale_id);
   const query = "DELETE FROM operations WHERE id = ?";
   return pool.query(query, [sale_id])
   .then(() => {return true})

@@ -547,9 +547,10 @@ export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => 
 }
 
 export const deleteSaleById = async (saleId) => {
+  console.log(saleId);
   const query = "DELETE FROM operations WHERE id = ?";
   return pool.query(query, [saleId])
-  .then(() => true)
+  .then(() => {return true})
   .catch(error => {
     console.error("Error on SQL :" + error)
     throw error

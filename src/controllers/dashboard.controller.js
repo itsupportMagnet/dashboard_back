@@ -47,7 +47,8 @@ import {
   changeStatusSalesGross,
   changeBuySalesGross,
   changeSellSalesGross,
-  changeProfitSalesGross
+  changeProfitSalesGross,
+  deleteSaleById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1546,6 +1547,16 @@ export const updateProfitSalesGross = async (req, res) => {
   .then(() => res.status(200).json( {message: "updated profit"}))
   .catch(error => {
     console.log('Error Controller updateProfitSalesGross: ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const deleteSale = async (req, res) => {
+  const { saleId } = req.params;
+  deleteSaleById(saleId)
+  .then(res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log('Error Controller deleteSale: ' + error)
     res.status(500).json({ error })
   })
 }

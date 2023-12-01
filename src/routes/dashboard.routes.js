@@ -49,7 +49,8 @@ import {
     updateStatusSalesGross,
     updateBuySalesGross,
     updateSellSalesGross,
-    updateProfitSalesGross
+    updateProfitSalesGross,
+    deleteSale
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -96,7 +97,7 @@ router
 .get("/allOperationsTable", getAllOperationsTable)
 .get("/allFloridaQuotes", getFloridaQuotes)
 .post("/updateOperation", updateOperationById)
-.delete("/deleteOperation/:idOperation", deleteOperationFromTable)
+.delete("/deleteOperation/:id", deleteOperationFromTable)
 .post("/users/register",[validateRole],newAccount)
 .post("/newInfoSaleGross", newInputSaleGross)
 .post("/updateProviderSalesGross", updateProviderSalesGross)
@@ -105,5 +106,6 @@ router
 .post("/updateBuySalesGross", updateBuySalesGross)
 .post("/updateSellSalesGross", updateSellSalesGross)
 .post("/updateProfitSalesGross", updateProfitSalesGross)
+.delete("/deleteSale/:id", deleteSale)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

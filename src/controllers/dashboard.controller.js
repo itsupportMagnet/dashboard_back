@@ -1460,7 +1460,8 @@ export const newAccount = async (req,res) => {
 }
 
 export const deleteOperationFromTable = async (req, res) => {
-  deleteOperationByID(req.params.id)
+  const {id} = req.params
+  deleteOperationByID(id)
   .then(() => res.status(200).json({ message: "Operation Deleted Successfully"}))
   .catch(error => {
     console.error(error);
@@ -1549,7 +1550,9 @@ export const updateProfitSalesGross = async (req, res) => {
 }
 
 export const deleteSale = async (req, res) => {
-  deleteSaleById(req.params.id)
+  const { id } = req.params
+  console.log(id);
+  deleteSaleById(id)
   .then(res.status(200).json({message: 'ok'}))
   .catch(error => {
     console.log('Error Controller deleteSale: ' + error)

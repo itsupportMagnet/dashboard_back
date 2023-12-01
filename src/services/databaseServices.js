@@ -460,9 +460,9 @@ export const getAllFloridaQuotes = async () => {
   })
 }
 
-export const deleteOperationByID = async (idOperation) => {
+export const deleteOperationByID = async (id) => {
   const query = "DELETE FROM operations WHERE idOperation = ?"
-  return pool.execute(query, [idOperation])
+  return pool.execute(query, [id])
     .then(() => { console.log("Operation Deleted Successfully")})
     .catch(error => {
       console.log("Error Operation Delete", error)
@@ -546,9 +546,9 @@ export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => 
   })
 }
 
-export const deleteSaleById = async (sale_id) => {
+export const deleteSaleById = async (id) => {
   const query = "DELETE FROM operations WHERE id = ?";
-  return pool.query(query, [sale_id])
+  return pool.query(query, [id])
   .then(() => {return true})
   .catch(error => {
     console.error("Error on SQL :" + error)

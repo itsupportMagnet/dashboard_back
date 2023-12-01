@@ -106,6 +106,6 @@ router
 .post("/updateBuySalesGross", updateBuySalesGross)
 .post("/updateSellSalesGross", updateSellSalesGross)
 .post("/updateProfitSalesGross", updateProfitSalesGross)
-.delete("/deleteSale/:id", deleteSale)
+.delete("/delete-sale/:id", deleteSale)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -51,7 +51,8 @@ import {
     updateSellSalesGross,
     updateProfitSalesGross,
     deleteSale,
-    getFloridaQuoteId
+    getFloridaQuoteId,
+    getFloridaQuote
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -109,5 +110,6 @@ router
 .post("/updateProfitSalesGross", updateProfitSalesGross)
 .delete("/delete-sale/:id", deleteSale)
 .get("/get-florida-quoteId", getFloridaQuoteId)
+.get("/get-florida-quote/:id", getFloridaQuote)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -567,3 +567,13 @@ export const getAllFloridaQuoteId = async () => {
     throw error;
   });
 }
+
+export const getFloridaQuoteById = async id => {
+  const query = "SELECT * FROM florida_quotes WHERE quoteID = ?";
+  return pool.query(query, [id])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error trying to get the quotes id:", error);
+    throw error;
+  });
+}

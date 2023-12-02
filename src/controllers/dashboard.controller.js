@@ -49,7 +49,8 @@ import {
   changeSellSalesGross,
   changeProfitSalesGross,
   deleteSaleById,
-  getAllFloridaQuoteId
+  getAllFloridaQuoteId,
+  getFloridaQuoteById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1566,6 +1567,15 @@ export const getFloridaQuoteId = async (req, res) => {
   .then(row => res.status(200).json(row))
   .catch(error => {
     console.log('Error Controller getFloridaQuoteId: ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const getFloridaQuote = async (req, res) => {
+  getFloridaQuoteById(req.params.id)
+  .then(row => res.status(200).json(row))
+  .catch(error => {
+    console.log('Error Controller getFloridaQuote: ' + error)
     res.status(500).json({ error })
   })
 }

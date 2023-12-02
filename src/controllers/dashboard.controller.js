@@ -48,7 +48,8 @@ import {
   changeBuySalesGross,
   changeSellSalesGross,
   changeProfitSalesGross,
-  deleteSaleById
+  deleteSaleById,
+  getAllFloridaQuoteId
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1556,6 +1557,14 @@ export const deleteSale = async (req, res) => {
   .then(res.status(200).json({message: 'ok'}))
   .catch(error => {
     console.log('Error Controller deleteSale: ' + error)
+    res.status(500).json({ error })
+  })
+}
+
+export const getFloridaQuoteId = async (req, res) => {
+  getAllFloridaQuoteId(rows => res.status(200).json(rows))
+  .catch(error => {
+    console.log('Error Controller getFloridaQuoteId: ' + error)
     res.status(500).json({ error })
   })
 }

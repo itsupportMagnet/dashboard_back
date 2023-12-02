@@ -557,3 +557,13 @@ console.log('database: '+id);
     throw error
   })
 }
+
+export const getAllFloridaQuoteId = async () => {
+  const query = "SELECT quoteID FROM florida_quotes";
+  return pool.query(query)
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error on SQL :" + error)
+    throw error
+  })
+}

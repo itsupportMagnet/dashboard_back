@@ -561,9 +561,9 @@ console.log('database: '+id);
 export const getAllFloridaQuoteId = async () => {
   const query = "SELECT quoteID FROM florida_quotes";
   return pool.query(query)
-  .then(rows => rows[0])
+  .then(row => row[0])
   .catch(error => {
-    console.error("Error on SQL :" + error)
-    throw error
-  })
+    console.error("Error trying to get the quotes id:", error);
+    throw error;
+  });
 }

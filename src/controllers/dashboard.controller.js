@@ -1573,7 +1573,7 @@ export const getFloridaQuoteId = async (req, res) => {
 
 export const getFloridaQuote = async (req, res) => {
   getFloridaQuoteById(req.params.id)
-  .then(row => res.status(200).json(row))
+  .then(row => res.status(200).json(row[0]))
   .catch(error => {
     console.log('Error Controller getFloridaQuote: ' + error)
     res.status(500).json({ error })

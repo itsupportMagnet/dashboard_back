@@ -73,7 +73,7 @@ router
 .get("/get/accesorials", getAllAccesorials)
 .get("/get/providers", getAllProviders)
 .get("/get/carriers/:id", getCarriersByPort)
-.get("/ports", getAllPorts)
+.get("/get/ports", getAllPorts)
 .get("/get/carriers", getAllCarriers)
 .post("/login/users/sign_in", login)
 .get("/login/users/verify-token", [validarJWT], verifyToken)

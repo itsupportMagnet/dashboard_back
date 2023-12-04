@@ -383,7 +383,7 @@ export const changeQuotexId = async (quoteID, idOperation) => {
     throw error
   })
 }
-export const changeWeigthxId = async(weight, idOperation) => {
+export const changeWeightxId = async(weight, idOperation) => {
   const query = "UPDATE operations SET weight = ? WHERE idOperation = ?;";
   return pool.query(query, [weight, idOperation])
   .then(() => {return true})

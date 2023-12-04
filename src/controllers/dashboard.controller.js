@@ -35,7 +35,7 @@ import {
   getAllQuoteIds,
   changeNote,
   changeQuotexId,
-  changeWeigthxId,
+  changeWeightxId,
   getAllOperationsForTable,
   getAllFloridaQuotes,
   updateOperation,
@@ -1328,9 +1328,9 @@ export const changeQuoteId = async (req,res)=> {
     res.status(500).json(error)
   })
 }
-export const changeWeigth = async(req,res)=> {
+export const changeWeight = async(req,res)=> {
   const {weight, idOperation} = req.body
-  changeWeigthxId(weight, idOperation)
+  changeWeightxId(weight, idOperation)
   .then(() => res.status(200).json({message: 'ok'}))
   .catch((error) => res.status(500).json({error}))
 }

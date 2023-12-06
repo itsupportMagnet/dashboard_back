@@ -491,7 +491,7 @@ export const newInputQuerySaleGross = async (bookingBl, containerId, provider, c
 
 }
 
-export const newInputQueryFlSaleGross = async (bookingBl, containerId, provider, customer, date) => {
+export const newInputQueryFLSaleGross = async (bookingBl, containerId, provider, customer, date) => {
   const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, month_of_invoice) VALUES (?,?,?,?,?)"
 
   return pool.query(query, [bookingBl, containerId, provider, customer, date])

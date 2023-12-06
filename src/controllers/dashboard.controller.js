@@ -63,14 +63,14 @@ export const verifyToken = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  
+
   getUserEmail(email)
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
       const rol = user.rol
-      
-      console.log (data) ;
+
+      console.log(data);
 
 
       //verify password
@@ -84,8 +84,8 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.status(200).send({ token , userName, rol});
-          console.log (res)
+          res.status(200).send({ token, userName, rol });
+          console.log(res)
 
         }
       });
@@ -616,45 +616,45 @@ export const sendFee = async (req, res) => {
           <div style="margin-top: 1rem; text-align: center">
           
           ${!Object.entries(accesorialsWithFee).length ? (
-              ' <p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
-            ) : (
-              `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
+      ' <p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
+    ) : (
+      `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                     ${Object.entries(accesorialsWithFee)
-                .slice(0, 7)
-                .map(
-                  ([item, value]) => `
+        .slice(0, 7)
+        .map(
+          ([item, value]) => `
                     <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
                         ${item}: $${value}
                       </p>`
-                )
-                .join("")}
+        )
+        .join("")}
                   </div>
 
                   <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                   ${Object.entries(accesorialsWithFee)
-                .slice(7, 13)
-                .map(
-                  ([item, value]) => `
+        .slice(7, 13)
+        .map(
+          ([item, value]) => `
                     <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
                         ${item}: $${value}
                       </p>`
-                )
-                .join("")}
+        )
+        .join("")}
                   </div>
 
                   <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
                   ${Object.entries(accesorialsWithFee)
-                .slice(13, 18)
-                .map(
-                  ([item, value]) => `
+        .slice(13, 18)
+        .map(
+          ([item, value]) => `
                     <p style="width: 16.5%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">
                         ${item}: $${value}
                       </p>`
-                )
-                .join("")}
+        )
+        .join("")}
                   </div>
         `
-            )}
+    )}
         
             
               <h3 style="font-size: 22px; font-weight:700; line-height: 1.75rem; text-align: center; margin-top: 25px; text-decoration: underline;">Also may apply</h3>
@@ -831,18 +831,18 @@ export const getCarriersFeeByID = async (req, res) => {
 };
 
 export const updateCarrierFee = async (req, res) => {
-  const {id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes} = req.body
+  const { id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes } = req.body
 
   const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
   const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
-  
+
   console.log(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes);
   updateCarrierFeeById(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes)
-  .then(()=> res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json(error)
-  })
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json(error)
+    })
 }
 
 export const getAllAccesorials = async (req, res) => {
@@ -1219,7 +1219,7 @@ export const changeContainerStatus = async (req, res) => {
 export const updateBookingBl = async (req, res) => {
   const { idOperation, bookingBl } = req.body;
   changeBookingBl(idOperation, bookingBl)
-  .then(() => res.status(200).json({ message: 'ok' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1229,7 +1229,7 @@ export const updateBookingBl = async (req, res) => {
 export const updateContainerId = async (req, res) => {
   const { idOperation, containerId } = req.body;
   changeContainerId(idOperation, containerId)
-  .then(() => res.status(200).json({ message: 'ok' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
       res.status(500).json({ error })
@@ -1239,8 +1239,8 @@ export const updateContainerId = async (req, res) => {
 
 export const getOperation = async (req, res) => {
   getOperationById(req.params.id)
-  .then(data => res.status(200).json(data))
-  .catch(error => res.status(500).json({error}))
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
 }
 
 export const addClient = async (req, res) => {
@@ -1250,11 +1250,11 @@ export const addClient = async (req, res) => {
   const phonesJSON = JSON.stringify(phoneNumbers);
 
   addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
-  .then(() => res.status(200).json({ message: "ok" }))
-  .catch(error => {
-    res.status(500).json(error);
-    console.log(error);
-  })
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log(error);
+    })
 }
 
 export const addCarrier = async (req, res) => {
@@ -1262,12 +1262,12 @@ export const addCarrier = async (req, res) => {
   const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails } = req.body;
   const phonesJSON = JSON.stringify(phoneNumbers);
   const emailsJSON = JSON.stringify(carrierEmails);
-  addNewCarrier( carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON )
-  .then(() => res.status(200).json({ message: "ok" }))
-  .catch(error => {
-    res.status(500).json(error);
-    console.log(error);
-  })
+  addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON)
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log(error);
+    })
 }
 
 export const getAllStates = async (req, res) => {
@@ -1281,62 +1281,62 @@ export const getAllStates = async (req, res) => {
 
 export const getContainerStatus = async (req, res) => {
   getAllContainerStatus()
-  .then(row => res.status(200).json(row))
-  .catch(error => {
-    console.log(error);
-    return res.status(500)
-  })
-}
-
-export const changeStatusQuote = async (req,res) => {
-  const {status,id} = req.body
-  changeQuote(status, id)
-  .then(()=> res.status(200).json({message: 'ok'}))
-  .catch((error)=>{
-    console.log(error);
-    res.status(500).json({error})
-  })
-}
-
-export const getQuoteIds = async (req,res) => {
-  getAllQuoteIds()
     .then(row => res.status(200).json(row))
-    .catch((error)=>{
+    .catch(error => {
       console.log(error);
-      res.status(500).json({error})
+      return res.status(500)
     })
 }
 
-export const changeNoteQuote = async (req,res) => {
-  //formato json enviado por el cliente
-  const {note, idOperation} = req.body
-  //ejecucion de query
-  changeNote(note, idOperation)
-  //respuesta
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch((error)=> {
-    console.log(error);
-    res.status(500).json({error})
-  })
-}
-export const changeQuoteId = async (req,res)=> {
-  //recibimos el json(destructuracion de obj)
-  const {quoteID, idOperation} = req.body
-  changeQuotexId(quoteID, idOperation)
-  .then(()=> res.status(200).json({message: 'ok'}))
-  .catch((error)=>{
-    console.log(error);
-    res.status(500).json(error)
-  })
-}
-export const changeWeight = async(req,res)=> {
-  const {weight, idOperation} = req.body
-  changeWeightxId(weight, idOperation)
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch((error) => res.status(500).json({error}))
+export const changeStatusQuote = async (req, res) => {
+  const { status, id } = req.body
+  changeQuote(status, id)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
 }
 
-export const updateOperationById = async(req,res) => {
+export const getQuoteIds = async (req, res) => {
+  getAllQuoteIds()
+    .then(row => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+
+export const changeNoteQuote = async (req, res) => {
+  //formato json enviado por el cliente
+  const { note, idOperation } = req.body
+  //ejecucion de query
+  changeNote(note, idOperation)
+    //respuesta
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+export const changeQuoteId = async (req, res) => {
+  //recibimos el json(destructuracion de obj)
+  const { quoteID, idOperation } = req.body
+  changeQuotexId(quoteID, idOperation)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error)
+    })
+}
+export const changeWeight = async (req, res) => {
+  const { weight, idOperation } = req.body
+  changeWeightxId(weight, idOperation)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch((error) => res.status(500).json({ error }))
+}
+
+export const updateOperationById = async (req, res) => {
   const {
     idOperation,
     quoteID,
@@ -1401,8 +1401,8 @@ export const updateOperationById = async(req,res) => {
     notes,
     idOperation,
   )
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch(error => res.status(500).json(error))
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => res.status(500).json(error))
 }
 
 // export const getOperationById = async(req,res) => {
@@ -1433,61 +1433,61 @@ export const getAllOperationsTable = async (req, res) => {
 
 export const getFloridaQuotes = async (req, res) => {
   getAllFloridaQuotes()
-  .then(row => res.status(200).json(row))
-  .catch((error) => {
-    console.log(error);
-    res.status(500).json(error);
-  });
+    .then(row => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
 }
 
-export const newAccount = async (req,res) => {
-  const {userName, email, password} = req.body
+export const newAccount = async (req, res) => {
+  const { userName, email, password } = req.body
 
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({error: 'error encrypt'})
+      return res.status(500).json({ error: 'error encrypt' })
     }
 
-    bcrypt.hash(password, salt, async(err, hash) => {
+    bcrypt.hash(password, salt, async (err, hash) => {
       if (err) {
         console.log(err);
-        return res.status(500).json({error: 'error encrypt'})
+        return res.status(500).json({ error: 'error encrypt' })
       }
 
-      create(userName,email,hash)
-        .then((data) => res.status(201).json({message:data}))
-        .catch((error) => res.status(500).json({error}))
+      create(userName, email, hash)
+        .then((data) => res.status(201).json({ message: data }))
+        .catch((error) => res.status(500).json({ error }))
     })
   })
 }
 
 export const deleteOperationFromTable = async (req, res) => {
-  const {id} = req.params
+  const { id } = req.params
   deleteOperationByID(id)
-  .then(() => res.status(200).json({ message: "Operation Deleted Successfully"}))
-  .catch(error => {
-    console.error(error);
-    res.status(500).json( { error: "Error Deleting Operation"})
-  })
+    .then(() => res.status(200).json({ message: "Operation Deleted Successfully" }))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error: "Error Deleting Operation" })
+    })
 }
 
 export const newInputSaleGross = async (req, res) => {
-  const { 
+  const {
     bookingBl,
     containerId,
     provider,
     customer,
     date
   } = req.body;
-  console.log ('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + ' con la fecha de: ' + date
+  console.log('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + ' con la fecha de: ' + date
 
   newInputQuerySaleGross(bookingBl, containerId, provider, customer, date)
-  .then(() => res.status(200).json({ message: "ok"}))
-  .catch(error => {
-    res.status(500).json(error);
-    console.log("Error en Controlador " + error);
-  })
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log("Error en Controlador " + error);
+    })
 
 
 }
@@ -1500,103 +1500,102 @@ export const newFLInputSaleGross = async (req, res) => {
     customer,
     date
   } = req.body;
-  console.log ('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + ' con la fecha de: ' + date
+  console.log('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + ' con la fecha de: ' + date
 
-
-newInputQueryFLSaleGross(bookingBl, containerId, provider, customer, date)
-.then(() => res.status(200).json({ message: "ok"}))
-.catch(error => {
-  res.status(500).json(error);
-  console.log("Error en controlador " + error); 
-})
+  newInputQueryFLSaleGross(bookingBl, containerId, provider, customer, date)
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log("Error en controlador " + error);
+    })
 
 }
 
 export const updateProviderSalesGross = async (req, res) => {
-  const { idSalesGross , providerInvoice } = req.body
+  const { idSalesGross, providerInvoice } = req.body
   changeProviderSalesGross(idSalesGross, providerInvoice)
-  .then(() => res.status(200).json({ message: "ok"}))
-  .catch(error => {
-    console.log('Error Controller updateProviderSales  : ' + error)
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      console.log('Error Controller updateProviderSales  : ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const updateCustomerInvoiceSalesGross = async (req, res) => {
   const { idSalesGross, customerInvoice } = req.body
   changeCustomerInvoiceSalesGross(idSalesGross, customerInvoice)
-  .then(() => res.status(200).json({ message: "ok"}))
-  .catch(error => {
-    console.log('Error Controller updateCustomerInvoiceSalesGross  : ')
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      console.log('Error Controller updateCustomerInvoiceSalesGross  : ')
+      res.status(500).json({ error })
+    })
 }
 
 export const updateStatusSalesGross = async (req, res) => {
-  const { idSalesGross, statusSalesGross} = req.body
+  const { idSalesGross, statusSalesGross } = req.body
   changeStatusSalesGross(idSalesGross, statusSalesGross)
-  .then(() => res.status(200).json({ message: "ok"}))
-  .catch(error => {
-    console.log('Error Controller updateStatusSalesGross  :  ' + error)
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      console.log('Error Controller updateStatusSalesGross  :  ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const updateBuySalesGross = async (req, res) => {
-  const { idSalesGross, buySalesGross} = req.body
-  changeBuySalesGross( idSalesGross, buySalesGross)
-  .then(() => res.status(200).json({ message: "ok"}))
-  .catch(error => {
-    console.log('Error Controller updateBuySalesGross : ' + error)
-    res.status(500).json({ error })
-  })
+  const { idSalesGross, buySalesGross } = req.body
+  changeBuySalesGross(idSalesGross, buySalesGross)
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      console.log('Error Controller updateBuySalesGross : ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const updateSellSalesGross = async (req, res) => {
-  const { idSalesGross, sellSalesGross} = req.body
-  changeSellSalesGross( idSalesGross, sellSalesGross)
-  .then(() => res.status(200).json( {message: "ok"}))
-  .catch(error => {
-    console.log('Error Controller updateSellSalesGross: ' + error)
-    res.status(500).json({ error })
-  }) 
+  const { idSalesGross, sellSalesGross } = req.body
+  changeSellSalesGross(idSalesGross, sellSalesGross)
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      console.log('Error Controller updateSellSalesGross: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const updateProfitSalesGross = async (req, res) => {
-  const { idSalesGross, profitSalesGross} = req.body
-  changeProfitSalesGross( idSalesGross, profitSalesGross)
-  .then(() => res.status(200).json( {message: "updated profit"}))
-  .catch(error => {
-    console.log('Error Controller updateProfitSalesGross: ' + error)
-    res.status(500).json({ error })
-  })
+  const { idSalesGross, profitSalesGross } = req.body
+  changeProfitSalesGross(idSalesGross, profitSalesGross)
+    .then(() => res.status(200).json({ message: "updated profit" }))
+    .catch(error => {
+      console.log('Error Controller updateProfitSalesGross: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const deleteSale = async (req, res) => {
   const { id } = req.params;
-  
+
   deleteSaleById(id)
-  .then(res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log('Error Controller deleteSale: ' + error)
-    res.status(500).json({ error })
-  })
+    .then(res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log('Error Controller deleteSale: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const getFloridaQuoteId = async (req, res) => {
   getAllFloridaQuoteId()
-  .then(row => res.status(200).json(row))
-  .catch(error => {
-    console.log('Error Controller getFloridaQuoteId: ' + error)
-    res.status(500).json({ error })
-  })
+    .then(row => res.status(200).json(row))
+    .catch(error => {
+      console.log('Error Controller getFloridaQuoteId: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const getFloridaQuote = async (req, res) => {
   getFloridaQuoteById(req.params.id)
-  .then(row => res.status(200).json(row[0]))
-  .catch(error => {
-    console.log('Error Controller getFloridaQuote: ' + error)
-    res.status(500).json({ error })
-  })
+    .then(row => res.status(200).json(row[0]))
+    .catch(error => {
+      console.log('Error Controller getFloridaQuote: ' + error)
+      res.status(500).json({ error })
+    })
 }

@@ -491,10 +491,10 @@ export const newInputQuerySaleGross = async (bookingBl, containerId, provider, c
 
 }
 
-export const newInputQueryFLSaleGross = async (bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials) => {
-  const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, carrierAccesorials, magnetAccesorials) VALUES (?,?,?,?,?,?,?,?,?,?)"
+export const newInputQueryFLSaleGross = async (bookingBl, containerId, provider, customer, buy, sell, profit, date) => {
+  const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, carrierAccesorials, magnetAccesorials) VALUES (?,?,?,?,?,?,?,?,)"
 
-  return pool.query(query, [bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials])
+  return pool.query(query, [bookingBl, containerId, provider, customer, buy, sell, profit, date])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL Query" + error)

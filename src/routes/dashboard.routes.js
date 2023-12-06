@@ -44,6 +44,7 @@ import {
     deleteOperationFromTable,
     newAccount,
     newInputSaleGross,
+    newFLInputSaleGross,
     updateProviderSalesGross,
     updateCustomerInvoiceSalesGross,
     updateStatusSalesGross,
@@ -102,6 +103,7 @@ router
 .delete("/delete/deleteOperation/:id", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)
 .post("/post/newInfoSaleGross", newInputSaleGross)
+.post("/post/newSaleGrossFromFloridaQuotes" , newFLInputSaleGross)
 .post("/post/updateProviderSalesGross", updateProviderSalesGross)
 .post("/post/updateCustomerInvoiceSalesGross", updateCustomerInvoiceSalesGross)
 .post("/post/updateStatusSalesGross", updateStatusSalesGross)

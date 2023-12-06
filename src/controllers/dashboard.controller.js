@@ -1498,11 +1498,12 @@ export const newFLInputSaleGross = async (req, res) => {
     containerId,
     provider,
     customer,
+    buy,
     date
   } = req.body;
-  console.log('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + ' con la fecha de: ' + date
+  console.log('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer) + 'buy value de: ' + buy +' con la fecha de: ' + date
 
-  newInputQueryFLSaleGross(bookingBl, containerId, provider, customer, date)
+  newInputQueryFLSaleGross(bookingBl, containerId, provider, customer, buy, date)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);

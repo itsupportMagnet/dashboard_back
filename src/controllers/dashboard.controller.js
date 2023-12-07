@@ -51,7 +51,8 @@ import {
   changeProfitSalesGross,
   deleteSaleById,
   getAllFloridaQuoteId,
-  getFloridaQuoteById
+  getFloridaQuoteById,
+  getNormalQuoteById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1603,4 +1604,13 @@ export const getFloridaQuote = async (req, res) => {
       console.log('Error Controller getFloridaQuote: ' + error)
       res.status(500).json({ error })
     })
+}
+
+export const getNormalQuote = async (req, res) => {
+  getNormalQuoteById(req.params.id)
+  .then(row => res.status(200).json(row[0]))
+  .catch(error => {
+    console.log('Error Controller getNormalQuote: ' + error)
+    res.status(500).json({error})
+  })
 }

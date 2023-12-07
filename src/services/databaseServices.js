@@ -587,3 +587,13 @@ export const getFloridaQuoteById = async id => {
       throw error;
     });
 }
+
+export const getNormalQuoteById = async id => {
+  const query = "SELECT * FROM carriers_fees WHERE quoteID = ?"
+  return pool.query(query, [id])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error trying to get the quotes id:", error);
+    throw error;
+  });
+}

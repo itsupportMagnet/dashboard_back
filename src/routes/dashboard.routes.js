@@ -114,6 +114,6 @@ router
 .delete("/delete/delete-sale/:id", deleteSale)
 .get("/get/get-florida-quoteId", getFloridaQuoteId)
 .get("/get/get-florida-quote/:id", getFloridaQuote)
-.get("/get/get-normal-quote/id", getNormalQuote)
+.get("/get/get-normal-quote/:id", getNormalQuote)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

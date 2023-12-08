@@ -1621,8 +1621,8 @@ export const updateSaleGrossInput = async (req, res) => {
   const {operationID, bookingBl, containerId, provider, customer, buy, sell, profit, date } = req.body
   changeSaleGrossInput(operationID, bookingBl, containerId, provider, customer, buy, sell, profit, date)
   .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
-  .cathc(error => {
-    console.log('Error Controler updateSaleGrossInput: ' + error)
+  .catch(error => {
+    console.log('Error Controller updateSaleGrossInput: ' + error)
     res.status(500).json({error})
   })
 }

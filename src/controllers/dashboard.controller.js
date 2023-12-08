@@ -52,7 +52,8 @@ import {
   deleteSaleById,
   getAllFloridaQuoteId,
   getFloridaQuoteById,
-  getNormalQuoteById
+  getNormalQuoteById,
+  changeSaleGrossInput
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1612,6 +1613,16 @@ export const getNormalQuote = async (req, res) => {
   .then(row => res.status(200).json(row[0]))
   .catch(error => {
     console.log('Error Controller getNormalQuote: ' + error)
+    res.status(500).json({error})
+  })
+}
+
+export const updateSaleGrossInput = async (req, res) => {
+  const {operationID, bookingBl, containerId, provider, customer, buy, sell, profit, date } = req.body
+  changeSaleGrossInput(operationID, bookingBl, containerId, provider, customer, buy, sell, profit, date)
+  .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
+  .cathc(error => {
+    console.log('Error Controler updateSaleGrossInput: ' + error)
     res.status(500).json({error})
   })
 }

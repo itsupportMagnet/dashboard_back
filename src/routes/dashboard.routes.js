@@ -55,6 +55,7 @@ import {
     getFloridaQuoteId,
     getFloridaQuote,
     getNormalQuote,
+    updateSaleGrossInput,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -115,5 +116,6 @@ router
 .get("/get/get-florida-quoteId", getFloridaQuoteId)
 .get("/get/get-florida-quote/:id", getFloridaQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
+.post("/post/updateSaleGrossFromFloridaQuotes/:id", updateSaleGrossInput)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -598,9 +598,9 @@ export const getNormalQuoteById = async id => {
   });
 }
 
-export const changeSaleGrossInput = async (operationID, bookingBl, containerId, provider, customer, buy, sell, profit, date ) => {
-  const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, provider_invoice = ?, status = ?, buy = ?, sell = ?, profit = ?, customer = ?, invoice = ?, month_of_invoice = ? WHERE operation_id = ?";
-  return pool.query(query, [bookingBl, containerId, provider, customer, buy, sell, profit, date, operationID])
+export const changeSaleGrossInput = async (operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date ) => {
+  const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, buy = ?, sell = ?, profit = ?,  month_of_invoice = ? WHERE operation_id = ?";
+  return pool.query(query, [bookingBl, containerId, provider, customer, buy, sell, profit, date, operationId])
   .then(() =>  { return true })
   .catch(error => {
     console.error("Error on SQL : " + error)

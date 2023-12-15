@@ -136,8 +136,6 @@ export const saveFee = async (req, res) => {
     magnetFee,
     magnetChassis,
     magnetAccesorials,
-    totalFee,
-    totalChassis,
     notes
   } = req.body;
 
@@ -168,8 +166,6 @@ export const saveFee = async (req, res) => {
       magnetFee,
       magnetChassis,
       magnetAccesorialsJSON,
-      totalFee,
-      totalChassis,
       notes
     );
     return res.status(200).json({ message: "ok" });

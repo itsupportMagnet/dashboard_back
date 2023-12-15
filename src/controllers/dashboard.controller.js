@@ -1618,8 +1618,8 @@ export const getNormalQuote = async (req, res) => {
 }
 
 export const updateSaleGrossInput = async (req, res) => {
-  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date } = req.body
-  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date)
+  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials } = req.body
+  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials)
   .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
   .catch(error => {
     console.log('Error Controller updateSaleGrossInput: ' + error)

@@ -1501,12 +1501,12 @@ export const newFLInputSaleGross = async (req, res) => {
     sell,
     profit,
     date,
-    // carrierAccesorials,
-    // magnetAccesorials
+    carrierAccesorials,
+    magnetAccesorials
   } = req.body;
-  console.log('testeo desde controller operation ID: ' + operationId + 'booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer + 'buy value de: ' + buy + 'sell value de: ' + sell +'profit value de: ' + profit +' con la fecha de: ' + date)
+  console.log('testeo desde controller operation ID: ' + operationId + 'booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer + 'buy value de: ' + buy + 'sell value de: ' + sell +'profit value de: ' + profit +' con la fecha de: ' + date + ' carrierAccesorials' + carrierAccesorials + ' magnetAccesorials' + magnetAccesorials)
 
-  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date)
+  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1614,8 +1614,8 @@ export const getNormalQuote = async (req, res) => {
 }
 
 export const updateSaleGrossInput = async (req, res) => {
-  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date } = req.body
-  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date)
+  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials } = req.body
+  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials)
   .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
   .catch(error => {
     console.log('Error Controller updateSaleGrossInput: ' + error)

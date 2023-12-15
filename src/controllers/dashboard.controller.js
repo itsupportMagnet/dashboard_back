@@ -1502,11 +1502,13 @@ export const newFLInputSaleGross = async (req, res) => {
     profit,
     date,
     carrierAccesorials,
-    magnetAccesorials
+    magnetAccesorials,
+    buyChassis,
+    sellChassis,
   } = req.body;
-  console.log('testeo desde controller operation ID: ' + operationId + 'booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer + 'buy value de: ' + buy + 'sell value de: ' + sell +'profit value de: ' + profit +' con la fecha de: ' + date + ' carrierAccesorials' + carrierAccesorials + ' magnetAccesorials' + magnetAccesorials)
+  console.log('testeo desde controller operation ID: ' + operationId + 'booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer + 'buy value de: ' + buy + 'sell value de: ' + sell +'profit value de: ' + profit +' con la fecha de: ' + date + ' carrierAccesorials' + carrierAccesorials + ' magnetAccesorials' + magnetAccesorials + ' buyChassis: ' + buyChassis + ' sellChassis: ' + sellChassis)
 
-  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials)
+  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials,buyChassis, sellChassis)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1614,8 +1616,8 @@ export const getNormalQuote = async (req, res) => {
 }
 
 export const updateSaleGrossInput = async (req, res) => {
-  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials } = req.body
-  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials)
+  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis } = req.body
+  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis)
   .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
   .catch(error => {
     console.log('Error Controller updateSaleGrossInput: ' + error)

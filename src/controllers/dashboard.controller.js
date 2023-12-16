@@ -1462,6 +1462,7 @@ export const newAccount = async (req, res) => {
 
 export const deleteOperationFromTable = async (req, res) => {
   const { id } = req.params
+  console.log(id);
   deleteOperationByID(id)
     .then(() => res.status(200).json({ message: "Operation Deleted Successfully" }))
     .catch(error => {
@@ -1506,7 +1507,6 @@ export const newFLInputSaleGross = async (req, res) => {
     buyChassis,
     sellChassis,
   } = req.body;
-  console.log('testeo desde controller operation ID: ' + operationId + 'booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer + 'buy value de: ' + buy + 'sell value de: ' + sell +'profit value de: ' + profit +' con la fecha de: ' + date + ' carrierAccesorials' + carrierAccesorials + ' magnetAccesorials' + magnetAccesorials + ' buyChassis: ' + buyChassis + ' sellChassis: ' + sellChassis)
 
   newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials,buyChassis, sellChassis)
     .then(() => res.status(200).json({ message: "ok" }))

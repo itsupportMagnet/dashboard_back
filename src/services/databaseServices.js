@@ -497,7 +497,7 @@ export const newInputQueryFLSaleGross = async (operationId, bookingBl, container
   return pool.query(query, [operationId ,bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis,])
     .then(() => true)
     .catch(error => {
-      console.error("Error on SQL Query" + error)
+      console.error("Error on SQL Query test" + error)
     })
 }
 

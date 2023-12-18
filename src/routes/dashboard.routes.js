@@ -36,7 +36,7 @@ import {
     getQuoteIds,
     changeNoteQuote,
     changeQuoteId,
-    changeWeigth,
+    changeWeight,
     getAllOperationsTable,
     getFloridaQuotes,
     updateOperationById,
@@ -44,66 +44,78 @@ import {
     deleteOperationFromTable,
     newAccount,
     newInputSaleGross,
+    newFLInputSaleGross,
     updateProviderSalesGross,
     updateCustomerInvoiceSalesGross,
     updateStatusSalesGross,
     updateBuySalesGross,
     updateSellSalesGross,
-    updateProfitSalesGross
+    updateProfitSalesGross,
+    deleteSale,
+    getFloridaQuoteId,
+    getFloridaQuote,
+    getNormalQuote,
+    updateSaleGrossInput,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
 const router = Router();
 
 router
-.post("/", createQuote)
-.get("/salesGross", getAllSales)
-.post("/send-fee", sendFee)
-.post("/save-fee", saveFee)
-.get("/allQuotes", getAllQuotes)
-.get("/allRoutes", getAllRoutes)
-.get("/quotes/:id", getQuote)
-.get("/clients", getAllClients)
-.get("/quotes-fees/:id", getQuotesFeeById)
-.get("/carriers-fees/:id", getCarriersFeeByID)
-.post("/update-carrier-fee", updateCarrierFee)
-.get("/accesorials", getAllAccesorials)
-.get("/providers", getAllProviders)
-.get("/carriers/:id", getCarriersByPort)
-.get("/ports", getAllPorts)
-.get("/carriers", getAllCarriers)
-.post("/users/sign_in", login)
-.get("/users/verify-token", [validarJWT], verifyToken)
-.get("/cities", getAllCities)
-.get("/cities/:id", getAllCitiesID)
-.post("/newOperation", newOperation)
-.get("/terminals/:id", getAllTerminals)
-.get("/all-operations", getOperations)
-.post("/change-status", changeStatus)
-.post("/change-containerStatus", changeContainerStatus)
-.post("/updateBookingBl", updateBookingBl)
-.post("/updateContainerID", updateContainerId)
-.get("/getOperation/:id", getOperation)
-.post("/addClient", addClient)
-.post("/addCarrier", addCarrier)
-.get("/states", getAllStates)
-.get("/container-status", getContainerStatus)
-.post("/change-status-quote", changeStatusQuote)
-.get("/getQuoteIds", getQuoteIds)
-.post("/change-notes", changeNoteQuote)
-.post("/change-quoteid", changeQuoteId)
-.post("/change-weigth", changeWeigth)
-.get("/allOperationsTable", getAllOperationsTable)
-.get("/allFloridaQuotes", getFloridaQuotes)
-.post("/updateOperation", updateOperationById)
-.delete("/deleteOperation/:idOperation", deleteOperationFromTable)
-.post("/users/register",[validateRole],newAccount)
-.post("/newInfoSaleGross", newInputSaleGross)
-.post("/updateProviderSalesGross", updateProviderSalesGross)
-.post("/updateCustomerInvoiceSalesGross", updateCustomerInvoiceSalesGross)
-.post("/updateStatusSalesGross", updateStatusSalesGross)
-.post("/updateBuySalesGross", updateBuySalesGross)
-.post("/updateSellSalesGross", updateSellSalesGross)
-.post("/updateProfitSalesGross", updateProfitSalesGross)
+.post("/createQuote", createQuote)
+.get("/get/salesGross", getAllSales)
+.post("/post/send-fee", sendFee)
+.post("/post/save-fee", saveFee)
+.get("/get/allQuotes", getAllQuotes)
+.get("/allRoutes", getAllRoutes) //Este endpoint no lo ocupamos en nada
+.get("/get/quotes/:id", getQuote)
+.get("/get/clients", getAllClients)
+.get("/get/quotes-fees/:id", getQuotesFeeById)
+.get("/get/carriers-fees/:id", getCarriersFeeByID)
+.post("/post/update-carrier-fee", updateCarrierFee)
+.get("/get/accesorials", getAllAccesorials)
+.get("/get/providers", getAllProviders)
+.get("/get/carriers/:id", getCarriersByPort)
+.get("/get/ports", getAllPorts)
+.get("/get/carriers", getAllCarriers)
+.post("/login/users/sign_in", login)
+.get("/login/users/verify-token", [validarJWT], verifyToken)
+.get("/get/cities", getAllCities) //Este endpoint no lo ocupamos en nada
+.get("/get/cities/:id", getAllCitiesID)
+.post("/post/newOperation", newOperation)
+.get("/get/terminals/:id", getAllTerminals)
+.get("/get/all-operations", getOperations)
+.post("/post/change-status", changeStatus)
+.post("/post/change-containerStatus", changeContainerStatus)
+.post("/post/updateBookingBl", updateBookingBl)
+.post("/post/updateContainerID", updateContainerId)
+.get("/get/getOperation/:id", getOperation)
+.post("/post/addClient", addClient)
+.post("/post/addCarrier", addCarrier)
+.get("/get/states", getAllStates)
+.get("/get/container-status", getContainerStatus)
+.post("/post/change-status-quote", changeStatusQuote)
+.get("/get/getQuoteIds", getQuoteIds)
+.post("/post/change-notes", changeNoteQuote)
+.post("/post/change-quoteid", changeQuoteId)
+.post("/post/change-weight", changeWeight) 
+.get("/get/allOperationsTable", getAllOperationsTable)
+.get("/get/allFloridaQuotes", getFloridaQuotes)
+.post("/post/updateOperation", updateOperationById)
+.delete("/delete/deleteOperation/:id", deleteOperationFromTable)
+.post("/login/users/register",[validateRole],newAccount)
+.post("/post/newInfoSaleGross", newInputSaleGross)
+.post("/post/newSaleGrossFromFloridaQuotes" , newFLInputSaleGross)
+.post("/post/updateProviderSalesGross", updateProviderSalesGross)
+.post("/post/updateCustomerInvoiceSalesGross", updateCustomerInvoiceSalesGross)
+.post("/post/updateStatusSalesGross", updateStatusSalesGross)
+.post("/post/updateBuySalesGross", updateBuySalesGross)
+.post("/post/updateSellSalesGross", updateSellSalesGross)
+.post("/post/updateProfitSalesGross", updateProfitSalesGross)
+.delete("/delete/delete-sale/:id", deleteSale)
+.get("/get/get-florida-quoteId", getFloridaQuoteId)
+.get("/get/get-florida-quote/:id", getFloridaQuote)
+.get("/get/get-normal-quote/:id", getNormalQuote)
+.post("/post/updateSaleGrossFromFloridaQuotes/", updateSaleGrossInput)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

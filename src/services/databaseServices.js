@@ -557,8 +557,6 @@ export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => 
 }
 
 export const deleteSaleById = async (id) => {
-  console.log('database: ' + id);
-
   const query = "DELETE FROM sales_gross WHERE id = ?";
   return pool.query(query, [id])
     .then(() => true)
@@ -604,6 +602,16 @@ export const changeSaleGrossInput = async (operationId, bookingBl, containerId, 
   .then(() =>  { return true })
   .catch(error => {
     console.error("Error on SQL : " + error)
+    throw error
+  })
+}
+
+export const deleteClientById = async (id) => {
+  const query = "DELETE FROM clients WHERE id = ?";
+  return pool.query(query,[id])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL :" + error)
     throw error
   })
 }

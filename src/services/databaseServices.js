@@ -626,9 +626,9 @@ export const getClientById = async (id) => {
   })
 }
 
-export const changeClientInfo = async (customerID,name,address,contact,businessLine,customerType,phoneNumbers,customerEmails) => {
+export const changeClientInfo = async (customerId,name,address,contact,businessLine,customerType,phoneNumbers,customerEmails) => {
   const query = "UPDATE clients SET customer_name = ?, address = ?, customer_contact = ?, business_line = ?, customer_type = ?, customer_phone = ?, customer_email = ?  WHERE id_Client = ?";
-  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerID ])
+  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId ])
   .then(() => true)
   .catch(error => {
     console.error("Error on SQL : " + error)

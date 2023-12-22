@@ -55,7 +55,8 @@ import {
   getNormalQuoteById,
   changeSaleGrossInput,
   deleteClientById,
-  getClientById
+  getClientById,
+  changeClientInfo
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1643,3 +1644,15 @@ export const fetchClientById = async (req, res) => {
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({ error }))
 }
+
+export const updateClientInfoById = async (req, res) => {
+  const {customerID,name,address,contact,businessLine,customerType,phoneNumbers,customerEmails} = req.body;
+  changeClientInfo(customerID,name,address,contact,businessLine,customerType,phoneNumbers,customerEmails)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error });
+  })
+
+}
+

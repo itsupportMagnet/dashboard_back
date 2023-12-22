@@ -57,7 +57,8 @@ import {
     getNormalQuote,
     updateSaleGrossInput,
     deleteClient,
-    fetchClientById
+    fetchClientById,
+    updateClientInfoById
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -121,5 +122,6 @@ router
 .post("/post/updateSaleGrossFromFloridaQuotes/", updateSaleGrossInput)
 .delete("/delete/deleteClient/:id", deleteClient)
 .get("/get/clientsById/:id", fetchClientById)
+.post("/post/updateClient", updateClientInfoById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

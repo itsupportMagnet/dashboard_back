@@ -54,7 +54,8 @@ import {
   getFloridaQuoteById,
   getNormalQuoteById,
   changeSaleGrossInput,
-  deleteClientById
+  deleteClientById,
+  getClientById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1635,4 +1636,10 @@ export const deleteClient = async (req, res) => {
     console.log('Error Controller deleteClient: ' + error)
     res.status(500).json({error})
   })
+}
+
+export const fetchClientById = async (req, res) => {
+  getClientById(req.params.id)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({ error }))
 }

@@ -1630,7 +1630,6 @@ export const updateSaleGrossInput = async (req, res) => {
 
 export const deleteClient = async (req, res) => {
   const { id } = req.params;
-
   deleteClientById(id)
   .then(res.status(200).json({ message: 'ok'}))
   .catch(error => {

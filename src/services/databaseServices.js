@@ -608,7 +608,7 @@ export const changeSaleGrossInput = async (operationId, bookingBl, containerId, 
 
 export const deleteClientById = async (id) => {
   console.log(id);
-  const query = "DELETE FROM clients WHERE id = ?";
+  const query = "DELETE FROM clients WHERE id_Client = ?";
   return pool.query(query,[id])
   .then(() => true)
   .catch(error => {

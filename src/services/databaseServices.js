@@ -636,3 +636,13 @@ export const changeClientInfo = async (customerId,name,address,contact,businessL
     throw error
   })
 }
+
+export const changeSummarySalesGrossById = async (operationId, drayageBuyQuantity, drayageBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount) => {
+  const query = "UPDATE sales_gross SET buyQtyChassis = ?, buyChassisUnitRate = ?, buyChassis = ?, sellQtyChassis = ?, sellChassisUnitRate = ?, sellChassis = ?  WHERE operation_id = ?";
+  return pool.query(query, [drayageBuyQuantity, drayageBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount, operationId])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL: " + error)
+    throw error
+  })
+}

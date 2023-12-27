@@ -56,7 +56,8 @@ import {
   changeSaleGrossInput,
   deleteClientById,
   getClientById,
-  changeClientInfo
+  changeClientInfo,
+  changeSummarySalesGrossById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1653,5 +1654,15 @@ export const updateClientInfoById = async (req, res) => {
     res.status(500).json({ error });
   })
 
+}
+
+export const updateSummarySalesGrossById = async (req, res) => {
+  const { operationId, drayageBuyQuantity, drayageBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
+  changeSummarySalesGrossById(operationId, drayageBuyQuantity, drayageBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  })
 }
 

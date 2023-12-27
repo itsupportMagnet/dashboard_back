@@ -1657,8 +1657,8 @@ export const updateClientInfoById = async (req, res) => {
 }
 
 export const updateSummarySalesGrossById = async (req, res) => {
-  const { operationId, drayageBuyQuantity, drayageBuyChassis, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
-  changeSummarySalesGrossById(operationId, drayageBuyQuantity, drayageBuyChassis, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
+  const { operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
+  changeSummarySalesGrossById(operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
   .then(() => res.status(200).json({message: 'ok'}))
   .catch(error => {
     console.log(error);

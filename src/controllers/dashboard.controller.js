@@ -57,7 +57,8 @@ import {
   deleteClientById,
   getClientById,
   changeClientInfo,
-  changeSummarySalesGrossById
+  changeSummarySalesGrossById,
+  newSummaryInputSalesGross,
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1659,6 +1660,16 @@ export const updateClientInfoById = async (req, res) => {
 export const updateSummarySalesGrossById = async (req, res) => {
   const { operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
   changeSummarySalesGrossById(operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  })
+}
+
+export const newSummarySalesGrossById = async (req, res) => {
+  const { operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
+  newSummaryInputSalesGross(operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
   .then(() => res.status(200).json({message: 'ok'}))
   .catch(error => {
     console.log(error);

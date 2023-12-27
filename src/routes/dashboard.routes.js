@@ -59,7 +59,8 @@ import {
     deleteClient,
     fetchClientById,
     updateClientInfoById,
-    updateSummarySalesGrossById
+    updateSummarySalesGrossById,
+    newSummarySalesGrossById
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -125,5 +126,6 @@ router
 .get("/get/clientsById/:id", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)
 .post("/post/updateSummarySalesGross", updateSummarySalesGrossById)
+.post("/post/newSummarySalesGross", newSummarySalesGrossById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -1681,7 +1681,7 @@ export const newSummarySalesGrossById = async (req, res) => {
 export const getSalesGrossById = async (req, res) => {
   const {idOperation} = req.body;
   fetchSaleGrossInfoById(idOperation)
-  .then(() => res.status(200).json({message: 'ok'}))
+  .then(() => res.status(200).json({data}))
   .catch(error => {
     console.log(error);
     res.status(500).json({ error })

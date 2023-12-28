@@ -1680,7 +1680,7 @@ export const newSummarySalesGrossById = async (req, res) => {
 
 export const getSalesGrossById = async (req, res) => {
   fetchSaleGrossInfoById(req.params.id)
-  .then(data => res.status(200).json(data))
+  .then(data => res.status(200).json(data[0]))
   .catch(error => {
     console.log(error);
     res.status(500).json({ error })

@@ -59,6 +59,7 @@ import {
   changeClientInfo,
   changeSummarySalesGrossById,
   newSummaryInputSalesGross,
+  fetchSaleGrossInfoById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1676,4 +1677,15 @@ export const newSummarySalesGrossById = async (req, res) => {
     res.status(500).json({ error })
   })
 }
+
+export const getSalesGrossById = async (req, res) => {
+  const {idOperation} = req.body;
+  fetchSaleGrossInfoById(idOperation)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  })
+}
+
 

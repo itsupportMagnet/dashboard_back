@@ -660,7 +660,7 @@ export const newSummaryInputSalesGross = async (operationId, chassisBuyQuantity,
 export const fetchSaleGrossInfoById = async (idOperation) => {
   const query = "SELECT * FROM sales_gross WHERE operation_id = ?"
   return pool.query(query, [idOperation])
-  .then((data) => {data[0][0], console.log(data[0][0])})
+  .then((data) => data[0][0])
   .catch(error => {
     console.error("Error on SQL: " + error)
     throw error

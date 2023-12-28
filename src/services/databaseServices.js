@@ -647,7 +647,7 @@ export const changeSummarySalesGrossById = async (operationId, chassisBuyQuantit
   })
 }
 
-export const newSummaryInputSalesGross = async (operationId, drayageBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount) => {
+export const newSummaryInputSalesGross = async (operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount) => {
   const query = "INSERT INTO sales_gross SET buyQtyChassis = ?, buyChassisUnitRate = ?, buyChassis = ?, sellQtyChassis = ?, sellChassisUnitRate = ?, sellChassis = ?  WHERE operation_id = ?";
   return pool.query(query, [chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount, operationId])
   .then(() => true)

@@ -597,10 +597,9 @@ export const getNormalQuoteById = async id => {
 }
 
 export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis ) => {
-  console.log(buyAccesorials);
-  console.log(sellAccesorials);
+
   const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, date = ?, buyAccesorials = ? , sellAccesorials = ?, buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyQtyChassis = ?, sellChassisUnitRate = ?, sellQtyChassis = ?  WHERE operation_id = ?";
-  return pool.query(query, [booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id])
+  return pool.query(query, [booking_bl, container_id, provider, customer, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id])
   .then(() => true)
   .catch(error => {
     console.error("Error on SQL : " + error)

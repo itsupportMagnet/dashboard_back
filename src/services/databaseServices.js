@@ -596,10 +596,10 @@ export const getNormalQuoteById = async id => {
   });
 }
 
-export const changeSaleGrossInput = async (operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis ) => {
-  const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, buy = ?, sell = ?, profit = ?,  month_of_invoice = ?, buyAccesorials = ? , sellAccesorials = ?, buyChassis = ? , sellChassis = ? WHERE operation_id = ?";
-  return pool.query(query, [bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis, operationId])
-  .then(() =>  { return true })
+export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis ) => {
+  const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, date = ?, buyAccesorials = ? , sellAccesorials = ?, buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyQtyChassis = ?, sellChassisUnitRate = ?, sellQtyChassis = ?  WHERE operation_id = ?";
+  return pool.query(query, [booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id])
+  .then(() => true)
   .catch(error => {
     console.error("Error on SQL : " + error)
     throw error

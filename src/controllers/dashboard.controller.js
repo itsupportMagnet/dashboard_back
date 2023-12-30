@@ -53,7 +53,7 @@ import {
   getAllFloridaQuoteId,
   getFloridaQuoteById,
   getNormalQuoteById,
-  changeSaleGrossInput,
+  updateSaleGrossById,
   deleteClientById,
   getClientById,
   changeClientInfo,
@@ -1621,12 +1621,12 @@ export const getNormalQuote = async (req, res) => {
   })
 }
 
-export const updateSaleGrossInput = async (req, res) => {
-  const {operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis } = req.body
-  changeSaleGrossInput(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis)
+export const updateSaleGross = async (req, res) => {
+  const {operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body
+  updateSaleGrossById(operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis)
   .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
   .catch(error => {
-    console.log('Error Controller updateSaleGrossInput: ' + error)
+    console.log('Error Controller updateSaleGross: ' + error)
     res.status(500).json({error})
   })
 }

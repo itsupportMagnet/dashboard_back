@@ -55,7 +55,7 @@ import {
     getFloridaQuoteId,
     getFloridaQuote,
     getNormalQuote,
-    updateSaleGrossInput,
+    updateSaleGross,
     deleteClient,
     fetchClientById,
     updateClientInfoById,
@@ -122,7 +122,7 @@ router
 .get("/get/get-florida-quoteId", getFloridaQuoteId)
 .get("/get/get-florida-quote/:id", getFloridaQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
-.post("/post/updateSaleGrossFromFloridaQuotes/", updateSaleGrossInput)
+.post("/post/updateSaleGross/", updateSaleGross)
 .delete("/delete/deleteClient/:id", deleteClient)
 .get("/get/clientsById/:id", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)

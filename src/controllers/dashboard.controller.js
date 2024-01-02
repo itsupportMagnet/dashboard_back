@@ -1623,7 +1623,7 @@ export const getNormalQuote = async (req, res) => {
 
 export const updateSaleGross = async (req, res) => {
   const {operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body
-  console.log('Estos datos me llegan:' + req.body)
+  console.log('Estos datos me llegan:' + JSON.stringify(req.body)) 
   updateSaleGrossById(operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis)
   .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
   .catch(error => {

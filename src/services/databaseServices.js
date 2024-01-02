@@ -494,7 +494,7 @@ export const newInputQuerySaleGross = async (bookingBl, containerId, provider, c
 export const newInputQueryFLSaleGross = async (operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis) => {
   const query = "INSERT INTO sales_gross (operation_id ,booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, buyAccesorials, sellAccesorials, buyChassis, sellChassis) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
-  return pool.query(query, [operationId ,bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis,])
+  return pool.query(query, [operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis,])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL Query test" + error)
@@ -589,98 +589,81 @@ export const getFloridaQuoteById = async id => {
 export const getNormalQuoteById = async id => {
   const query = "SELECT * FROM carriers_fees WHERE quoteID = ?"
   return pool.query(query, [id])
-  .then(rows => rows[0])
-  .catch(error => {
-    console.error("Error trying to get the quotes id:", error);
-    throw error;
-  });
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error trying to get the quotes id:", error);
+      throw error;
+    });
 }
 
-export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis ) => {
-
-  console.log('operation ID: ' + operation_id)
-  console.log('bookingBL: ' +booking_bl)
-  console.log('containerID: ' + container_id)
-  console.log('provider: ' + provider)
-  console.log('customer: ' + customer)
-  console.log('date: ' + date)
-  console.log('buyAccesorials: ' + JSON.stringify(buyAccesorials))
-  console.log('sellAccesorials: ' + JSON.stringify(sellAccesorials))
-  console.log('buyDrayageUnitRate: ' + buyDrayageUnitRate)
-  console.log('buyChassisUnitRate: ' + buyChassisUnitRate)
-  console.log('buyQtyChassis:  ' + buyQtyChassis)
-  console.log('sellDrayageUnitRate: ' + sellDrayageUnitRate)
-  console.log('sellChassisUnitRate: ' + sellChassisUnitRate)
-  console.log('sellQtyChassis: ' + sellQtyChassis)
+export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis) => {
 
   const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, date = ?, buyAccesorials = ?, sellAccesorials = ?, buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyQtyChassis = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ?, sellQtyChassis = ?  WHERE operation_id = ?";
-  console.log('Consulta SQL: ', pool.format(query, [booking_bl, container_id, provider, customer, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id] ));
-
   return pool.query(query, [booking_bl, container_id, provider, customer, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL : " + error)
-    throw error
-  })
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
+    })
 }
 
 export const deleteClientById = async (id) => {
   console.log(id);
   const query = "DELETE FROM clients WHERE id_Client = ?";
-  return pool.query(query,[id])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL :" + error)
-    throw error
-  })
+  return pool.query(query, [id])
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL :" + error)
+      throw error
+    })
 }
 
 export const getClientById = async (id) => {
   const query = 'SELECT * FROM clients WHERE id_Client = ?';
   return pool.query(query, [id])
-  .then(data => data[0])
-  .catch(error => {
-    console.log(error);
-    throw error;
-  })
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
 }
 
-export const changeClientInfo = async (customerId,name,address,contact,businessLine,customerType,phoneNumbers,customerEmails) => {
+export const changeClientInfo = async (customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails) => {
   const query = "UPDATE clients SET customer_name = ?, address = ?, customer_contact = ?, business_line = ?, customer_type = ?, customer_phone = ?, customer_email = ?  WHERE id_Client = ?";
-  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId ])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL : " + error)
-    throw error
-  })
+  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId])
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
+    })
 }
 
 export const changeSummarySalesGrossById = async (operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount) => {
   const query = "UPDATE sales_gross SET buyQtyChassis = ?, buyChassisUnitRate = ?, buyChassis = ?, sellQtyChassis = ?, sellChassisUnitRate = ?, sellChassis = ?  WHERE operation_id = ?";
   return pool.query(query, [chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount, operationId])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL: " + error)
-    throw error
-  })
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
 }
 
 export const newSummaryInputSalesGross = async (operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount) => {
   const query = "INSERT INTO sales_gross SET buyQtyChassis = ?, buyChassisUnitRate = ?, buyChassis = ?, sellQtyChassis = ?, sellChassisUnitRate = ?, sellChassis = ?  WHERE operation_id = ?";
   return pool.query(query, [chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount, operationId])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL: " + error)
-    throw error
-  })
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
 }
 
 export const fetchSaleGrossInfoById = async (idOperation) => {
   const query = "SELECT * FROM sales_gross WHERE operation_id = ?"
   return pool.query(query, [idOperation])
-  .then((data) => data[0])
-  .catch(error => {
-    console.error("Error on SQL: " + error)
-    throw error
-  })
+    .then((data) => data[0])
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
 }

@@ -598,6 +598,21 @@ export const getNormalQuoteById = async id => {
 
 export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis ) => {
 
+  console.log('operation ID: ' + operation_id)
+  console.log('bookingBL: ' +booking_bl)
+  console.log('containerID: ' + container_id)
+  console.log('provider: ' + provider)
+  console.log('customer: ' + customer)
+  console.log('date: ' + date)
+  console.log('buyAccesorials: ' + buyAccesorials)
+  console.log('sellAccesorials: ' + sellAccesorials)
+  console.log('buyDrayageUnitRate: ' + buyDrayageUnitRate)
+  console.log('buyChassisUnitRate: ' + buyChassisUnitRate)
+  console.log('buyQtyChassis:  ' + buyQtyChassis)
+  console.log('sellDrayageUnitRate: ' + sellDrayageUnitRate)
+  console.log('sellChassisUnitRate: ' + sellChassisUnitRate)
+  console.log('sellQtyChassis: ' + sellQtyChassis)
+
   const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, date = ?, buyAccesorials = ? , sellAccesorials = ?, buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyQtyChassis = ?, sellChassisUnitRate = ?, sellQtyChassis = ?  WHERE operation_id = ?";
   return pool.query(query, [booking_bl, container_id, provider, customer, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id])
   .then(() => true)

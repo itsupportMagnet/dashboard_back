@@ -39,7 +39,7 @@ export const saveNewQuoteFee = async (  quoteID,
   date,
   carrierEmail,
   buyDrayageUnitRate,
-  chassisUnitRate,
+  buyChassisUnitRate,
   buyAccesorialsJSON,
   sellDrayageUniteRate,
   sellChassisUnitRate,
@@ -47,7 +47,7 @@ export const saveNewQuoteFee = async (  quoteID,
   notes) => {
   const query = "INSERT INTO carriers_fees (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorials, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorials, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
   try {
-    await pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, chassisUnitRate, buyAccesorialsJSON, sellDrayageUniteRate, sellChassisUnitRate, sellAccesorialsJSON, notes])
+    await pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorialsJSON, sellDrayageUniteRate, sellChassisUnitRate, sellAccesorialsJSON, notes])
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;

@@ -59,7 +59,8 @@ import {
   changeClientInfo,
   changeSummarySalesGrossById,
   newSummaryInputSalesGross,
-  fetchSaleGrossInfoById
+  fetchSaleGrossInfoById,
+  newOperationToSalesGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1684,6 +1685,16 @@ export const getSalesGrossById = async (req, res) => {
   .catch(error => {
     console.log(error);
     res.status(500).json({ error })
+  })
+}
+
+export const addNewOperationToSaleGross = async (req, res) => {
+  const {operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body;
+  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis)
+  .then(() => res.status(200).json({ message: 'ok'}))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log("Error Controller addNewOperationToSaleGross: " + error)
   })
 }
 

@@ -136,18 +136,18 @@ export const saveFee = async (req, res) => {
     loadType,
     date,
     carrierEmail,
-    carrierFee,
-    carrierChassis,
-    carrierAccesorials,
-    magnetFee,
-    magnetChassis,
-    magnetAccesorials,
+    buyDrayageUnitRate,
+    chassisUnitRate,
+    buyAccesorials,
+    sellDrayageUniteRate,
+    sellChassisUnitRate,
+    sellAccesorials,
     notes
   } = req.body;
 
   try {
-    const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
-    const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
+    const buyAccesorialsJSON = JSON.stringify(buyAccesorials);
+    const sellAccesorialsJSON = JSON.stringify(sellAccesorials);
 
     await saveNewQuoteFee(
       quoteID,
@@ -166,12 +166,12 @@ export const saveFee = async (req, res) => {
       loadType,
       date,
       carrierEmail,
-      carrierFee,
-      carrierChassis,
-      carrierAccesorialsJSON,
-      magnetFee,
-      magnetChassis,
-      magnetAccesorialsJSON,
+      buyDrayageUnitRate,
+      chassisUnitRate,
+      buyAccesorialsJSON,
+      sellDrayageUniteRate,
+      sellChassisUnitRate,
+      sellAccesorialsJSON,
       notes
     );
     return res.status(200).json({ message: "ok" });

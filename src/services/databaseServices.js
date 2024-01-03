@@ -22,10 +22,32 @@ export const saveNewQuote = async (newId, operation, pol, address, equipment, co
   }
 }
 
-export const saveNewQuoteFee = async (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, notes) => {
-  const query = "INSERT INTO carriers_fees (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+export const saveNewQuoteFee = async (  quoteID,
+  modeOfOperation,
+  pol,
+  deliveryAddress,
+  equipment,
+  containerSize,
+  containerType,
+  weight,
+  commodity,
+  otherCommodity,
+  hazardous,
+  hazardousClass,
+  bonded,
+  loadType,
+  date,
+  carrierEmail,
+  buyDrayageUnitRate,
+  chassisUnitRate,
+  buyAccesorialsJSON,
+  sellDrayageUniteRate,
+  sellChassisUnitRate,
+  sellAccesorialsJSON,
+  notes) => {
+  const query = "INSERT INTO carriers_fees (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorials, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorials, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
   try {
-    await pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, notes])
+    await pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, chassisUnitRate, buyAccesorialsJSON, sellDrayageUniteRate, sellChassisUnitRate, sellAccesorialsJSON, notes])
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;

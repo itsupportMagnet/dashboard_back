@@ -834,13 +834,12 @@ export const getCarriersFeeByID = async (req, res) => {
 };
 
 export const updateCarrierFee = async (req, res) => {
-  const { id, carrierEmail, carrierFee, carrierChassis, carrierAccesorials, magnetFee, magnetChassis, magnetAccesorials, totalFee, totalChassis, notes } = req.body
+  const { id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorials, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorials, notes } = req.body
 
-  const carrierAccesorialsJSON = JSON.stringify(carrierAccesorials);
-  const magnetAccesorialsJSON = JSON.stringify(magnetAccesorials);
+  const buyAccesorialsJSON = JSON.stringify(buyAccesorials);
+  const sellAccesorialsJSON = JSON.stringify(sellAccesorials);
 
-  console.log(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes);
-  updateCarrierFeeById(id, carrierEmail, carrierFee, carrierChassis, carrierAccesorialsJSON, magnetFee, magnetChassis, magnetAccesorialsJSON, totalFee, totalChassis, notes)
+  updateCarrierFeeById(id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorialsJSON, notes)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

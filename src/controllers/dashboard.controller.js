@@ -118,7 +118,6 @@ export const getIdCounter = async () => {
 };
 
 export const saveFee = async (req, res) => {
-  console.log(req.body.quote);
   const {
     quoteID,
     modeOfOperation,
@@ -137,7 +136,7 @@ export const saveFee = async (req, res) => {
     date,
     carrierEmail,
     buyDrayageUnitRate,
-    chassisUnitRate,
+    buyChassisUnitRate,
     buyAccesorials,
     sellDrayageUniteRate,
     sellChassisUnitRate,
@@ -167,7 +166,7 @@ export const saveFee = async (req, res) => {
       date,
       carrierEmail,
       buyDrayageUnitRate,
-      chassisUnitRate,
+      buyChassisUnitRate,
       buyAccesorialsJSON,
       sellDrayageUniteRate,
       sellChassisUnitRate,

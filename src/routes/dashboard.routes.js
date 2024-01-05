@@ -55,7 +55,14 @@ import {
     getFloridaQuoteId,
     getFloridaQuote,
     getNormalQuote,
-    updateSaleGrossInput,
+    updateSaleGross,
+    deleteClient,
+    fetchClientById,
+    updateClientInfoById,
+    updateSummarySalesGrossById,
+    newSummarySalesGrossById,
+    getSalesGrossById,
+    addNewOperationToSaleGross
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -116,6 +123,13 @@ router
 .get("/get/get-florida-quoteId", getFloridaQuoteId)
 .get("/get/get-florida-quote/:id", getFloridaQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
-.post("/post/updateSaleGrossFromFloridaQuotes/", updateSaleGrossInput)
+.post("/post/updateSaleGross/", updateSaleGross)
+.delete("/delete/deleteClient/:id", deleteClient)
+.get("/get/clientsById/:id", fetchClientById)
+.post("/post/updateClient", updateClientInfoById)
+.post("/post/updateSummarySalesGross", updateSummarySalesGrossById)
+.post("/post/newSummarySalesGross", newSummarySalesGrossById)
+.get("/get/getSalesGrossSelected/:id", getSalesGrossById)
+.post("/post/newOperationSaleGross", addNewOperationToSaleGross)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

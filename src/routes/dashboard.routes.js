@@ -62,7 +62,8 @@ import {
     updateSummarySalesGrossById,
     newSummarySalesGrossById,
     getSalesGrossById,
-    addNewOperationToSaleGross
+    addNewOperationToSaleGross,
+    addNewCloseQuote
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -131,5 +132,6 @@ router
 .post("/post/newSummarySalesGross", newSummarySalesGrossById)
 .get("/get/getSalesGrossSelected/:id", getSalesGrossById)
 .post("/post/newOperationSaleGross", addNewOperationToSaleGross)
+.post("/post/newCloseQuote", addNewCloseQuote)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -60,7 +60,8 @@ import {
   changeSummarySalesGrossById,
   newSummaryInputSalesGross,
   fetchSaleGrossInfoById,
-  newOperationToSalesGross
+  newOperationToSalesGross,
+  newClosedQuote
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1697,4 +1698,13 @@ export const addNewOperationToSaleGross = async (req, res) => {
   })
 }
 
+export const addNewCloseQuote = async (req, res) => {
+  const {quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate } = req.body;
+  newClosedQuote(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate)
+  .then(() => res.status(200).json({ message: 'ok'}))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log("Error Controller addNewOperationToSaleGross: " + error)
+  })
+}
 

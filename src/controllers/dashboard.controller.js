@@ -61,7 +61,8 @@ import {
   newSummaryInputSalesGross,
   fetchSaleGrossInfoById,
   newOperationToSalesGross,
-  newClosedQuote
+  newClosedQuote,
+  getAllClientsByCompanyId
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1707,5 +1708,11 @@ export const addNewCloseQuote = async (req, res) => {
     res.status(500).json(error);
     console.log("Error Controller addNewOperationToSaleGross: " + error)
   })
+}
+
+export const getAllClientsCompany = async (req, res) => {
+  getAllClientsByCompanyId(req.params.id)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({ error }))
 }
 

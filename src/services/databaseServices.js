@@ -712,3 +712,13 @@ export const newClosedQuote = async (quoteID, operationType, pol, warehouse, cit
     throw error
   })
 }
+
+export const getAllClientsByCompanyId = async(id) => {
+  const query = 'SELECT * FROM clients WHERE company_clientID = ?';
+  return pool.query(query, [id])
+  .then(data => data[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  }) 
+}

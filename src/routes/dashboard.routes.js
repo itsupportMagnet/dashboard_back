@@ -63,7 +63,8 @@ import {
     newSummarySalesGrossById,
     getSalesGrossById,
     addNewOperationToSaleGross,
-    addNewCloseQuote
+    addNewCloseQuote,
+    getAllClientsCompany,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -133,5 +134,6 @@ router
 .get("/get/getSalesGrossSelected/:id", getSalesGrossById)
 .post("/post/newOperationSaleGross", addNewOperationToSaleGross)
 .post("/post/newCloseQuote", addNewCloseQuote)
+.get("/get/clients/:id", getAllClientsCompany)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

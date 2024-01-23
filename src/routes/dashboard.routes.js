@@ -84,9 +84,9 @@ router
 .post("/post/update-carrier-fee", updateCarrierFee)
 .get("/get/accesorials", getAllAccesorials)
 .get("/get/providers", getAllProviders)
-.get("/get/carriers/:id", getCarriersByPort)
+.get("/get/carriers/:id", getCarriersByPort) //Debemos cambiarlo a futuro
 .get("/get/ports", getAllPorts)
-.get("/get/carriers", getAllCarriers)
+.get("/get/allCarriers/:id", getAllCarriers)
 .post("/login/users/sign_in", login)
 .get("/login/users/verify-token", [validarJWT], verifyToken)
 .get("/get/cities", getAllCities) //Este endpoint no lo ocupamos en nada

@@ -1098,7 +1098,7 @@ export const getAllProviders = (req, res) => {
 };
 
 export const getAllCarriers = (req, res) => {
-  getCarriersList()
+  getCarriersList(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

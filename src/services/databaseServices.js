@@ -154,9 +154,9 @@ export const getQuotes = async () => {
     });
 };
 
-export const getSales = async () => {
-  const query = "SELECT * FROM sales_gross";
-  return pool.query(query)
+export const getSales = async (id) => {
+  const query = "SELECT * FROM sales_gross WHERE company_clientID = ? ";
+  return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
       console.log(error);

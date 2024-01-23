@@ -72,7 +72,7 @@ const router = Router();
 
 router
 .post("/createQuote", createQuote)
-.get("/get/salesGross", getAllSales)
+.get("/get/salesGross/:id", getAllSales)
 .post("/post/send-fee", sendFee)
 .post("/post/save-fee", saveFee)
 .get("/get/allQuotes", getAllQuotes)

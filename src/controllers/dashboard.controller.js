@@ -1053,7 +1053,7 @@ export const getAllQuotes = async (req, res) => {
 };
 
 export const getAllSales = (req, res) => {
-  getSales()
+  getSales(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

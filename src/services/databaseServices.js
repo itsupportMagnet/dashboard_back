@@ -462,9 +462,9 @@ export const updateOperation = async (
 // }
 
 
-export const getAllOperationsForTable = async () => {
-  const query = "SELECT idOperation, operationDate, status, containerId, containerStatus, bookingBl, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, notes FROM operations";
-  return pool.query(query)
+export const getAllOperationsForTable = async (id) => {
+  const query = "SELECT idOperation, operationDate, status, containerId, containerStatus, bookingBl, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, notes FROM operations WHERE company_userID = ?";
+  return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get all operations", error);

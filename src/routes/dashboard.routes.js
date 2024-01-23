@@ -108,7 +108,7 @@ router
 .post("/post/change-notes", changeNoteQuote)
 .post("/post/change-quoteid", changeQuoteId)
 .post("/post/change-weight", changeWeight) 
-.get("/get/allOperationsTable", getAllOperationsTable)
+.get("/get/allOperationsTable/:id", getAllOperationsTable)
 .get("/get/allFloridaQuotes/:id", getFloridaQuotes)
 .post("/post/updateOperation", updateOperationById)
 .delete("/delete/deleteOperation/:id", deleteOperationFromTable)

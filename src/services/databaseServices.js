@@ -473,9 +473,9 @@ export const getAllOperationsForTable = async () => {
 }
 
 
-export const getAllFloridaQuotes = async () => {
-  const query = "SELECT * FROM florida_quotes";
-  return pool.query(query).then(row => row[0])
+export const getAllFloridaQuotes = async (id) => {
+  const query = "SELECT * FROM florida_quotes WHERE company_userID = ? ";
+  return pool.query(query, [id]).then(row => row[0])
     .catch(error => {
       console.error("Error trying to get all florida operations", error);
       throw error

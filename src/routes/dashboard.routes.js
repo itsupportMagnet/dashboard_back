@@ -109,7 +109,7 @@ router
 .post("/post/change-quoteid", changeQuoteId)
 .post("/post/change-weight", changeWeight) 
 .get("/get/allOperationsTable", getAllOperationsTable)
-.get("/get/allFloridaQuotes", getFloridaQuotes)
+.get("/get/allFloridaQuotes/:id", getFloridaQuotes)
 .post("/post/updateOperation", updateOperationById)
 .delete("/delete/deleteOperation/:id", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)

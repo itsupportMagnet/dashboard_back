@@ -1438,7 +1438,7 @@ export const getAllOperationsTable = async (req, res) => {
 };
 
 export const getFloridaQuotes = async (req, res) => {
-  getAllFloridaQuotes()
+  getAllFloridaQuotes(req.params.id)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

@@ -155,7 +155,7 @@ export const getQuotes = async () => {
 };
 
 export const getSales = async (id) => {
-  const query = "SELECT * FROM sales_gross WHERE company_clientID = ? ";
+  const query = "SELECT * FROM sales_gross WHERE company_userID = ? ";
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

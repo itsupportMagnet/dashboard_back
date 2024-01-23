@@ -75,7 +75,7 @@ router
 .get("/get/salesGross/:id", getAllSales)
 .post("/post/send-fee", sendFee)
 .post("/post/save-fee", saveFee)
-.get("/get/allQuotes", getAllQuotes)
+.get("/get/allQuotes/:id", getAllQuotes)
 .get("/allRoutes", getAllRoutes) //Este endpoint no lo ocupamos en nada
 .get("/get/quotes/:id", getQuote)
 .get("/get/clients", getAllClients)

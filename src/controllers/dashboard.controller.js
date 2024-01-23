@@ -1044,7 +1044,7 @@ export const getAllPorts = async (req, res) => {
 };
 
 export const getAllQuotes = async (req, res) => {
-  getQuotes()
+  getQuotes(req.params.id)
     .then((rows) => res.status(200).json(rows))
     .catch((error) => {
       console.error(error);

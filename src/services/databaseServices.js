@@ -144,8 +144,8 @@ export const getPorts = async () => {
 }
 
 
-export const getQuotes = async () => {
-  const query = "SELECT `quoteID`, `modeOfOperation`, `quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date`,`cordinator` FROM quotes";
+export const getQuotes = async (id) => {
+  const query = "SELECT `quoteID`, `modeOfOperation`, `quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date`,`cordinator` FROM quotes WHERE company_userID = ?";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {
@@ -155,7 +155,7 @@ export const getQuotes = async () => {
 };
 
 export const getSales = async (id) => {
-  const query = "SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, month_of_invoice FROM sales_gross WHERE company_userID = ? ";
+  const query = "SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, month_of_invoice FROM sales_gross WHERE company_userID = ? "; //Empiezo a Especificar las tablas pedidas
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

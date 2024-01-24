@@ -1636,7 +1636,8 @@ export const updateSaleGross = async (req, res) => {
 
 export const deleteClient = async (req, res) => {
   const { id } = req.params;
-  deleteClientById(id)
+  const idCompany = req.params.idCompany;
+  deleteClientById(id, idCompany)
   .then(res.status(200).json({ message: 'ok'}))
   .catch(error => {
     console.log('Error Controller deleteClient: ' + error)

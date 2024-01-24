@@ -323,7 +323,7 @@ export const getOperationById = async (operationId) => {
 }
 
 export const addNewClient = async (customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON, idCompany) => {
-  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type, company_userID) VALUES (?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type, company_clientID) VALUES (?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [customerId, name, address, phonesJSON, emailsJSON, contact, businessLine, customerType, idCompany])
     .then(() => true)

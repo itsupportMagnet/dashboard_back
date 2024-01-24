@@ -1251,11 +1251,11 @@ export const getOperation = async (req, res) => {
 
 export const addClient = async (req, res) => {
 
-  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers } = req.body;
+  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers, idCompany } = req.body;
   const emailsJSON = JSON.stringify(customerEmails);
   const phonesJSON = JSON.stringify(phoneNumbers);
 
-  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);

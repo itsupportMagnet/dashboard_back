@@ -126,7 +126,7 @@ router
 .get("/get/get-florida-quote/:id", getFloridaQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
 .post("/post/updateSaleGross/", updateSaleGross)
-.delete("/delete/deleteClient/:id/idCompany", deleteClient)
+.delete("/delete/deleteClient/:id/:idCompany", deleteClient)
 .get("/get/clientsById/:id/:idCompany", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)
 .post("/post/updateSummarySalesGross", updateSummarySalesGrossById)

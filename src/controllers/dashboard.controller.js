@@ -55,7 +55,7 @@ import {
   getNormalQuoteById,
   updateSaleGrossById,
   deleteClientById,
-  getClientById,
+  getClientByIdAndCompany,
   changeClientInfo,
   changeSummarySalesGrossById,
   newSummaryInputSalesGross,
@@ -1645,7 +1645,9 @@ export const deleteClient = async (req, res) => {
 }
 
 export const fetchClientById = async (req, res) => {
-  getClientById(req.params.id)
+  const idClient = req.params.id;
+  const idCompany = req.params.idCompany;
+  getClientByIdAndCompany(idClient, idCompany)
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({ error }))
 }

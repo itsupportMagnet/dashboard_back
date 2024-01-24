@@ -641,9 +641,9 @@ export const deleteClientById = async (id) => {
     })
 }
 
-export const getClientById = async (id) => {
-  const query = 'SELECT * FROM clients WHERE id_Client = ?';
-  return pool.query(query, [id])
+export const getClientByIdAndCompany = async (idClient, idCompany) => {
+  const query = 'SELECT * FROM clients WHERE id_Client = ? AND company_clientID = ? ';
+  return pool.query(query, [idClient, idCompany])
     .then(data => data[0])
     .catch(error => {
       console.log(error);

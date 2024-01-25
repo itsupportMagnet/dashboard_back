@@ -1209,7 +1209,7 @@ export const changeStatus = async (req, res) => {
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
-      res.status(500).json({ error })
+      res.status(500).json({error})
     })
 }
 

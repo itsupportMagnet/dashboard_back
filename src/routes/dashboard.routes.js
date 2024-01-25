@@ -104,7 +104,7 @@ router
 .get("/get/states", getAllStates)
 .get("/get/container-status", getContainerStatus)
 .post("/post/change-status-quote", changeStatusQuote)
-.get("/get/getQuoteIds", getQuoteIds)
+.get("/get/getQuoteIds/:idCompany", getQuoteIds)
 .post("/post/change-notes", changeNoteQuote)
 .post("/post/change-quoteid", changeQuoteId)
 .post("/post/change-weight", changeWeight) 

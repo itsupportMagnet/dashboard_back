@@ -1138,6 +1138,7 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    idCompany,
   } = req.body;
 
   saveNewOperation(
@@ -1171,6 +1172,7 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    idCompany,
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
@@ -1305,7 +1307,7 @@ export const changeStatusQuote = async (req, res) => {
 }
 
 export const getQuoteIds = async (req, res) => {
-  getAllQuoteIds()
+  getAllQuoteIds(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

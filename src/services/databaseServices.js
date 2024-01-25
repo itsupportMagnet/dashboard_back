@@ -588,9 +588,9 @@ export const deleteSaleById = async (id) => {
     })
 }
 
-export const getAllFloridaQuoteId = async () => {
-  const query = "SELECT quoteID FROM florida_quotes";
-  return pool.query(query)
+export const getAllFloridaQuoteId = async (idCompany) => {
+  const query = "SELECT quoteID FROM florida_quotes WHERE company_userID = ?";
+  return pool.query(query, [idCompany])
     .then(row => row[0])
     .catch(error => {
       console.error("Error trying to get the quotes id:", error);

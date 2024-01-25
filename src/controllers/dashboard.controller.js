@@ -1599,7 +1599,7 @@ export const deleteSale = async (req, res) => {
 }
 
 export const getFloridaQuoteId = async (req, res) => {
-  getAllFloridaQuoteId()
+  getAllFloridaQuoteId(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch(error => {
       console.log('Error Controller getFloridaQuoteId: ' + error)

@@ -1089,7 +1089,7 @@ export const getAllClients = (req, res) => {
 };
 
 export const getAllProviders = (req, res) => {
-  getProviders()
+  getProviders(req.params.idCompany)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

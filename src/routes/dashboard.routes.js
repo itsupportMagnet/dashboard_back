@@ -83,7 +83,7 @@ router
 .get("/get/carriers-fees/:id", getCarriersFeeByID)
 .post("/post/update-carrier-fee", updateCarrierFee)
 .get("/get/accesorials", getAllAccesorials)
-.get("/get/providers", getAllProviders)
+.get("/get/providers/:idCompany", getAllProviders)
 .get("/get/carriers/:id", getCarriersByPort) //Debemos cambiarlo a futuro
 .get("/get/ports", getAllPorts)
 .get("/get/allCarriers/:id", getAllCarriers)

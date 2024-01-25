@@ -194,9 +194,9 @@ export const getClients = async () => {
     })
 }
 
-export const getProviders = async () => {
-  const query = "SELECT * FROM providers";
-  return pool.query(query)
+export const getProviders = async (idCompany) => {
+  const query = "SELECT * FROM providers WHERE company_userID = ?";
+  return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {
       console.log(error)

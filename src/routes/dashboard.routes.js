@@ -62,7 +62,9 @@ import {
     updateSummarySalesGrossById,
     newSummarySalesGrossById,
     getSalesGrossById,
-    addNewOperationToSaleGross
+    addNewOperationToSaleGross,
+    addNewCloseQuote,
+    getAllClientsCompany,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -70,10 +72,10 @@ const router = Router();
 
 router
 .post("/createQuote", createQuote)
-.get("/get/salesGross", getAllSales)
+.get("/get/salesGross/:id", getAllSales)
 .post("/post/send-fee", sendFee)
 .post("/post/save-fee", saveFee)
-.get("/get/allQuotes", getAllQuotes)
+.get("/get/allQuotes/:id", getAllQuotes)
 .get("/allRoutes", getAllRoutes) //Este endpoint no lo ocupamos en nada
 .get("/get/quotes/:id", getQuote)
 .get("/get/clients", getAllClients)
@@ -81,10 +83,10 @@ router
 .get("/get/carriers-fees/:id", getCarriersFeeByID)
 .post("/post/update-carrier-fee", updateCarrierFee)
 .get("/get/accesorials", getAllAccesorials)
-.get("/get/providers", getAllProviders)
-.get("/get/carriers/:id", getCarriersByPort)
+.get("/get/providers/:idCompany", getAllProviders)
+.get("/get/carriers/:id", getCarriersByPort) //Debemos cambiarlo a futuro
 .get("/get/ports", getAllPorts)
-.get("/get/carriers", getAllCarriers)
+.get("/get/allCarriers/:id", getAllCarriers)
 .post("/login/users/sign_in", login)
 .get("/login/users/verify-token", [validarJWT], verifyToken)
 .get("/get/cities", getAllCities) //Este endpoint no lo ocupamos en nada
@@ -102,12 +104,12 @@ router
 .get("/get/states", getAllStates)
 .get("/get/container-status", getContainerStatus)
 .post("/post/change-status-quote", changeStatusQuote)
-.get("/get/getQuoteIds", getQuoteIds)
+.get("/get/getQuoteIds/:idCompany", getQuoteIds)
 .post("/post/change-notes", changeNoteQuote)
 .post("/post/change-quoteid", changeQuoteId)
 .post("/post/change-weight", changeWeight) 
-.get("/get/allOperationsTable", getAllOperationsTable)
-.get("/get/allFloridaQuotes", getFloridaQuotes)
+.get("/get/allOperationsTable/:id", getAllOperationsTable)
+.get("/get/allFloridaQuotes/:id", getFloridaQuotes)
 .post("/post/updateOperation", updateOperationById)
 .delete("/delete/deleteOperation/:id", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)
@@ -120,16 +122,18 @@ router
 .post("/post/updateSellSalesGross", updateSellSalesGross)
 .post("/post/updateProfitSalesGross", updateProfitSalesGross)
 .delete("/delete/delete-sale/:id", deleteSale)
-.get("/get/get-florida-quoteId", getFloridaQuoteId)
+.get("/get/get-florida-quoteId/:idCompany", getFloridaQuoteId)
 .get("/get/get-florida-quote/:id", getFloridaQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
 .post("/post/updateSaleGross/", updateSaleGross)
-.delete("/delete/deleteClient/:id", deleteClient)
-.get("/get/clientsById/:id", fetchClientById)
+.delete("/delete/deleteClient/:id/:idCompany", deleteClient)
+.get("/get/clientsById/:id/:idCompany", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)
 .post("/post/updateSummarySalesGross", updateSummarySalesGrossById)
 .post("/post/newSummarySalesGross", newSummarySalesGrossById)
 .get("/get/getSalesGrossSelected/:id", getSalesGrossById)
 .post("/post/newOperationSaleGross", addNewOperationToSaleGross)
+.post("/post/newCloseQuote", addNewCloseQuote)
+.get("/get/clients/:id", getAllClientsCompany)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

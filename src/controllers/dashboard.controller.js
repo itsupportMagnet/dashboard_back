@@ -55,12 +55,14 @@ import {
   getNormalQuoteById,
   updateSaleGrossById,
   deleteClientById,
-  getClientById,
+  getClientByIdAndCompany,
   changeClientInfo,
   changeSummarySalesGrossById,
   newSummaryInputSalesGross,
   fetchSaleGrossInfoById,
-  newOperationToSalesGross
+  newOperationToSalesGross,
+  newClosedQuote,
+  getAllClientsByCompanyId
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -77,7 +79,8 @@ export const login = async (req, res) => {
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
-      const rol = user.rol
+      const rol = user.rol;
+      const companyUser = user.company_userID;
 
       console.log(data);
 
@@ -93,7 +96,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.status(200).send({ token, userName, rol });
+          res.status(200).send({ token, userName, rol, companyUser });
           console.log(res)
 
         }
@@ -1041,7 +1044,7 @@ export const getAllPorts = async (req, res) => {
 };
 
 export const getAllQuotes = async (req, res) => {
-  getQuotes()
+  getQuotes(req.params.id)
     .then((rows) => res.status(200).json(rows))
     .catch((error) => {
       console.error(error);
@@ -1050,7 +1053,7 @@ export const getAllQuotes = async (req, res) => {
 };
 
 export const getAllSales = (req, res) => {
-  getSales()
+  getSales(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1086,7 +1089,7 @@ export const getAllClients = (req, res) => {
 };
 
 export const getAllProviders = (req, res) => {
-  getProviders()
+  getProviders(req.params.idCompany)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1095,7 +1098,7 @@ export const getAllProviders = (req, res) => {
 };
 
 export const getAllCarriers = (req, res) => {
-  getCarriersList()
+  getCarriersList(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1135,6 +1138,7 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    idCompany,
   } = req.body;
 
   saveNewOperation(
@@ -1168,6 +1172,7 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    idCompany,
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
@@ -1175,7 +1180,7 @@ export const newOperation = async (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).json({ error });
+      res.status(500).json({error});
     });
 };
 
@@ -1204,7 +1209,7 @@ export const changeStatus = async (req, res) => {
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
-      res.status(500).json({ error })
+      res.status(500).json({error})
     })
 }
 
@@ -1248,11 +1253,11 @@ export const getOperation = async (req, res) => {
 
 export const addClient = async (req, res) => {
 
-  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers } = req.body;
+  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers, idCompany } = req.body;
   const emailsJSON = JSON.stringify(customerEmails);
   const phonesJSON = JSON.stringify(phoneNumbers);
 
-  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1262,10 +1267,10 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
 
-  const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails } = req.body;
+  const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany } = req.body;
   const phonesJSON = JSON.stringify(phoneNumbers);
   const emailsJSON = JSON.stringify(carrierEmails);
-  addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON)
+  addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1302,7 +1307,7 @@ export const changeStatusQuote = async (req, res) => {
 }
 
 export const getQuoteIds = async (req, res) => {
-  getAllQuoteIds()
+  getAllQuoteIds(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);
@@ -1435,7 +1440,7 @@ export const getAllOperationsTable = async (req, res) => {
 };
 
 export const getFloridaQuotes = async (req, res) => {
-  getAllFloridaQuotes()
+  getAllFloridaQuotes(req.params.id)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);
@@ -1594,7 +1599,7 @@ export const deleteSale = async (req, res) => {
 }
 
 export const getFloridaQuoteId = async (req, res) => {
-  getAllFloridaQuoteId()
+  getAllFloridaQuoteId(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch(error => {
       console.log('Error Controller getFloridaQuoteId: ' + error)
@@ -1633,7 +1638,8 @@ export const updateSaleGross = async (req, res) => {
 
 export const deleteClient = async (req, res) => {
   const { id } = req.params;
-  deleteClientById(id)
+  const idCompany = req.params.idCompany;
+  deleteClientById(id, idCompany)
   .then(res.status(200).json({ message: 'ok'}))
   .catch(error => {
     console.log('Error Controller deleteClient: ' + error)
@@ -1642,7 +1648,9 @@ export const deleteClient = async (req, res) => {
 }
 
 export const fetchClientById = async (req, res) => {
-  getClientById(req.params.id)
+  const idClient = req.params.id;
+  const idCompany = req.params.idCompany;
+  getClientByIdAndCompany(idClient, idCompany)
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({ error }))
 }
@@ -1697,4 +1705,19 @@ export const addNewOperationToSaleGross = async (req, res) => {
   })
 }
 
+export const addNewCloseQuote = async (req, res) => {
+  const {quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD,  buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
+  newClosedQuote(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
+  .then(() => res.status(200).json({ message: 'ok'}))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log("Error Controller addNewOperationToSaleGross: " + error)
+  })
+}
+
+export const getAllClientsCompany = async (req, res) => {
+  getAllClientsByCompanyId(req.params.id)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({error}))
+}
 

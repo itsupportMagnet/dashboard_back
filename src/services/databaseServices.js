@@ -144,9 +144,9 @@ export const getPorts = async () => {
 }
 
 
-export const getQuotes = async () => {
-  const query = "SELECT `quoteID`, `modeOfOperation`, `quoteStatus` , `pol`, `deliveryAddress`, `equipment`, `containerSize`, `containerType`, `weight`, `commodity`, `hazardous`, `bonded`, `loadType`, `date`,`cordinator` FROM quotes";
-  return pool.query(query)
+export const getQuotes = async (id) => {
+  const query = "SELECT quoteID, modeOfOperation, quoteStatus , pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, date ,cordinator FROM quotes WHERE company_userID = ? ";
+  return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get all quotes:", error); //comment
@@ -154,9 +154,9 @@ export const getQuotes = async () => {
     });
 };
 
-export const getSales = async () => {
-  const query = "SELECT * FROM sales_gross";
-  return pool.query(query)
+export const getSales = async (id) => {
+  const query = "SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, month_of_invoice FROM sales_gross WHERE company_userID = ? "; //Empiezo a Especificar las tablas pedidas
+  return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
       console.log(error);
@@ -194,9 +194,9 @@ export const getClients = async () => {
     })
 }
 
-export const getProviders = async () => {
-  const query = "SELECT * FROM providers";
-  return pool.query(query)
+export const getProviders = async (idCompany) => {
+  const query = "SELECT * FROM providers WHERE company_userID = ?";
+  return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {
       console.log(error)
@@ -224,9 +224,9 @@ export const getAccesorials = async () => {
     });
 }
 
-export const getCarriersList = async () => {
-  const query = 'SELECT * FROM carriers3test';
-  return pool.query(query)
+export const getCarriersList = async (id) => {
+  const query = 'SELECT * FROM carriers3 WHERE company_userID = ? ';
+  return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get all quotes:", error);
@@ -244,10 +244,10 @@ export const updateIdCounter = async (newCounter) => {
   }
 }
 
-export const saveNewOperation = async (idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes) => {
-  const query = "INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const saveNewOperation = async (idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, idCompany) => {
+  const query = "INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
-    await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes])
+    await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, idCompany])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
     console.log('Estoy en el query')
@@ -322,10 +322,10 @@ export const getOperationById = async (operationId) => {
     })
 }
 
-export const addNewClient = async (customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON) => {
-  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type) VALUES (?,?,?,?,?,?,?,?)"
+export const addNewClient = async (customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON, idCompany) => {
+  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type, company_clientID) VALUES (?,?,?,?,?,?,?,?,?)"
 
-  return pool.query(query, [customerId, name, address, phonesJSON, emailsJSON, contact, businessLine, customerType])
+  return pool.query(query, [customerId, name, address, phonesJSON, emailsJSON, contact, businessLine, customerType, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL:", error);
@@ -333,10 +333,10 @@ export const addNewClient = async (customerId, name, address, contact, businessL
     });
 }
 
-export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON) => {
-  const query = "INSERT INTO carriers3test (id, carrier_name, mc, dot, w2, address, zipcode, state, credit_terms, line_of_business, carrier_type, phone_number, contact_mail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany) => {
+  const query = "INSERT INTO carriers3 (id_carrier, carrier_name, mc, dot, w2, carrier_address, carrier_zipcode, carrier_state, days_of_credit, line_of_business, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
-  return pool.query(query, [carrierId, name, mc, dot, w2, zipcode, address, state, doct, businessLine, carrierType, phonesJSON, emailsJSON])
+  return pool.query(query, [carrierId, name, mc, dot, w2, zipcode, address, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL:", error);
@@ -374,9 +374,9 @@ export const getAllContainerStatus = async (req, res) => {
     });
 }
 
-export const getAllQuoteIds = async () => {
-  const query = "SELECT quoteID FROM quotes";
-  return pool.query(query)
+export const getAllQuoteIds = async (idCompany) => {
+  const query = "SELECT quoteID FROM quotes WHERE company_userID = ? ";
+  return pool.query(query, [idCompany])
     .then(row => row[0])
     .catch(error => {
       console.error("Error trying to get the ports:", error);
@@ -462,9 +462,9 @@ export const updateOperation = async (
 // }
 
 
-export const getAllOperationsForTable = async () => {
-  const query = "SELECT idOperation, operationDate, status, containerId, containerStatus, bookingBl, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, notes FROM operations";
-  return pool.query(query)
+export const getAllOperationsForTable = async (id) => {
+  const query = "SELECT idOperation, operationDate, status, containerId, containerStatus, bookingBl, customer, provider, warehouseLocation, terminal, port, emptyLocation, fullLocation, containerSize, containerType, equipment, weight, ssline, hazardous, bonded, cargoCut, commodity, city, state, modeOfOperation , quoteID, notes FROM operations WHERE company_userID = ?";
+  return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get all operations", error);
@@ -473,9 +473,9 @@ export const getAllOperationsForTable = async () => {
 }
 
 
-export const getAllFloridaQuotes = async () => {
-  const query = "SELECT * FROM florida_quotes";
-  return pool.query(query).then(row => row[0])
+export const getAllFloridaQuotes = async (id) => {
+  const query = "SELECT * FROM florida_quotes WHERE company_userID = ? ";
+  return pool.query(query, [id]).then(row => row[0])
     .catch(error => {
       console.error("Error trying to get all florida operations", error);
       throw error
@@ -588,9 +588,9 @@ export const deleteSaleById = async (id) => {
     })
 }
 
-export const getAllFloridaQuoteId = async () => {
-  const query = "SELECT quoteID FROM florida_quotes";
-  return pool.query(query)
+export const getAllFloridaQuoteId = async (idCompany) => {
+  const query = "SELECT quoteID FROM florida_quotes WHERE company_userID = ?";
+  return pool.query(query, [idCompany])
     .then(row => row[0])
     .catch(error => {
       console.error("Error trying to get the quotes id:", error);
@@ -630,10 +630,10 @@ export const updateSaleGrossById = async (operation_id, booking_bl, container_id
     })
 }
 
-export const deleteClientById = async (id) => {
-  console.log(id);
-  const query = "DELETE FROM clients WHERE id_Client = ?";
-  return pool.query(query, [id])
+export const deleteClientById = async (id, idCompany) => {
+  console.log(id + 'y tambien : ' + idCompany);
+  const query = "DELETE FROM clients WHERE id_Client = ? AND company_clientID = ? ";
+  return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL :" + error)
@@ -641,9 +641,9 @@ export const deleteClientById = async (id) => {
     })
 }
 
-export const getClientById = async (id) => {
-  const query = 'SELECT * FROM clients WHERE id_Client = ?';
-  return pool.query(query, [id])
+export const getClientByIdAndCompany = async (idClient, idCompany) => {
+  const query = 'SELECT * FROM clients WHERE id_Client = ? AND company_clientID = ? ';
+  return pool.query(query, [idClient, idCompany])
     .then(data => data[0])
     .catch(error => {
       console.log(error);
@@ -700,4 +700,25 @@ export const newOperationToSalesGross = async (operation_id, booking_bl, contain
     console.error ("Error on SQL : " +  error)
     throw error
   })
+}
+
+export const newClosedQuote = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany ) => {
+  const query = "INSERT INTO florida_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIdPerDestation, buyDrayageUnitRate, buyChassisUnitRate, customerID, customer, customerIdPerDestation, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  console.log('Consulta SQL: ', pool.format(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany ]))
+  return pool.query(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany ])
+  .then(() => true)
+  .catch(error => {
+    console.error ("Error on SQL: " + error)
+    throw error
+  })
+}
+
+export const getAllClientsByCompanyId = async(id) => {
+  const query = 'SELECT * FROM clients WHERE company_clientID = ?';
+  return pool.query(query, [id])
+  .then(data => data[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  }) 
 }

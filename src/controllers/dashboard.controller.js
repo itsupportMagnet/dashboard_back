@@ -1724,6 +1724,7 @@ export const getAllClientsCompany = async (req, res) => {
 }
 
 export const filterOperationCol = async (req, res) => {
-  const colList = Object.entries(req.body);
-  console.log(req.body);
+  const colList = Object.keys(req.body).filter(item => req.body[item] === true);
+  console.log(colList);
+  console.log(Object.keys(req.body));
 }

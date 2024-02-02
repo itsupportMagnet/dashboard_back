@@ -62,7 +62,8 @@ import {
   fetchSaleGrossInfoById,
   newOperationToSalesGross,
   newClosedQuote,
-  getAllClientsByCompanyId
+  getAllClientsByCompanyId,
+  getOperationColFiltered
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1726,7 +1727,7 @@ export const getAllClientsCompany = async (req, res) => {
 export const filterOperationCol = async (req, res) => {
   const colList = Object.keys(req.body).filter(item => req.body[item] === true);
 
-  getOperationColFiltered()
+  getOperationColFiltered(colList)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
 }

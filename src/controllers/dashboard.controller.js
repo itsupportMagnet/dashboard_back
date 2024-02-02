@@ -1725,5 +1725,5 @@ export const getAllClientsCompany = async (req, res) => {
 
 export const filterOperationCol = async (req, res) => {
   const colList = Object.entries(req.body);
-  console.log(colList);
+  console.log(req.body);
 }

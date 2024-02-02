@@ -136,6 +136,6 @@ router
 .post("/post/newOperationSaleGross", addNewOperationToSaleGross)
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
-.post("/get/filterOperationCol", filterOperationCol)
+.post("/post/filterOperationCol", filterOperationCol)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

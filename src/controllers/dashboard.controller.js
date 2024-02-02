@@ -1723,3 +1723,7 @@ export const getAllClientsCompany = async (req, res) => {
   .catch(error => res.status(500).json({error}))
 }
 
+export const filterOperationCol = async (req, res) => {
+  const colList = Object.entries(req.body);
+  console.log(colList);
+}

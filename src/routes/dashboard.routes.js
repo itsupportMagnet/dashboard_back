@@ -65,6 +65,7 @@ import {
     addNewOperationToSaleGross,
     addNewCloseQuote,
     getAllClientsCompany,
+    filterOperationCol
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -135,5 +136,6 @@ router
 .post("/post/newOperationSaleGross", addNewOperationToSaleGross)
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
+.post("/get/filterOperationCol", filterOperationCol)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

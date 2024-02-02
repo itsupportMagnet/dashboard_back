@@ -883,7 +883,7 @@ export const createQuote = async (req, res) => {
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   const bccRecipients = carrier;
-  const emailSender = coordinatorEmail;
+
 
   const emailBody = `<!DOCTYPE html>
   <html lang="en">
@@ -1004,7 +1004,7 @@ export const createQuote = async (req, res) => {
     cordinator
   )
     .then(() => {
-      return sendEmail(emailSubject, emailBody, bccRecipients, "", emailSender);
+      return sendEmail(emailSubject, emailBody, bccRecipients, "", coordinatorEmail);
     })
     .then(() => {
       return updateIdCounter(newCounter);

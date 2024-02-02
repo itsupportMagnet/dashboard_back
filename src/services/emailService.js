@@ -5,8 +5,8 @@ import 'isomorphic-fetch';
 
 const { tenantId, clientId, clientSecret } = process.env;
 
-export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [], propCcRecipients, emailSender) => {
-  const resource = emailSender;
+export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [], propCcRecipients, coordinatorEmail) => {
+  const resource = coordinatorEmail;
   const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
   const authProvider = new TokenCredentialAuthenticationProvider(credential, { scopes: ["https://graph.microsoft.com/.default"] });
   const client = Client.initWithMiddleware({
@@ -19,7 +19,8 @@ export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [],
   ]
 
   const recipients = [
-    "magnet.logistics.emails@gmail.com"
+    "josiaxs@gmail.com",
+
   ];
 
   recipients.push(...emails.filter(email => email !== resource));

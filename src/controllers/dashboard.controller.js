@@ -1725,6 +1725,10 @@ export const getAllClientsCompany = async (req, res) => {
 
 export const filterOperationCol = async (req, res) => {
   const colList = Object.keys(req.body).filter(item => req.body[item] === true);
-  console.log(colList);
-  console.log(Object.keys(req.body));
+  
+  const printCol = colList.map(i => i)
+  console.log(printCol);
+  // getOperationColFiltered()
+  // .then(data => res.status(200).json(data))
+  // .catch(error => res.status(500).json({error}))
 }

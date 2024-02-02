@@ -5,21 +5,31 @@ import 'isomorphic-fetch';
 
 const { tenantId, clientId, clientSecret } = process.env;
 
-export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [], propCcRecipients ) => {
-  const resource = 'valeria.acosta@magnetlogisticscorp.com';
+export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [], propCcRecipients, emailSender) => {
+  const resource = emailSender;
   const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
   const authProvider = new TokenCredentialAuthenticationProvider(credential, { scopes: ["https://graph.microsoft.com/.default"] });
   const client = Client.initWithMiddleware({
     authProvider
   });
 
+  const emails = [
+    "valeria.acosta@magnetlogisticscorp.com",
+    "andre.gonzalez@magnetlogisticscorp.com",
+  ]
 
   const recipients = [
     "magnet.logistics.emails@gmail.com"
   ];
 
+  recipients.push(...emails.filter(email => email !== resource));
+
+  console.log('testeo resource: ' + resource)
+  console.log('testeo emails: ' + emails)
+  console.log('testeo recipients: ' + recipients)
+
   if (propCcRecipients && propCcRecipients.length !== 0) {
-    recipients.push(...propCcRecipients); 
+    recipients.push(...propCcRecipients);
   }
 
   const ccRecipients = recipients.map(email => ({ emailAddress: { address: email } }));

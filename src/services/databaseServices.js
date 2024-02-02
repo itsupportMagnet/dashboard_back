@@ -725,11 +725,7 @@ export const getAllClientsByCompanyId = async (id) => {
 
 export const getOperationColFiltered = async (colList) => {
   const columns = colList.join(', '); 
-
   const query = `SELECT ${columns} FROM operations`;
-
-  console.log('Columnas seleccionadas para la consulta:', colList);
-  console.log('Query generada:', query);
 
   return pool.query(query)
     .then(data => data[0])

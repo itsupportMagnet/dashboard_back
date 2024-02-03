@@ -1725,8 +1725,9 @@ export const getAllClientsCompany = async (req, res) => {
 }
 
 export const filterOperationCol = async (req, res) => {
-  console.log('controller:  '+ req.body);
-  getOperationColFiltered(req.body)
+  const colList = Object.keys(req.body);
+
+  getOperationColFiltered(colList)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
 }

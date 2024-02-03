@@ -1725,9 +1725,8 @@ export const getAllClientsCompany = async (req, res) => {
 }
 
 export const filterOperationCol = async (req, res) => {
-  const colList = Object.keys(req.body).filter(item => req.body[item] === true);
 
-  getOperationColFiltered(colList)
+  getOperationColFiltered(req.body)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
 }

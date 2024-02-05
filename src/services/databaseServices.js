@@ -323,7 +323,7 @@ export const getOperationById = async (operationId) => {
 }
 
 export const addNewClient = async (customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON, idCompany) => {
-  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type, company_clientID) VALUES (?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO clients (id_Client, customer_name, address, customer_phone, customer_email, customer_contact, business_line, customer_type, company_userID) VALUES (?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [customerId, name, address, phonesJSON, emailsJSON, contact, businessLine, customerType, idCompany])
     .then(() => true)
@@ -632,7 +632,7 @@ export const updateSaleGrossById = async (operation_id, booking_bl, container_id
 
 export const deleteClientById = async (id, idCompany) => {
   console.log(id + 'y tambien : ' + idCompany);
-  const query = "DELETE FROM clients WHERE id_Client = ? AND company_clientID = ? ";
+  const query = "DELETE FROM clients WHERE id_Client = ? AND company_userID = ? ";
   return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
@@ -642,7 +642,7 @@ export const deleteClientById = async (id, idCompany) => {
 }
 
 export const getClientByIdAndCompany = async (idClient, idCompany) => {
-  const query = 'SELECT * FROM clients WHERE id_Client = ? AND company_clientID = ? ';
+  const query = 'SELECT * FROM clients WHERE id_Client = ? AND company_userID = ? ';
   return pool.query(query, [idClient, idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -714,7 +714,7 @@ export const newClosedQuote = async (quoteID, operationType, pol, warehouse, cit
 }
 
 export const getAllClientsByCompanyId = async (id) => {
-  const query = 'SELECT * FROM clients WHERE company_clientID = ?';
+  const query = 'SELECT * FROM clients WHERE company_userID = ?';
   return pool.query(query, [id])
     .then(data => data[0])
     .catch(error => {
@@ -732,5 +732,17 @@ export const getOperationColFiltered = async (colList) => {
     .catch(error => {
       console.log(error);
       throw error;
+    })
+}
+
+export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
+  const query = "DELETE FROM ? WHERE ? = ? AND company_userID = ? ";
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [tableCalled, columnCalled, id, idCompany]))
+  return console.log('testeo correcto men')
+  // return pool.query(query,  [tableCalled, columnCalled, id, idCompany])
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
     })
 }

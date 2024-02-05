@@ -63,7 +63,8 @@ import {
   newOperationToSalesGross,
   newClosedQuote,
   getAllClientsByCompanyId,
-  getOperationColFiltered
+  getOperationColFiltered,
+  deleteGenericRowById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1730,4 +1731,20 @@ export const filterOperationCol = async (req, res) => {
   getOperationColFiltered(colList)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
+}
+
+export const deleteGenericRow = async (req, res) => {
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
+  const tableCalled = req.params.tableCalled;
+  const columnCalled = req.params.columnCalled;
+
+  deleteGenericRowById(tableCalled, columnCalled, id, idCompany)
+  .then(res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log('Error Controlleer deleteGenericRow' + error)
+    res.status(500).json({ error })
+  })
+
+  
 }

@@ -65,7 +65,8 @@ import {
     addNewOperationToSaleGross,
     addNewCloseQuote,
     getAllClientsCompany,
-    filterOperationCol
+    filterOperationCol,
+    deleteGenericRow
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -137,5 +138,6 @@ router
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
 .post("/post/filterOperationCol", filterOperationCol)
+.delete("/delete/deleteGenericTable/:tableName/:columnCalled/:id/:idCompany", deleteGenericRow)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -138,6 +138,6 @@ router
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
 .post("/post/filterOperationCol", filterOperationCol)
-.delete("/delete/deleteGenericTable/:tableName/:columnCalled/:id/:idCompany", deleteGenericRow)
+.delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

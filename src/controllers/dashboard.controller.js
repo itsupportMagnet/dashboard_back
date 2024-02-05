@@ -1739,6 +1739,8 @@ export const deleteGenericRow = async (req, res) => {
   const tableCalled = req.params.tableCalled;
   const columnCalled = req.params.columnCalled;
 
+  console.log('id: ' + id + ' idCompany: ' + idCompany + ' tableCalled: ' + tableCalled + ' columnCalled: ' + columnCalled )
+
   deleteGenericRowById(tableCalled, columnCalled, id, idCompany)
   .then(res.status(200).json({message: 'ok'}))
   .catch(error => {

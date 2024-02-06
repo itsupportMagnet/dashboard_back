@@ -37,7 +37,7 @@ import {
   changeQuotexId,
   changeWeightxId,
   getAllOperationsForTable,
-  getAllFloridaQuotes,
+  getAllClosedQuotes,
   updateOperation,
   deleteOperationByID,
   create,
@@ -1443,8 +1443,8 @@ export const getAllOperationsTable = async (req, res) => {
     });
 };
 
-export const getFloridaQuotes = async (req, res) => {
-  getAllFloridaQuotes(req.params.id)
+export const getClosedQuotes = async (req, res) => {
+  getAllClosedQuotes(req.params.id)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

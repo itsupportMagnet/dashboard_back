@@ -38,7 +38,7 @@ import {
     changeQuoteId,
     changeWeight,
     getAllOperationsTable,
-    getFloridaQuotes,
+    getClosedQuotes,
     updateOperationById,
     // maxIdOperation,
     deleteOperationFromTable,
@@ -111,7 +111,7 @@ router
 .post("/post/change-quoteid", changeQuoteId)
 .post("/post/change-weight", changeWeight) 
 .get("/get/allOperationsTable/:id", getAllOperationsTable)
-.get("/get/allFloridaQuotes/:id", getFloridaQuotes)
+.get("/get/allClosedQuotes/:id", getClosedQuotes)
 .post("/post/updateOperation", updateOperationById)
 .delete("/delete/deleteOperation/:id", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)

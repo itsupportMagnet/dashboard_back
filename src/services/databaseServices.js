@@ -473,8 +473,8 @@ export const getAllOperationsForTable = async (id) => {
 }
 
 
-export const getAllFloridaQuotes = async (id) => {
-  const query = "SELECT * FROM florida_quotes WHERE company_userID = ? ";
+export const getAllClosedQuotes = async (id) => {
+  const query = "SELECT * FROM closed_quotes WHERE company_userID = ? ";
   return pool.query(query, [id]).then(row => row[0])
     .catch(error => {
       console.error("Error trying to get all florida operations", error);
@@ -589,7 +589,7 @@ export const deleteSaleById = async (id) => {
 }
 
 export const getAllFloridaQuoteId = async (idCompany) => {
-  const query = "SELECT quoteID FROM florida_quotes WHERE company_userID = ?";
+  const query = "SELECT quoteID FROM closed_quotes WHERE company_userID = ?";
   return pool.query(query, [idCompany])
     .then(row => row[0])
     .catch(error => {
@@ -599,7 +599,7 @@ export const getAllFloridaQuoteId = async (idCompany) => {
 }
 
 export const getFloridaQuoteById = async id => {
-  const query = "SELECT * FROM florida_quotes WHERE quoteID = ?";
+  const query = "SELECT * FROM closed_quotes WHERE quoteID = ?";
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -703,7 +703,7 @@ export const newOperationToSalesGross = async (operation_id, booking_bl, contain
 }
 
 export const newClosedQuote = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
-  const query = "INSERT INTO florida_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIdPerDestation, buyDrayageUnitRate, buyChassisUnitRate, customerID, customer, customerIdPerDestation, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO closed_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIdPerDestation, buyDrayageUnitRate, buyChassisUnitRate, customerID, customer, customerIdPerDestation, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   console.log('Consulta SQL: ', pool.format(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany]))
   return pool.query(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany])
     .then(() => true)

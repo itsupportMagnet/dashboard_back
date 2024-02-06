@@ -114,7 +114,7 @@ export const getQuoteById = async (id) => {
 }
 
 export const allCarriers = async () => {
-  const query = "SELECT * FROM carriers";
+  const query = "SELECT * FROM carriers_emails";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {
@@ -205,7 +205,7 @@ export const getProviders = async (idCompany) => {
 }
 
 export const getCarriers = async (id) => {
-  const query = "SELECT * from carriers WHERE port_id = ?";
+  const query = "SELECT * from carriers_emails WHERE port_id = ?";
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -225,7 +225,7 @@ export const getAccesorials = async () => {
 }
 
 export const getCarriersList = async (id) => {
-  const query = 'SELECT * FROM carriers3 WHERE company_userID = ? ';
+  const query = 'SELECT * FROM carriers WHERE company_userID = ? ';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -334,7 +334,7 @@ export const addNewClient = async (customerId, name, address, contact, businessL
 }
 
 export const addNewCarrier = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany) => {
-  const query = "INSERT INTO carriers3 (id_carrier, carrier_name, mc, dot, w2, carrier_address, carrier_zipcode, carrier_state, days_of_credit, line_of_business, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO carriers (id_carrier, carrier_name, mc, dot, w2, carrier_address, carrier_zipcode, carrier_state, days_of_credit, line_of_business, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [carrierId, name, mc, dot, w2, zipcode, address, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany])
     .then(() => true)

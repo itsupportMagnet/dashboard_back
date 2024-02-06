@@ -736,9 +736,11 @@ export const getOperationColFiltered = async (colList) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  const query = 'DELETE FROM ? WHERE ? = ? AND company_userID = ? ';
-  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [tableCalled, columnCalled, id, idCompany]))
-  return pool.query(query,  [tableCalled, columnCalled, id, idCompany])
+  const tableName = tableCalled
+  const columnName = columnCalled
+  const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
+  return pool.query(query,  [id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)

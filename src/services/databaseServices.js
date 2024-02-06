@@ -588,7 +588,7 @@ export const deleteSaleById = async (id) => {
     })
 }
 
-export const getAllFloridaQuoteId = async (idCompany) => {
+export const getAllClosedQuoteId = async (idCompany) => {
   const query = "SELECT quoteID FROM closed_quotes WHERE company_userID = ?";
   return pool.query(query, [idCompany])
     .then(row => row[0])

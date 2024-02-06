@@ -52,7 +52,7 @@ import {
     updateSellSalesGross,
     updateProfitSalesGross,
     deleteSale,
-    getFloridaQuoteId,
+    getClosedQuoteId,
     getFloridaQuote,
     getNormalQuote,
     updateSaleGross,
@@ -124,7 +124,7 @@ router
 .post("/post/updateSellSalesGross", updateSellSalesGross)
 .post("/post/updateProfitSalesGross", updateProfitSalesGross)
 .delete("/delete/delete-sale/:id", deleteSale)
-.get("/get/get-florida-quoteId/:idCompany", getFloridaQuoteId)
+.get("/get/get-florida-quoteId/:idCompany", getClosedQuoteId)
 .get("/get/get-florida-quote/:id", getFloridaQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
 .post("/post/updateSaleGross/", updateSaleGross)

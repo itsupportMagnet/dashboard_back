@@ -50,7 +50,7 @@ import {
   changeSellSalesGross,
   changeProfitSalesGross,
   deleteSaleById,
-  getAllFloridaQuoteId,
+  getAllClosedQuoteId,
   getFloridaQuoteById,
   getNormalQuoteById,
   updateSaleGrossById,
@@ -1602,11 +1602,11 @@ export const deleteSale = async (req, res) => {
     })
 }
 
-export const getFloridaQuoteId = async (req, res) => {
-  getAllFloridaQuoteId(req.params.idCompany)
+export const getClosedQuoteId = async (req, res) => {
+  getAllClosedQuoteId(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch(error => {
-      console.log('Error Controller getFloridaQuoteId: ' + error)
+      console.log('Error Controller getClosedQuoteId: ' + error)
       res.status(500).json({ error })
     })
 }

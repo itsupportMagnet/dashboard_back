@@ -598,7 +598,7 @@ export const getAllClosedQuoteId = async (idCompany) => {
     });
 }
 
-export const getFloridaQuoteById = async id => {
+export const getClosedQuoteById = async id => {
   const query = "SELECT * FROM closed_quotes WHERE quoteID = ?";
   return pool.query(query, [id])
     .then(rows => rows[0])

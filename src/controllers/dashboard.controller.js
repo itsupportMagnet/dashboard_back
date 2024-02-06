@@ -1744,7 +1744,7 @@ export const deleteGenericRow = async (req, res) => {
   deleteGenericRowById(tableCalled, columnCalled, id, idCompany)
   .then(res.status(200).json({message: 'ok'}))
   .catch(error => {
-    console.log('Error Controlleer deleteGenericRow' + error)
+    console.log('Error Controller deleteGenericRow' + error)
     res.status(500).json({ error })
   })
 

@@ -1144,6 +1144,7 @@ export const newOperation = async (req, res) => {
     timeLine,
     notes,
     idCompany,
+    lfd
   } = req.body;
 
   saveNewOperation(
@@ -1177,6 +1178,7 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    lfd,
     idCompany,
   )
     .then(() => {

@@ -1384,6 +1384,9 @@ export const updateOperationById = async (req, res) => {
     notes,
     lfd
   } = req.body
+
+  console.log(operationDate);
+  
   updateOperation(
     lfd,
     quoteID,

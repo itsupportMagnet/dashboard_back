@@ -66,7 +66,8 @@ import {
     addNewCloseQuote,
     getAllClientsCompany,
     filterOperationCol,
-    deleteGenericRow
+    deleteGenericRow,
+    fetchCarrierById
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -139,5 +140,6 @@ router
 .get("/get/clients/:id", getAllClientsCompany)
 .post("/post/filterOperationCol", filterOperationCol)
 .delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
+.get("/get/carriersByID/:id/:idCompany", fetchCarrierById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

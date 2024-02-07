@@ -749,7 +749,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
-  const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ? ';
+  const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
   return pool.query(query, [idCarrier, idCompany])
   .then(data => data[0])
   .catch(error => {

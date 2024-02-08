@@ -69,7 +69,8 @@ import {
     deleteGenericRow,
     fetchCarrierById,
     updateCarrierInfoById,
-    fetchClosedQuoteById
+    fetchClosedQuoteById,
+    updateClosedQuoteInfoById
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -145,5 +146,6 @@ router
 .get("/get/carriersByID/:idCarrier/:idCompany", fetchCarrierById)
 .post("/post/updateCarrier", updateCarrierInfoById)
 .get("/get/closedQuoteByID/:id/:idCompany", fetchClosedQuoteById)
+.post("/post/updateClosedQuote", updateClosedQuoteInfoById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

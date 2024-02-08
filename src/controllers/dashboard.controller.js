@@ -66,8 +66,9 @@ import {
   getOperationColFiltered,
   deleteGenericRowById,
   getCarrierByIdAndCompany,
-  changeCarrierInfo,
+  changeCarrierInfoById,
   getClosedQuoteByIdAndCompany,
+  changeClosedQuoteInfoById,
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1768,7 +1769,7 @@ export const fetchCarrierById = async (req, res) => {
 
 export const updateCarrierInfoById = async (req, res) => {
   const {carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany} = req.body;
-  changeCarrierInfo( carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany )
+  changeCarrierInfoById( carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany )
   .then(() => res.status(200).json({ message: 'ok'}))
   .catch(error => {
     console.log(error);
@@ -1782,4 +1783,15 @@ export const fetchClosedQuoteById = async (req, res) => {
   getClosedQuoteByIdAndCompany(closedQuoteId, idCompany)
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({error}))
+}
+
+export const updateClosedQuoteInfoById = async (req, res) => {
+  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany} = req.body;
+  changeClosedQuoteInfoById(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({error});
+  })
+
 }

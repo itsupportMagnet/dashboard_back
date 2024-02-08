@@ -760,9 +760,9 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   })
 }
 
-export const changeCarrierInfo = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany) => {
+export const changeCarrierInfoById = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany) => {
   const query = "UPDATE carriers SET carrier_name = ? , mc = ? , dot = ? , w2 = ? , carrier_address = ? , carrier_zipcode = ? , carrier_state = ? , days_of_credit = ?  , line_of_business = ? , carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
-  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany]))
+  console.log('Testeo Consulta SQL para editar Carriers Info: ', pool.format(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany]))
 }
 
 export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => {
@@ -774,4 +774,9 @@ export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => 
     console.log(error);
     throw error;
   })
+}
+
+export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
+  const query = "UPDATE closed_quotes SET operationType = ? , pol = ? , wareHouse = ? , city = ? , state = ? , zipCode = ? , equipment = ? , containerSize = ? , containerType = ? , weight = ?, commodity = ?, bonded = ? , loadType = ?, carrierID = ?, carrier = ?, carrierIdPerDestation = ?, buyDrayageUnitRate = ? , buyChassisUnitRate = ? , customerID = ?, customer = ?, customerIdPerDestation = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ? WHERE quoteID = ? AND company_userID = ? "
+  console.log('Testeo Consulta SQL para editar ClosedQuotesInfo: ', pool.format(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany]))
 }

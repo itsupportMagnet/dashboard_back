@@ -1147,6 +1147,7 @@ export const newOperation = async (req, res) => {
     lfd
   } = req.body;
 
+  console.log('Controller '+operationDate);
   saveNewOperation(
     idOperation,
     quoteID,

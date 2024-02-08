@@ -68,7 +68,8 @@ import {
     filterOperationCol,
     deleteGenericRow,
     fetchCarrierById,
-    updateCarrierInfoById
+    updateCarrierInfoById,
+    fetchClosedQuoteById
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -143,5 +144,6 @@ router
 .delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
 .get("/get/carriersByID/:idCarrier/:idCompany", fetchCarrierById)
 .post("/post/updateCarrier", updateCarrierInfoById)
+.get("/get/closedQuoteByID/:id/:idCompany", fetchClosedQuoteById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

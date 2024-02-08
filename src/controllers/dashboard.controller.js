@@ -67,6 +67,7 @@ import {
   deleteGenericRowById,
   getCarrierByIdAndCompany,
   changeCarrierInfo,
+  getClosedQuoteByIdAndCompany,
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1773,4 +1774,12 @@ export const updateCarrierInfoById = async (req, res) => {
     console.log(error);
     res.status(500).json({ error });
   })
+}
+
+export const fetchClosedQuoteById = async (req, res) => {
+  const closedQuoteId = req.params.id;
+  const idCompany = req.params.idCompany;
+  getClosedQuoteByIdAndCompany(closedQuoteId, idCompany)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({error}))
 }

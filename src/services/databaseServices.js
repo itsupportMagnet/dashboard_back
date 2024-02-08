@@ -764,3 +764,14 @@ export const changeCarrierInfo = async (carrierId, name, mc, dot, w2, address, z
   const query = "UPDATE carriers SET carrier_name = ? , mc = ? , dot = ? , w2 = ? , carrier_address = ? , carrier_zipcode = ? , carrier_state = ? , days_of_credit = ?  , line_of_business = ? , carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
   console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany]))
 }
+
+export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => {
+  const query = 'SELECT * from closed_quotes WHERE quoteID = ? AND company_userID = ?';
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [closedQuoteId, idCompany]))
+  return pool.query(query, [closedQuoteId, idCompany])
+  .then(data => data[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  })
+}

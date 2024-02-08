@@ -140,6 +140,6 @@ router
 .get("/get/clients/:id", getAllClientsCompany)
 .post("/post/filterOperationCol", filterOperationCol)
 .delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
-.get("/get/carriersByID/:id/:idCompany", fetchCarrierById)
+.get("/get/carriersByID/:idCarrier/:idCompany", fetchCarrierById)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

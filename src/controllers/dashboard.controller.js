@@ -1757,8 +1757,8 @@ export const deleteGenericRow = async (req, res) => {
 }
 
 export const fetchCarrierById = async (req, res) => {
-  const idCarrier = req.params.IDCarrier;
-  const idCompany = req.params.IDCompany;
+  const idCarrier = req.params.idCarrier;
+  const idCompany = req.params.idCompany;
   getCarrierByIdAndCompany(idCarrier, idCompany)
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({error}))

@@ -751,6 +751,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [idCarrier, idCompany]))
   return pool.query(query, [idCarrier, idCompany])
   .then(data => data[0])
   .catch(error => {

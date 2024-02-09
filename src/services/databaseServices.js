@@ -654,7 +654,7 @@ export const getClientByIdAndCompany = async (idClient, idCompany) => {
 
 export const changeClientInfo = async (customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany) => {
   const query = "UPDATE clients SET customer_name = ?, address = ?, customer_contact = ?, business_line = ?, customer_type = ?, customer_phone = ?, customer_email = ?  WHERE id_Client = ? AND company_userID = ?";
-  console.log('Consulta SQL UpdateClients: ', pool.format(query, [customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany]))
+  console.log('Consulta SQL UpdateClients: ', pool.format(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId, idCompany]))
   return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId, idCompany])
     .then(() => true)
     .catch(error => {

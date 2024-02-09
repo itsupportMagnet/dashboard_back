@@ -66,6 +66,9 @@ import {
   getOperationColFiltered,
   deleteGenericRowById,
   getCarrierByIdAndCompany,
+  changeCarrierInfoById,
+  getClosedQuoteByIdAndCompany,
+  changeClosedQuoteInfoById,
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1668,8 +1671,8 @@ export const fetchClientById = async (req, res) => {
 }
 
 export const updateClientInfoById = async (req, res) => {
-  const { customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails } = req.body;
-  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails)
+  const { customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany } = req.body;
+  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1758,11 +1761,38 @@ export const deleteGenericRow = async (req, res) => {
 }
 
 export const fetchCarrierById = async (req, res) => {
-  const idCarrier = req.params.IDCarrier;
-  const idCompany = req.params.IDCompany;
+  const idCarrier = req.params.idCarrier;
+  const idCompany = req.params.idCompany;
   getCarrierByIdAndCompany(idCarrier, idCompany)
   .then(data => res.status(200).json(data))
   .catch(error => res.status(500).json({error}))
+}
 
-  
+export const updateCarrierInfoById = async (req, res) => {
+  const {carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany} = req.body;
+  changeCarrierInfoById( carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany )
+  .then(() => res.status(200).json({ message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error });
+  })
+}
+
+export const fetchClosedQuoteById = async (req, res) => {
+  const closedQuoteId = req.params.id;
+  const idCompany = req.params.idCompany;
+  getClosedQuoteByIdAndCompany(closedQuoteId, idCompany)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({error}))
+}
+
+export const updateClosedQuoteInfoById = async (req, res) => {
+  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany} = req.body;
+  changeClosedQuoteInfoById(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
+  .then(() => res.status(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({error});
+  })
+
 }

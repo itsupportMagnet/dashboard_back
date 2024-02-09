@@ -245,7 +245,7 @@ export const updateIdCounter = async (newCounter) => {
 }
 
 export const saveNewOperation = async (idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany) => {
-  console.log('Db services '+ operationDate);
+  console.log('Db services ' + operationDate);
   const query = "INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes, lfd, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
     await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany])
@@ -651,9 +651,10 @@ export const getClientByIdAndCompany = async (idClient, idCompany) => {
     })
 }
 
-export const changeClientInfo = async (customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails) => {
-  const query = "UPDATE clients SET customer_name = ?, address = ?, customer_contact = ?, business_line = ?, customer_type = ?, customer_phone = ?, customer_email = ?  WHERE id_Client = ?";
-  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId])
+export const changeClientInfo = async (customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany) => {
+  const query = "UPDATE clients SET customer_name = ?, address = ?, customer_contact = ?, business_line = ?, customer_type = ?, customer_phone = ?, customer_email = ?  WHERE id_Client = ? AND company_userID = ?";
+  console.log('Consulta SQL UpdateClients: ', pool.format(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId, idCompany]))
+  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)
@@ -724,7 +725,7 @@ export const getAllClientsByCompanyId = async (id) => {
 }
 
 export const getOperationColFiltered = async (colList) => {
-  const columns = colList.join(', '); 
+  const columns = colList.join(', ');
   const query = `SELECT ${columns} FROM operations`;
 
   return pool.query(query)
@@ -740,7 +741,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
   const columnName = columnCalled
   const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
   console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
-  return pool.query(query,  [id, idCompany])
+  return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)
@@ -750,10 +751,44 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [idCarrier, idCompany]))
   return pool.query(query, [idCarrier, idCompany])
-  .then(data => data[0])
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}
+
+export const changeCarrierInfoById = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany) => {
+  const query = "UPDATE carriers SET carrier_name = ? , mc = ? , dot = ? , w2 = ? , carrier_address = ? , carrier_zipcode = ? , carrier_state = ? , days_of_credit = ?  , line_of_business = ? , carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
+  console.log('Testeo Consulta SQL para editar Carriers Info: ', pool.format(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany]))
+  return pool.query(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany])
+    .then()
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
+}
+
+export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => {
+  const query = 'SELECT * from closed_quotes WHERE quoteID = ? AND company_userID = ?';
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [closedQuoteId, idCompany]))
+  return pool.query(query, [closedQuoteId, idCompany])
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}
+
+export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
+  const query = "UPDATE closed_quotes SET operationType = ? , pol = ? , wareHouse = ? , city = ? , state = ? , zipCode = ? , equipment = ? , containerSize = ? , containerType = ? , weight = ?, commodity = ?, hazardous = ? , bonded = ? , loadType = ?, carrierID = ?, carrier = ?, carrierIdPerDestation = ?, buyDrayageUnitRate = ? , buyChassisUnitRate = ? , customerID = ?, customer = ?, customerIdPerDestation = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ? WHERE quoteID = ? AND company_userID = ? "
+  console.log('Testeo Consulta SQL para editar ClosedQuotesInfo: ', pool.format(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany]))
+  return pool.query(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany])
+  .then()
   .catch(error => {
-    console.log(error);
-    throw error;
+    console.error("Error on Sql: " +  error)
+    throw error
   })
 }

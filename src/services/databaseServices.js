@@ -245,7 +245,7 @@ export const updateIdCounter = async (newCounter) => {
 }
 
 export const saveNewOperation = async (idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany) => {
-  console.log('Db services '+ operationDate);
+  console.log('Db services ' + operationDate);
   const query = "INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes, lfd, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   try {
     await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany])
@@ -726,7 +726,7 @@ export const getAllClientsByCompanyId = async (id) => {
 }
 
 export const getOperationColFiltered = async (colList) => {
-  const columns = colList.join(', '); 
+  const columns = colList.join(', ');
   const query = `SELECT ${columns} FROM operations`;
 
   return pool.query(query)
@@ -742,7 +742,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
   const columnName = columnCalled
   const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
   console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
-  return pool.query(query,  [id, idCompany])
+  return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)
@@ -754,27 +754,33 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
   console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [idCarrier, idCompany]))
   return pool.query(query, [idCarrier, idCompany])
-  .then(data => data[0])
-  .catch(error => {
-    console.log(error);
-    throw error;
-  })
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
 }
 
 export const changeCarrierInfoById = async (carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany) => {
   const query = "UPDATE carriers SET carrier_name = ? , mc = ? , dot = ? , w2 = ? , carrier_address = ? , carrier_zipcode = ? , carrier_state = ? , days_of_credit = ?  , line_of_business = ? , carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
   console.log('Testeo Consulta SQL para editar Carriers Info: ', pool.format(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany]))
+  return pool.query(query, [name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany])
+    .then()
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
 }
 
 export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => {
   const query = 'SELECT * from closed_quotes WHERE quoteID = ? AND company_userID = ?';
   console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [closedQuoteId, idCompany]))
   return pool.query(query, [closedQuoteId, idCompany])
-  .then(data => data[0])
-  .catch(error => {
-    console.log(error);
-    throw error;
-  })
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
 }
 
 export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {

@@ -1670,8 +1670,8 @@ export const fetchClientById = async (req, res) => {
 }
 
 export const updateClientInfoById = async (req, res) => {
-  const { customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails } = req.body;
-  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails)
+  const { customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany } = req.body;
+  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

@@ -1148,6 +1148,7 @@ export const newOperation = async (req, res) => {
   } = req.body;
 
   console.log('Controller '+operationDate);
+  
   saveNewOperation(
     idOperation,
     quoteID,

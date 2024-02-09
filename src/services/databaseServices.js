@@ -114,7 +114,7 @@ export const getQuoteById = async (id) => {
 }
 
 export const allCarriers = async () => {
-  const query = "SELECT * FROM carriers_emails";
+  const query = "SELECT * FROM carrier_emails";
   return pool.query(query)
     .then(rows => rows[0])
     .catch(error => {
@@ -205,7 +205,7 @@ export const getProviders = async (idCompany) => {
 }
 
 export const getCarriers = async (id) => {
-  const query = "SELECT * from carriers_emails WHERE port_id = ?";
+  const query = "SELECT * from carrier_emails WHERE port_id = ?";
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -251,7 +251,6 @@ export const saveNewOperation = async (idOperation, quoteID, status, containerSt
     await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany])
   } catch (error) {
     console.error("Error to ger specific newOperation:", error);
-    console.log('Estoy en el query')
     throw error;
   }
 

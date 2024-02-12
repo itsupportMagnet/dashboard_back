@@ -71,7 +71,7 @@ import {
     updateCarrierInfoById,
     fetchClosedQuoteById,
     updateClosedQuoteInfoById,
-    fetchCarriersNamesByCompanyID,
+    fetchCarriersNamesByCompanyId,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -148,6 +148,6 @@ router
 .post("/post/updateCarrier", updateCarrierInfoById)
 .get("/get/closedQuoteByID/:id/:idCompany", fetchClosedQuoteById)
 .post("/post/updateClosedQuote", updateClosedQuoteInfoById)
-.get("/get/carriersNames/:idCompany", fetchCarriersNamesByCompanyID)
+.get("/get/carriersNames/:idCompany", fetchCarriersNamesByCompanyId)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

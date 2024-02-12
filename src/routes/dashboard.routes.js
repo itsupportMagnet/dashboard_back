@@ -119,7 +119,7 @@ router
 .get("/get/allOperationsTable/:id", getAllOperationsTable)
 .get("/get/allClosedQuotes/:id", getClosedQuotes)
 .post("/post/updateOperation/:idCompany", updateOperationById)
-.delete("/delete/deleteOperation/:id", deleteOperationFromTable)
+.delete("/delete/deleteOperation/:id/:idCompany", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)
 .post("/post/newInfoSaleGross", newInputSaleGross)
 .post("/post/newSaleGrossFromFloridaQuotes" , newFLInputSaleGross)

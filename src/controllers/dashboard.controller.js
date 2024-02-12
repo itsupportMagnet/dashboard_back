@@ -1493,9 +1493,11 @@ export const newAccount = async (req, res) => {
 }
 
 export const deleteOperationFromTable = async (req, res) => {
-  const { id } = req.params
+  const id = req.params.id
+  const idCompany = req.params.idCompany
   console.log(id);
-  deleteOperationByID(id)
+  console.log(idCompany)
+  deleteOperationByID(id, idCompany)
     .then(() => res.status(200).json({ message: "Operation Deleted Successfully" }))
     .catch(error => {
       console.error(error);

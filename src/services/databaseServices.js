@@ -793,8 +793,9 @@ export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, war
     })
 }
 
-export const getAllCarriersNameByCompanyID = async idCompany => {
-  const query = "SELECT carrier_name from carriers WHERE company_userID = ?"
+export const getAllCarriersNameByCompanyID = async (idCompany) => {
+  const query = "SELECT carrier_name FROM carriers WHERE company_userID = ?"
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [idCompany]))
   return pool.query(query, [idCompany])
     .then((data) => data[0])
     .catch(error => {

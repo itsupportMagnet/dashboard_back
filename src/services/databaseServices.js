@@ -486,7 +486,7 @@ export const getAllClosedQuotes = async (id) => {
 
 export const deleteOperationByID = async (id, idCompany) => {
   const query = "DELETE FROM operations WHERE idOperation = ? AND company_userID = ?"
-  console.log('Testeo Consulta SQL para borrar operacion por id y companyid: ', pool.format(query, [idCompany]))
+  console.log('Testeo Consulta SQL para borrar operacion por id y companyid: ', pool.format(query, [id, idCompany]))
   return pool.execute(query, [id, idCompany])
     .then(() => { console.log("Operation Deleted Successfully") })
     .catch(error => {

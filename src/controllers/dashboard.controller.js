@@ -26,7 +26,7 @@ import {
   changeOperationContainerStatus,
   changeBookingBl,
   changeContainerId,
-  getOperationById,
+  getOperationByIdAndCompany,
   addNewClient,
   addNewCarrier,
   getStates,

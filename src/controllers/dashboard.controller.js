@@ -70,6 +70,7 @@ import {
   getClosedQuoteByIdAndCompany,
   changeClosedQuoteInfoById,
   getAllCarriersNameByCompanyId,
+  getAllSslines,
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1807,13 +1808,11 @@ export const fetchCarriersNamesByCompanyId = (req, res) => {
   })
 }
 
-export const getSsLineData = async () => {
-  const query = "SELECT ssline_name FROM ssline"
-  return pool.query(query)
-  .then(rows => rows[0])
-  .catch(error => {
-    console.error("Error trying to get all ssLine: " + error);
-    throw error
+export const getSsLineData = async (req, res) => {
+  getAllSslines()
+  .then((row) => res.status(200).json(row))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
   })
-  
 }

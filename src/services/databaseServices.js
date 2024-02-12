@@ -803,3 +803,13 @@ export const getAllCarriersNameByCompanyId = async (idCompany) => {
       throw error
     })
 }
+
+export const getAllSslines = async () => {
+  const query = "SELECT * from ssline";
+  return pool.query(query)
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error trying to get the ssline data: " + error);
+    throw error;
+  })
+}

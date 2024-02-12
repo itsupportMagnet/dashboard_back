@@ -71,7 +71,7 @@ import {
     updateCarrierInfoById,
     fetchClosedQuoteById,
     updateClosedQuoteInfoById,
-    fetchCarriersNamesByCompanyID
+    fetchCarriersNamesByCompanyID,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";

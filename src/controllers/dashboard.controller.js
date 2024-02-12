@@ -1799,8 +1799,7 @@ export const updateClosedQuoteInfoById = async (req, res) => {
 }
 
 export const fetchCarriersNamesByCompanyID = async (req, res) => {
-  const idCompany = req.params.idCompany;
-  getAllCarriersNameByCompanyID(idCompany)
+  getAllCarriersNameByCompanyID(req.params.idCompany)
   .then(() => res.json(200).json({message: 'ok'}))
   .catch(error => {
     console.log(error);

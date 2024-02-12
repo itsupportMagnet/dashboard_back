@@ -793,7 +793,7 @@ export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, war
     })
 }
 
-export const getAllCarriersNameByCompanyID = async (idCompany) => {
+export const getAllCarriersNameByCompanyID = async idCompany => {
   const query = "SELECT carrier_name from carriers WHERE company_userID = ?"
   return pool.query(query, [idCompany])
     .then((data) => data[0])

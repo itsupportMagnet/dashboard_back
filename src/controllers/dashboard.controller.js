@@ -1806,3 +1806,14 @@ export const fetchCarriersNamesByCompanyId = (req, res) => {
     res.status(500).json({error});
   })
 }
+
+export const getSsLineData = async () => {
+  const query = "SELECT ssline_name FROM ssline"
+  return pool.query(query)
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error trying to get all ssLine: " + error);
+    throw error
+  })
+  
+}

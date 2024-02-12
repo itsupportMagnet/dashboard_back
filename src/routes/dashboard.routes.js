@@ -106,7 +106,7 @@ router
 .post("/post/change-containerStatus", changeContainerStatus)
 .post("/post/updateBookingBl", updateBookingBl)
 .post("/post/updateContainerID", updateContainerId)
-.get("/get/getOperation/:id", getOperation)
+.get("/get/getOperation/:id/:idCompany", getOperation)
 .post("/post/addClient", addClient)
 .post("/post/addCarrier", addCarrier)
 .get("/get/states", getAllStates)

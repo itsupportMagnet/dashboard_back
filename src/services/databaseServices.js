@@ -312,9 +312,9 @@ export const changeContainerId = async (idOperation, containerId) => {
     });
 }
 
-export const getOperationById = async (operationId) => {
-  const query = 'SELECT * FROM operations WHERE idOperation = ?';
-  return pool.query(query, [operationId])
+export const getOperationByIdAndCompany = async (operationId, idCompany) => {
+  const query = 'SELECT * FROM operations WHERE idOperation = ? AND company_userID = ?';
+  return pool.query(query, [operationId, idCompany])
     .then(data => data[0])
     .catch(error => {
       console.log(error);

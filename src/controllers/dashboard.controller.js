@@ -1394,6 +1394,8 @@ export const updateOperationById = async (req, res) => {
     lfd
   } = req.body
 
+  const idCompany = req.params.idCompany;
+
   console.log(operationDate);
   
   updateOperation(
@@ -1427,6 +1429,7 @@ export const updateOperationById = async (req, res) => {
     cargoCut,
     notes,
     idOperation,
+    idCompany
   )
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => res.status(500).json(error))

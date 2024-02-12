@@ -69,6 +69,7 @@ import {
   changeCarrierInfoById,
   getClosedQuoteByIdAndCompany,
   changeClosedQuoteInfoById,
+  getAllCarriersNameByCompanyID,
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1795,4 +1796,14 @@ export const updateClosedQuoteInfoById = async (req, res) => {
     res.status(500).json({error});
   })
 
+}
+
+export const fetchCarriersNamesByCompanyID = async (req, res) => {
+  const idCompany = req.params.idCompany;
+  getAllCarriersNameByCompanyID(idCompany)
+  .then(() => res.json(200).json({message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({error});
+  })
 }

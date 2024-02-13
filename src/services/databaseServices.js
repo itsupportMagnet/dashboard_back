@@ -581,9 +581,10 @@ export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => 
     })
 }
 
-export const deleteSaleById = async (id) => {
-  const query = "DELETE FROM sales_gross WHERE id = ?";
-  return pool.query(query, [id])
+export const deleteSaleById = async (id, idCompany) => {
+  const query = "DELETE FROM sales_gross WHERE id = ? AND company_userID = ?";
+  console.log('Testeo De eliminar query: ', pool.format(query, [id, idCompany]))
+  return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL :" + error)

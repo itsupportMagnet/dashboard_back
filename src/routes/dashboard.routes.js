@@ -130,7 +130,7 @@ router
 .post("/post/updateBuySalesGross", updateBuySalesGross)
 .post("/post/updateSellSalesGross", updateSellSalesGross)
 .post("/post/updateProfitSalesGross", updateProfitSalesGross)
-.delete("/delete/delete-sale/:id", deleteSale)
+.delete("/delete/delete-sale/:id/idCompany", deleteSale)
 .get("/get/get-closed-quoteId/:idCompany", getClosedQuoteId)
 .get("/get/get-closed-quote/:id", getClosedQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)

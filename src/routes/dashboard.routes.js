@@ -140,7 +140,7 @@ router
 .post("/post/updateSummarySalesGross", updateSummarySalesGrossById)
 .post("/post/newSummarySalesGross", newSummarySalesGrossById)
 .get("/get/getSalesGrossSelected/:id", getSalesGrossById)
-.post("/post/newOperationSaleGross", addNewOperationToSaleGross)
+.post("/post/newOperationSaleGross/:idCompany", addNewOperationToSaleGross)
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
 .post("/post/filterOperationCol/:idCompany", filterOperationCol)

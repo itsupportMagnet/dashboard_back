@@ -1720,8 +1720,9 @@ export const getSalesGrossById = async (req, res) => {
 }
 
 export const addNewOperationToSaleGross = async (req, res) => {
+  const idCompany = req.params.idCompany
   const { operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body;
-  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis)
+  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       res.status(500).json(error);

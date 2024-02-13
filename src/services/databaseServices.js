@@ -816,3 +816,13 @@ export const getAllSslines = async () => {
     throw error;
   })
 }
+
+export const getAllSaleGrossToCompare = async (idCompany) => {
+  const query = "SELECT * from sales_gross WHERE company_userID = ?"
+  return pool.query(query, [idCompany])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  }) 
+}

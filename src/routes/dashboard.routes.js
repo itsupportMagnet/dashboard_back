@@ -73,6 +73,7 @@ import {
     updateClosedQuoteInfoById,
     fetchCarriersNamesByCompanyId,
     getSsLineData,
+    getInfoToCompareSaleGross
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -151,5 +152,6 @@ router
 .post("/post/updateClosedQuote", updateClosedQuoteInfoById)
 .get("/get/carriersNames/:idCompany", fetchCarriersNamesByCompanyId)
 .get("/get/ssLine", getSsLineData)
+.get("/get/salesGrossToCompare/:idCompany", getInfoToCompareSaleGross)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

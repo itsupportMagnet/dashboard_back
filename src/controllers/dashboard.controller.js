@@ -71,6 +71,7 @@ import {
   changeClosedQuoteInfoById,
   getAllCarriersNameByCompanyId,
   getAllSslines,
+  getAllSaleGrossToCompare
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1822,6 +1823,15 @@ export const getSsLineData = async (req, res) => {
   getAllSslines()
   .then((row) => res.status(200).json(row))
   .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getInfoToCompareSaleGross = (req, res) => {
+  getAllSaleGrossToCompare(req.params.idCompany)
+  .then((row) => res.status(200).json(row))
+  .catch((error) =>  {
     console.error(error);
     res.status(500).json(error);
   })

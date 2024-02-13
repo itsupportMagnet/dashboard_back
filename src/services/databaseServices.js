@@ -731,7 +731,7 @@ export const getOperationColFiltered = async (colList, idCompany) => {
   const columns = colList.join(', ');
   const query = `SELECT ${columns} FROM operations WHERE company_userID = ?`;
   console.log('Testeo consulta sql para getOperationColFiltered ', pool.format(query, [idCompany]))
-  return pool.query(query)
+  return pool.query(query, [idCompany])
     .then(data => data[0])
     .catch(error => {
       console.log(error);

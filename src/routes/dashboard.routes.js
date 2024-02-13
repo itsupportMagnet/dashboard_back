@@ -143,7 +143,7 @@ router
 .post("/post/newOperationSaleGross", addNewOperationToSaleGross)
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
-.post("/post/filterOperationCol", filterOperationCol)
+.post("/post/filterOperationCol/:idCompany", filterOperationCol)
 .delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
 .get("/get/carriersByID/:idCarrier/:idCompany", fetchCarrierById)
 .post("/post/updateCarrier", updateCarrierInfoById)

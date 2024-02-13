@@ -1747,8 +1747,9 @@ export const getAllClientsCompany = async (req, res) => {
 
 export const filterOperationCol = async (req, res) => {
   const colList = Object.keys(req.body);
+  const idCompany = req.params.idCompany;
 
-  getOperationColFiltered(colList)
+  getOperationColFiltered(colList, idCompany)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
 }

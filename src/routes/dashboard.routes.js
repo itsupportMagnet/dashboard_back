@@ -133,7 +133,7 @@ router
 .get("/get/get-closed-quoteId/:idCompany", getClosedQuoteId)
 .get("/get/get-closed-quote/:id", getClosedQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
-.post("/post/updateSaleGross/", updateSaleGross)
+.post("/post/updateSaleGross/:idCompany", updateSaleGross)
 .delete("/delete/deleteClient/:id/:idCompany", deleteClient)
 .get("/get/clientsById/:id/:idCompany", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)

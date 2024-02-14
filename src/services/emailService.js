@@ -19,8 +19,10 @@ export const sendEmail = async (emailSubject, emailBody, coordinatorEmail) => {
   // ]
 
   const recipients = [
-    coordinatorEmail
+    'josiaxs@gmail.com'
   ];
+
+  console.log(coordinatorEmail);
 
   // recipients.push(...emails.filter(email => email !== resource));
 

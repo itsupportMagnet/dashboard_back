@@ -697,7 +697,7 @@ export const fetchSaleGrossInfoById = async (idOperation) => {
 }
 
 export const newOperationToSalesGross = async (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany) => {
-  const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   console.log('Consulta SQL: ', pool.format(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany]))
   return pool.query(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany])
     .then(() => true)

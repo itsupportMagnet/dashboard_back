@@ -312,9 +312,9 @@ export const changeContainerId = async (idOperation, containerId) => {
     });
 }
 
-export const getOperationById = async (operationId) => {
-  const query = 'SELECT * FROM operations WHERE idOperation = ?';
-  return pool.query(query, [operationId])
+export const getOperationByIdAndCompany = async (operationId, idCompany) => {
+  const query = 'SELECT * FROM operations WHERE idOperation = ? AND company_userID = ?';
+  return pool.query(query, [operationId, idCompany])
     .then(data => data[0])
     .catch(error => {
       console.log(error);
@@ -441,10 +441,12 @@ export const updateOperation = async (
   bonded,
   cargoCut,
   notes,
-  idOperation
+  idOperation,
+  idCompany
 ) => {
-  const query = "UPDATE operations SET lfd = ?, status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, emptyLocation = ?, fullLocation = ?, warehouseLocation = ?, port = ?, terminal = ?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ?, notes = ?  WHERE idOperation = ?"
-  return pool.query(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, notes, idOperation])
+  const query = "UPDATE operations SET lfd = ?, status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, emptyLocation = ?, fullLocation = ?, warehouseLocation = ?, port = ?, terminal = ?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ?, notes = ?  WHERE idOperation = ? AND company_userID = ?"
+  console.log('Testeo para Update Operations SQL: ', pool.format(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, notes, idOperation, idCompany]))
+  return pool.query(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, notes, idOperation, idCompany])
     .then(() => true)
     .catch((error) => console.log(error))
 }
@@ -482,9 +484,10 @@ export const getAllClosedQuotes = async (id) => {
     })
 }
 
-export const deleteOperationByID = async (id) => {
-  const query = "DELETE FROM operations WHERE idOperation = ?"
-  return pool.execute(query, [id])
+export const deleteOperationByID = async (id, idCompany) => {
+  const query = "DELETE FROM operations WHERE idOperation = ? AND company_userID = ?"
+  console.log('Testeo Consulta SQL para borrar operacion por id y companyid: ', pool.format(query, [id, idCompany]))
+  return pool.execute(query, [id, idCompany])
     .then(() => { console.log("Operation Deleted Successfully") })
     .catch(error => {
       console.log("Error Operation Delete", error)
@@ -578,9 +581,10 @@ export const changeProfitSalesGross = async (idSalesGross, profitSalesGross) => 
     })
 }
 
-export const deleteSaleById = async (id) => {
-  const query = "DELETE FROM sales_gross WHERE id = ?";
-  return pool.query(query, [id])
+export const deleteSaleById = async (id, idCompany) => {
+  const query = "DELETE FROM sales_gross WHERE id = ? AND company_userID = ?";
+  console.log('Testeo De eliminar query: ', pool.format(query, [id, idCompany]))
+  return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL :" + error)
@@ -618,11 +622,11 @@ export const getNormalQuoteById = async id => {
     });
 }
 
-export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis) => {
+export const updateSaleGrossById = async (operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany) => {
 
-  const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, date = ?, buy = ? , sell = ? , profit = ?,  buyAccesorials = ?, sellAccesorials = ?, buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyQtyChassis = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ?, sellQtyChassis = ?  WHERE operation_id = ?";
-  console.log('Consulta SQL para Update: ', pool.format(query, [booking_bl, container_id, provider, customer, date, buy, sell, profit, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id]))
-  return pool.query(query, [booking_bl, container_id, provider, customer, date, buy, sell, profit, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id])
+  const query = "UPDATE sales_gross SET booking_bl = ?, container_id = ?, provider = ?, customer = ?, date = ?, buy = ? , sell = ? , profit = ?,  buyAccesorials = ?, sellAccesorials = ?, buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyQtyChassis = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ?, sellQtyChassis = ?  WHERE operation_id = ? AND company_userID = ?";
+  console.log('Consulta SQL para Update: ', pool.format(query, [booking_bl, container_id, provider, customer, date, buy, sell, profit, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id, idCompany]))
+  return pool.query(query, [booking_bl, container_id, provider, customer, date, buy, sell, profit, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, operation_id, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)
@@ -692,10 +696,10 @@ export const fetchSaleGrossInfoById = async (idOperation) => {
     })
 }
 
-export const newOperationToSalesGross = async (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis) => {
-  const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-  console.log('Consulta SQL: ', pool.format(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis]))
-  return pool.query(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis])
+export const newOperationToSalesGross = async (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany) => {
+  const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  console.log('Consulta SQL: ', pool.format(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany]))
+  return pool.query(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)
@@ -724,11 +728,11 @@ export const getAllClientsByCompanyId = async (id) => {
     })
 }
 
-export const getOperationColFiltered = async (colList) => {
+export const getOperationColFiltered = async (colList, idCompany) => {
   const columns = colList.join(', ');
-  const query = `SELECT ${columns} FROM operations`;
-
-  return pool.query(query)
+  const query = `SELECT ${columns} FROM operations WHERE company_userID = ?`;
+  console.log('Testeo consulta sql para getOperationColFiltered ', pool.format(query, [idCompany]))
+  return pool.query(query, [idCompany])
     .then(data => data[0])
     .catch(error => {
       console.log(error);
@@ -786,9 +790,40 @@ export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, war
   const query = "UPDATE closed_quotes SET operationType = ? , pol = ? , wareHouse = ? , city = ? , state = ? , zipCode = ? , equipment = ? , containerSize = ? , containerType = ? , weight = ?, commodity = ?, hazardous = ? , bonded = ? , loadType = ?, carrierID = ?, carrier = ?, carrierIdPerDestation = ?, buyDrayageUnitRate = ? , buyChassisUnitRate = ? , customerID = ?, customer = ?, customerIdPerDestation = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ? WHERE quoteID = ? AND company_userID = ? "
   console.log('Testeo Consulta SQL para editar ClosedQuotesInfo: ', pool.format(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany]))
   return pool.query(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany])
-  .then()
+    .then()
+    .catch(error => {
+      console.error("Error on Sql: " + error)
+      throw error
+    })
+}
+
+export const getAllCarriersNameByCompanyId = async (idCompany) => {
+  const query = "SELECT carrier_name FROM carriers WHERE company_userID = ?"
+  console.log('Testeo Consulta SQL para obtener todos los nombres de carriers: ', pool.format(query, [idCompany]))
+  return pool.query(query, [idCompany])
+    .then((rows) => rows[0])
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
+}
+
+export const getAllSslines = async () => {
+  const query = "SELECT * from ssline";
+  return pool.query(query)
+  .then(rows => rows[0])
   .catch(error => {
-    console.error("Error on Sql: " +  error)
-    throw error
+    console.error("Error trying to get the ssline data: " + error);
+    throw error;
   })
+}
+
+export const getAllSaleGrossToCompare = async (idCompany) => {
+  const query = "SELECT * from sales_gross WHERE company_userID = ?"
+  return pool.query(query, [idCompany])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  }) 
 }

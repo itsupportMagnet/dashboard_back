@@ -70,7 +70,10 @@ import {
     fetchCarrierById,
     updateCarrierInfoById,
     fetchClosedQuoteById,
-    updateClosedQuoteInfoById
+    updateClosedQuoteInfoById,
+    fetchCarriersNamesByCompanyId,
+    getSsLineData,
+    getInfoToCompareSaleGross
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -104,7 +107,7 @@ router
 .post("/post/change-containerStatus", changeContainerStatus)
 .post("/post/updateBookingBl", updateBookingBl)
 .post("/post/updateContainerID", updateContainerId)
-.get("/get/getOperation/:id", getOperation)
+.get("/get/getOperation/:id/:idCompany", getOperation)
 .post("/post/addClient", addClient)
 .post("/post/addCarrier", addCarrier)
 .get("/get/states", getAllStates)
@@ -116,8 +119,8 @@ router
 .post("/post/change-weight", changeWeight) 
 .get("/get/allOperationsTable/:id", getAllOperationsTable)
 .get("/get/allClosedQuotes/:id", getClosedQuotes)
-.post("/post/updateOperation", updateOperationById)
-.delete("/delete/deleteOperation/:id", deleteOperationFromTable)
+.post("/post/updateOperation/:idCompany", updateOperationById)
+.delete("/delete/deleteOperation/:id/:idCompany", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)
 .post("/post/newInfoSaleGross", newInputSaleGross)
 .post("/post/newSaleGrossFromFloridaQuotes" , newFLInputSaleGross)
@@ -127,25 +130,28 @@ router
 .post("/post/updateBuySalesGross", updateBuySalesGross)
 .post("/post/updateSellSalesGross", updateSellSalesGross)
 .post("/post/updateProfitSalesGross", updateProfitSalesGross)
-.delete("/delete/delete-sale/:id", deleteSale)
+.delete("/delete/delete-sale/:id/:idCompany", deleteSale)
 .get("/get/get-closed-quoteId/:idCompany", getClosedQuoteId)
 .get("/get/get-closed-quote/:id", getClosedQuote)
 .get("/get/get-normal-quote/:id", getNormalQuote)
-.post("/post/updateSaleGross/", updateSaleGross)
+.post("/post/updateSaleGross/:idCompany", updateSaleGross)
 .delete("/delete/deleteClient/:id/:idCompany", deleteClient)
 .get("/get/clientsById/:id/:idCompany", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)
 .post("/post/updateSummarySalesGross", updateSummarySalesGrossById)
 .post("/post/newSummarySalesGross", newSummarySalesGrossById)
 .get("/get/getSalesGrossSelected/:id", getSalesGrossById)
-.post("/post/newOperationSaleGross", addNewOperationToSaleGross)
+.post("/post/newOperationSaleGross/:idCompany", addNewOperationToSaleGross)
 .post("/post/newCloseQuote", addNewCloseQuote)
 .get("/get/clients/:id", getAllClientsCompany)
-.post("/post/filterOperationCol", filterOperationCol)
+.post("/post/filterOperationCol/:idCompany", filterOperationCol)
 .delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
 .get("/get/carriersByID/:idCarrier/:idCompany", fetchCarrierById)
 .post("/post/updateCarrier", updateCarrierInfoById)
 .get("/get/closedQuoteByID/:id/:idCompany", fetchClosedQuoteById)
 .post("/post/updateClosedQuote", updateClosedQuoteInfoById)
+.get("/get/carriersNames/:idCompany", fetchCarriersNamesByCompanyId)
+.get("/get/ssLine", getSsLineData)
+.get("/get/salesGrossToCompare/:idCompany", getInfoToCompareSaleGross)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

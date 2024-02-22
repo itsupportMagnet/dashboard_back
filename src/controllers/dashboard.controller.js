@@ -71,7 +71,8 @@ import {
   changeClosedQuoteInfoById,
   getAllCarriersNameByCompanyId,
   getAllSslines,
-  getAllSaleGrossToCompare
+  getAllSaleGrossToCompare,
+  addNewCarrierPorts
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1296,6 +1297,13 @@ export const addCarrier = async (req, res) => {
       res.status(500).json(error);
       console.log(error);
     })
+
+  addNewCarrierPorts(carrierEmails, ports)
+  .then(() => res.status(200).json({ message: 'ok'}))
+  .cathc(error => {
+    res.status(500).json(error);
+    console.log(error);
+  })
 }
 
 export const getAllStates = async (req, res) => {

@@ -811,19 +811,39 @@ export const getAllCarriersNameByCompanyId = async (idCompany) => {
 export const getAllSslines = async () => {
   const query = "SELECT * from ssline";
   return pool.query(query)
-  .then(rows => rows[0])
-  .catch(error => {
-    console.error("Error trying to get the ssline data: " + error);
-    throw error;
-  })
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error trying to get the ssline data: " + error);
+      throw error;
+    })
 }
 
 export const getAllSaleGrossToCompare = async (idCompany) => {
   const query = "SELECT * from sales_gross WHERE company_userID = ?"
   return pool.query(query, [idCompany])
-  .then(rows => rows[0])
-  .catch(error => {
-    console.log(error);
+    .then(rows => rows[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}
+
+export const addNewCarrierPorts = async (carrierEmails, ports) => {
+  try {
+    for (const portID of ports) {
+      const query = "INSERT INTO carrier_emails (email_addresss, port_id) VALUES (?,?)";
+      console.log('Consulta SQL: ', pool.format(query,[carrierEmails, portID]))
+      return pool.query(query, [carrierEmails, portID])
+        .then(() => {
+          return true;
+        })
+        .catch(error => {
+          console.error("Error on addNewCarrier SQL: ", error)
+          throw error;
+        })
+    }
+  } catch (error) {
+    console.error('Error at addNewCarrierPorts: ', error);
     throw error;
-  }) 
+  }
 }

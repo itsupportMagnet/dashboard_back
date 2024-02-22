@@ -830,18 +830,15 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
 
 export const addNewCarrierPorts = async (carrierEmails, ports) => {
   try {
-    for (const portID of ports) {
-      const query = "INSERT INTO carrier_emails (email_address, port_id) VALUES (?,?)";
-      console.log('Consulta SQL: ', pool.format(query,[carrierEmails, portID]))
-      return pool.query(query, [carrierEmails, portID])
-        .then(() => {
-          return true;
-        })
-        .catch(error => {
-          console.error("Error on addNewCarrier SQL: ", error)
-          throw error;
-        })
-    }
+    const queries = ports.map(portID => {
+      const query = "INSERT INTO carrier_emails (email_address, port_id) VALUES (?, ?)";
+      console.log('Consulta SQL: ', pool.format(query, [carrierEmails, portID]));
+      return pool.query(query, [carrierEmails, portID]);
+    });
+
+    await Promise.all(queries);
+
+    return true;
   } catch (error) {
     console.error('Error at addNewCarrierPorts: ', error);
     throw error;

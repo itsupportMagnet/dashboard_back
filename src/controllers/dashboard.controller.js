@@ -1300,7 +1300,7 @@ export const addCarrier = async (req, res) => {
 
   addNewCarrierPorts(carrierEmails, ports)
   .then(() => res.status(200).json({ message: 'ok'}))
-  .cathc(error => {
+  .catch(error => {
     res.status(500).json(error);
     console.log(error);
   })

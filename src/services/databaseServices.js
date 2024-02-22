@@ -741,10 +741,11 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  const tableName = tableCalled
-  const columnName = columnCalled
-  const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
-  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
+
+  const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
+
+  console.log('Id de carrier?: ', id);
+  
   return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {

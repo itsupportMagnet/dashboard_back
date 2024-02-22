@@ -93,7 +93,7 @@ router
 .post("/post/update-carrier-fee", updateCarrierFee)
 .get("/get/accesorials", getAllAccesorials)
 .get("/get/providers/:idCompany", getAllProviders)
-.get("/get/carriers/:id/idCompany", getCarriersByPort) //Debemos cambiarlo a futuro
+.get("/get/carriers/:id/:idCompany", getCarriersByPort) //Debemos cambiarlo a futuro
 .get("/get/ports", getAllPorts)
 .get("/get/allCarriers/:id", getAllCarriers)
 .post("/login/users/sign_in", login)

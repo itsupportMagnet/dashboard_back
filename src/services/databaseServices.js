@@ -204,9 +204,9 @@ export const getProviders = async (idCompany) => {
     })
 }
 
-export const getCarriers = async (id) => {
-  const query = "SELECT * from carrier_emails WHERE port_id = ?";
-  return pool.query(query, [id])
+export const getCarriers = async (selectedPort, idCompany) => {
+  const query = "SELECT * from carrier_emails WHERE port_id = ? AND company_userID = ?";
+  return pool.query(query, [selectedPort, idCompany])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get the ports:", error);

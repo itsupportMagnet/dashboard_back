@@ -1037,7 +1037,9 @@ export const getAllRoutes = async (req, res) => {
 };
 
 export const getCarriersByPort = async (req, res) => {
-  getCarriers(req.params.id)
+  const selectedPort = req.params.id;
+  const idCompany = req.params.idCompany;
+  getCarriers(selectedPort, idCompany)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);

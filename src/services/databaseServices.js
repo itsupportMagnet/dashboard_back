@@ -741,14 +741,22 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-
+  console.log(getCarrierEmails(id));
+  
   const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
-
-  console.log('Id de carrier?: ', id);
   
   return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
+    })
+}
+
+const getCarrierEmails = async carrierID => {
+  const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ?";
+  return pool.query(query, [carrierID])
+    .then(data => data[0]).catch(error => {
       console.error("Error on SQL : " + error)
       throw error
     })

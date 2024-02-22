@@ -741,7 +741,7 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  console.log(getCarrierEmails(id));
+  console.log(await getCarrierEmails(id));
   
   const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
   

@@ -831,7 +831,7 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
 export const addNewCarrierPorts = async (carrierEmails, ports) => {
   try {
     for (const portID of ports) {
-      const query = "INSERT INTO carrier_emails (email_addresss, port_id) VALUES (?,?)";
+      const query = "INSERT INTO carrier_emails (email_address, port_id) VALUES (?,?)";
       console.log('Consulta SQL: ', pool.format(query,[carrierEmails, portID]))
       return pool.query(query, [carrierEmails, portID])
         .then(() => {

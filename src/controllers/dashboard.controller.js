@@ -1290,29 +1290,16 @@ export const addCarrier = async (req, res) => {
   const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, ports, idCompany } = req.body;
   const phonesJSON = JSON.stringify(phoneNumbers);
   const emailsJSON = JSON.stringify(carrierEmails);
-  console.log('Estos son los valores que me llegan de ports' + ports)
   const addNewCarrierPromise = addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports, idCompany);
-
+  
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.error("Error in one of the operations: ", error);
       res.status(500).json({ error: 'Internal Server Error' });
     });
-  // addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
-  //   .then(() => res.status(200).json({ message: "ok" }))
-  //   .catch(error => {
-  //     res.status(500).json(error);
-  //     console.log(error);
-  //   })
 
-  // addNewCarrierPorts(carrierEmails, ports)
-  // .then(() => res.status(200).json({ message: 'ok'}))
-  // .catch(error => {
-  //   console.error("Error in addNewCarrierPorts: ", error);
-  //   res.status(500).json({ error: 'Internal Server Error' });
-  // })
 }
 
 export const getAllStates = async (req, res) => {

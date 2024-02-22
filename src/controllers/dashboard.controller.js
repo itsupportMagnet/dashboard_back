@@ -1292,7 +1292,7 @@ export const addCarrier = async (req, res) => {
   const emailsJSON = JSON.stringify(carrierEmails);
   console.log('Estos son los valores que me llegan de ports' + ports)
   const addNewCarrierPromise = addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
-  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports);
+  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports, idCompany);
 
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))

@@ -1287,10 +1287,10 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
 
-  const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, ports, idCompany } = req.body;
+  const { carrierId, name, mc, dot, w9, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, ports, idCompany } = req.body;
   const phonesJSON = JSON.stringify(phoneNumbers);
   const emailsJSON = JSON.stringify(carrierEmails);
-  const addNewCarrierPromise = addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
+  const addNewCarrierPromise = addNewCarrier(carrierId, name, mc, dot, w9, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports, idCompany);
   
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
@@ -1790,8 +1790,8 @@ export const fetchCarrierById = async (req, res) => {
 }
 
 export const updateCarrierInfoById = async (req, res) => {
-  const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany } = req.body;
-  changeCarrierInfoById(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany)
+  const { carrierId, name, mc, dot, w9, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany } = req.body;
+  changeCarrierInfoById(carrierId, name, mc, dot, w9, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

@@ -731,7 +731,7 @@ export const getAllClientsByCompanyId = async (id) => {
 export const getOperationColFiltered = async (colList, idCompany) => {
   const columns = colList.join(', ');
   const query = `SELECT ${columns} FROM operations WHERE company_userID = ?`;
-  console.log('Testeo consulta sql para getOperationColFiltered ', pool.format(query, [idCompany]))
+
   return pool.query(query, [idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -741,10 +741,15 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  console.log(await getCarrierEmails(id));
-  
+  const carrierEmails = await getCarrierEmails(id);
+
+  const queries = carrierEmails.map(i => {
+    return `DELETE * FROM carrier_emails WHERE email_address = ${i}`;
+  })
+
+  await deleteEmailPortRelation(queries);
+
   const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
-  
   return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {
@@ -757,9 +762,13 @@ const getCarrierEmails = async carrierID => {
   const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ?";
   return pool.query(query, [carrierID])
     .then(data => data[0][0].carrier_contact_mail).catch(error => {
-      console.error("Error on SQL : " + error)
-      throw error
+      console.error("Error on SQL : " + error);
+      throw error;
     })
+}
+
+const deleteEmailPortRelation = async (emailList) => {
+  console.log(emailList);
 }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {

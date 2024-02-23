@@ -102,7 +102,7 @@ export const login = async (req, res) => {
       }
       //make jwt
 
-      jwt.sign(user.userID, process.env.tokenPrivateKey, (err, token) => {
+      jwt.sign(user.userID, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
@@ -1286,7 +1286,6 @@ export const addClient = async (req, res) => {
 }
 
 export const addCarrier = async (req, res) => {
-
   const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, ports, idCompany } = req.body;
   const phonesJSON = JSON.stringify(phoneNumbers);
   const emailsJSON = JSON.stringify(carrierEmails);

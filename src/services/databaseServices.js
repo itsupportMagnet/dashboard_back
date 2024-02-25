@@ -1,3 +1,4 @@
+import { query } from 'express';
 import { pool } from '../../db.js';
 
 
@@ -336,6 +337,7 @@ export const addNewClient = async (customerId, name, address, contact, businessL
 export const addNewCarrier = async (carrierId, name, mc, dot, w9, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany) => {
   const query = "INSERT INTO carriers (id_carrier, carrier_name, mc, dot, w9, carrier_address, carrier_zipcode, carrier_state, days_of_credit, line_of_business, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
+  console.log(phonesJSON);
   return pool.query(query, [carrierId, name, mc, dot, w9, zipcode, address, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany])
     .then(() => true)
     .catch(error => {
@@ -698,7 +700,7 @@ export const fetchSaleGrossInfoById = async (idOperation) => {
 
 export const newOperationToSalesGross = async (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany) => {
   const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-  console.log('Consulta SQL: ', pool.format(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany]))
+
   return pool.query(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany])
     .then(() => true)
     .catch(error => {
@@ -709,7 +711,7 @@ export const newOperationToSalesGross = async (operation_id, booking_bl, contain
 
 export const newClosedQuote = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
   const query = "INSERT INTO closed_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIdPerDestation, buyDrayageUnitRate, buyChassisUnitRate, customerID, customer, customerIdPerDestation, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-  console.log('Consulta SQL: ', pool.format(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany]))
+
   return pool.query(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany])
     .then(() => true)
     .catch(error => {
@@ -741,10 +743,13 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  const carrierEmails = await getCarrierEmails(id);
+  const carrierEmails = await getCarrierEmails(id, idCompany);
 
   const queries = carrierEmails.map(i => {
-    return `DELETE * FROM carrier_emails WHERE email_address = ${i}`;
+    return {
+      text: 'DELETE FROM carrier_emails WHERE email_address = ?',
+      value: i
+    };
   })
 
   await deleteEmailPortRelation(queries);
@@ -758,22 +763,26 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
     })
 }
 
-const getCarrierEmails = async carrierID => {
-  const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ?";
-  return pool.query(query, [carrierID])
-    .then(data => data[0][0].carrier_contact_mail).catch(error => {
+const getCarrierEmails = async (carrierID, idCompany) => {
+  const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
+  return pool.query(query, [carrierID, idCompany])
+    .then(data => data[0][0].carrier_contact_mail)
+    .catch(error => {
       console.error("Error on SQL : " + error);
       throw error;
     })
 }
 
 const deleteEmailPortRelation = async (emailList) => {
-  console.log(emailList);
+  const deleteQueries = emailList.map(query => {
+    return pool.query(query.text, query.value)
+  })
+
+  await Promise.all(deleteQueries);
 }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
-  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [idCarrier, idCompany]))
   return pool.query(query, [idCarrier, idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -795,7 +804,6 @@ export const changeCarrierInfoById = async (carrierId, name, mc, dot, w9, addres
 
 export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => {
   const query = 'SELECT * from closed_quotes WHERE quoteID = ? AND company_userID = ?';
-  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [closedQuoteId, idCompany]))
   return pool.query(query, [closedQuoteId, idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -847,14 +855,27 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
 }
 
 export const addNewCarrierPorts = async (carrierEmails, ports, idCompany) => {
+  const queries = [];
+
+  carrierEmails.forEach(email => {
+    ports.forEach(port => {
+      const query = {
+        text: 'INSERT INTO carrier_emails (email_address, port_id, company_userID) VALUES (?, ?, ?)',
+        values: [email, port, idCompany]
+      };
+      queries.push(query);
+    });
+  });
+
   try {
-    const queries = ports.map(portID => {
-      const query = "INSERT INTO carrier_emails (email_address, port_id, company_userID) VALUES (?, ?, ?)";
-      console.log('Consulta SQL: ', pool.format(query, [carrierEmails, portID, idCompany]));
-      return pool.query(query, [carrierEmails, portID, idCompany]);
+    const allQueries = queries.map(query => {
+      if (!query || !query.text || !query.values) {
+        throw new Error('Invalid query object:', query);
+      }
+      return pool.query(query.text, query.values);
     });
 
-    await Promise.all(queries);
+    await Promise.all(allQueries);
 
     return true;
   } catch (error) {
@@ -862,3 +883,4 @@ export const addNewCarrierPorts = async (carrierEmails, ports, idCompany) => {
     throw error;
   }
 }
+

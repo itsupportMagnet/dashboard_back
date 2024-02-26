@@ -72,11 +72,13 @@ import {
   getAllCarriersNameByCompanyId,
   getAllSslines,
   getAllSaleGrossToCompare,
-  addNewCarrierPorts
+  addNewCarrierPorts,
+  getCarrierPortCoverageByID
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import sgMail from '@sendgrid/mail';
 
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
@@ -889,9 +891,12 @@ export const createQuote = async (req, res) => {
     coordinatorEmail,
   } = req.body;
 
+
+
   const newCounter = (await getIdCounter()) + 1;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
+  const apiKey = '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';
   // const bccRecipients = carrier;
 
 
@@ -964,14 +969,14 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
         </tr>
-       
+
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
         </tr>
-    
+
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Bonded</td>
@@ -1014,7 +1019,26 @@ export const createQuote = async (req, res) => {
     cordinator
   )
     .then(() => {
-      return sendEmail(emailSubject, emailBody, coordinatorEmail);
+      console.log(process.env.SENDGRID_API_KEY)
+      console.log(apiKey)
+      sgMail.setApiKey(apiKey)
+      const msg = {
+        to: 'felipe.reichertgodoy@gmail.com', // Change to your recipient
+        from: 'it.support@magnetlogisticscorp.com', // Change to your verified sender
+        replyTo: 'h.j.delascasas@gmail.com', 
+        subject: emailSubject,
+        text: 'Testeo bla bla bla',
+        html: emailBody,
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      // return sendEmail(emailSubject, emailBody, coordinatorEmail);
     })
     .then(() => {
       return updateIdCounter(newCounter);
@@ -1292,7 +1316,7 @@ export const addCarrier = async (req, res) => {
   const emailsJSON = JSON.stringify(carrierEmails);
   const addNewCarrierPromise = addNewCarrier(carrierId, name, mc, dot, w9, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports, idCompany);
-  
+
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
@@ -1837,6 +1861,17 @@ export const getSsLineData = async (req, res) => {
 export const getInfoToCompareSaleGross = (req, res) => {
   getAllSaleGrossToCompare(req.params.idCompany)
     .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getCarriersPortCoverage = (req, res) => {
+  const idCarrier = req.params.idCarrier;
+  const idCompany = req.params.idCompany;
+  getCarrierPortCoverageByID(idCarrier, idCompany)
+    .then((data) => res.status(200).json(data))
     .catch((error) => {
       console.error(error);
       res.status(500).json(error);

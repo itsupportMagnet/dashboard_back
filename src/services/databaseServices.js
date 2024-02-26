@@ -743,43 +743,56 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  const carrierEmails = await getCarrierEmails(id, idCompany);
 
-  const queries = carrierEmails.map(i => {
-    return {
-      text: 'DELETE FROM carrier_emails WHERE email_address = ?',
-      value: i
-    };
-  })
+  const tableName = tableCalled
+  const columnName = columnCalled
+  const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
+  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
 
-  await deleteEmailPortRelation(queries);
-
-  const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
   return pool.query(query, [id, idCompany])
-    .then(() => true)
-    .catch(error => {
-      console.error("Error on SQL : " + error)
-      throw error
-    })
-}
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL : " + error)
+    throw error
 
-const getCarrierEmails = async (carrierID, idCompany) => {
-  const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
-  return pool.query(query, [carrierID, idCompany])
-    .then(data => data[0][0].carrier_contact_mail)
-    .catch(error => {
-      console.error("Error on SQL : " + error);
-      throw error;
-    })
-}
-
-const deleteEmailPortRelation = async (emailList) => {
-  const deleteQueries = emailList.map(query => {
-    return pool.query(query.text, query.value)
   })
+  // const carrierEmails = await getCarrierEmails(id, idCompany);
 
-  await Promise.all(deleteQueries);
+  // const queries = carrierEmails.map(i => {
+  //   return {
+  //     text: 'DELETE FROM carrier_emails WHERE email_address = ?',
+  //     value: i
+  //   };
+  // })
+
+  // await deleteEmailPortRelation(queries);
+
+  // const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
+  // return pool.query(query, [id, idCompany])
+  //   .then(() => true)
+  //   .catch(error => {
+  //     console.error("Error on SQL : " + error)
+  //     throw error
+  //   })
 }
+
+// const getCarrierEmails = async (carrierID, idCompany) => {
+//   const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
+//   return pool.query(query, [carrierID, idCompany])
+//     .then(data => data[0][0].carrier_contact_mail)
+//     .catch(error => {
+//       console.error("Error on SQL : " + error);
+//       throw error;
+//     })
+// }
+
+// const deleteEmailPortRelation = async (emailList) => {
+//   const deleteQueries = emailList.map(query => {
+//     return pool.query(query.text, query.value)
+//   })
+
+//   await Promise.all(deleteQueries);
+// }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
@@ -884,3 +897,13 @@ export const addNewCarrierPorts = async (carrierEmails, ports, idCompany) => {
   }
 }
 
+export const getCarrierPortCoverageByID = async (idCarrier, idCompany) => {
+  const query = "SELECT * FROM carrier_emails WHERE company_userID = ? AND carrier_id = ?"
+  console.log('Testeo Consulta SQL para obtener todos los port ID de carrier_emails' , pool.format(query, [idCarrier, idCompany]))
+  return pool.query(query, [idCarrier, idCompany])
+ .then() 
+  .catch(error => {
+    console.error("Error on SQL: " + error);
+    throw error
+  })
+}

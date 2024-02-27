@@ -74,7 +74,8 @@ import {
     fetchCarriersNamesByCompanyId,
     getSsLineData,
     getInfoToCompareSaleGross,
-    getCarriersPortCoverage
+    getCarriersPortCoverage,
+    getAllQuotesForIdCheck
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -87,7 +88,7 @@ router
 .post("/post/save-fee", saveFee)
 .get("/get/allQuotes/:id", getAllQuotes)
 .get("/allRoutes", getAllRoutes) //Este endpoint no lo ocupamos en nada
-.get("/get/quotes/:id", getQuote)
+.get("/get/quotes/:id/:idCompany", getQuote)
 .get("/get/clients", getAllClients)
 .get("/get/quotes-fees/:id", getQuotesFeeById)
 .get("/get/carriers-fees/:id", getCarriersFeeByID)
@@ -155,5 +156,6 @@ router
 .get("/get/ssLine", getSsLineData)
 .get("/get/salesGrossToCompare/:idCompany", getInfoToCompareSaleGross)
 .get("/get/carriersPortCoverage/:idCarrier/:idCompany", getCarriersPortCoverage)
+.get("/get/openQuoteIdCheck/:idCompany", getAllQuotesForIdCheck)
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

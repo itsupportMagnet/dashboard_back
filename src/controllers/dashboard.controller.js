@@ -874,6 +874,7 @@ export const getAllAccesorials = async (req, res) => {
 
 export const createQuote = async (req, res) => {
   const {
+    carrier,
     operation,
     isExport,
     pol,
@@ -889,6 +890,7 @@ export const createQuote = async (req, res) => {
     quoteStatus,
     cordinator,
     coordinatorEmail,
+    idCompany
   } = req.body;
 
 
@@ -897,7 +899,8 @@ export const createQuote = async (req, res) => {
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   const apiKey = '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';
-  // const bccRecipients = carrier;
+  const bccRecipients = JSON.stringify(carrier);
+  console.log(bccRecipients)
 
 
   const emailBody = `<!DOCTYPE html>
@@ -1016,7 +1019,8 @@ export const createQuote = async (req, res) => {
     bonded,
     loadType,
     quoteStatus,
-    cordinator
+    cordinator,
+    idCompany
   )
     .then(() => {
       console.log(process.env.SENDGRID_API_KEY)
@@ -1027,6 +1031,7 @@ export const createQuote = async (req, res) => {
         from: 'it.support@magnetlogisticscorp.com', // Change to your verified sender
         replyTo: 'h.j.delascasas@gmail.com', 
         subject: emailSubject,
+        bcc: bccRecipients,
         text: 'Testeo bla bla bla',
         html: emailBody,
       }

@@ -13,10 +13,10 @@ export const getUserEmail = async (email) => {
 
 }
 
-export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator) => {
-  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType,quoteStatus, cordinator) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
+export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany) => {
+  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
   try {
-    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator]);
+    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany]);
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;
@@ -746,53 +746,52 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 
   const tableName = tableCalled
   const columnName = columnCalled
+
+
+  if (tableCalled === 'carriers') {
+    const carrierEmails = await getCarrierEmails(id, idCompany);
+
+    const queries = carrierEmails.map(i => {
+      return {
+        text: 'DELETE FROM carrier_emails WHERE email_address = ? AND company_userID = ?',
+        value: {emailaddress: i,
+        idcompany: idCompany.value}
+      };
+    })
+
+    await deleteEmailPortRelation(queries);
+
+  }
+
   const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
   console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
 
   return pool.query(query, [id, idCompany])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL : " + error)
-    throw error
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
 
-  })
-  // const carrierEmails = await getCarrierEmails(id, idCompany);
-
-  // const queries = carrierEmails.map(i => {
-  //   return {
-  //     text: 'DELETE FROM carrier_emails WHERE email_address = ?',
-  //     value: i
-  //   };
-  // })
-
-  // await deleteEmailPortRelation(queries);
-
-  // const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
-  // return pool.query(query, [id, idCompany])
-  //   .then(() => true)
-  //   .catch(error => {
-  //     console.error("Error on SQL : " + error)
-  //     throw error
-  //   })
+    })
 }
 
-// const getCarrierEmails = async (carrierID, idCompany) => {
-//   const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
-//   return pool.query(query, [carrierID, idCompany])
-//     .then(data => data[0][0].carrier_contact_mail)
-//     .catch(error => {
-//       console.error("Error on SQL : " + error);
-//       throw error;
-//     })
-// }
+const getCarrierEmails = async (carrierID, idCompany) => {
+  const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
+  return pool.query(query, [carrierID, idCompany])
+    .then(data => data[0][0].carrier_contact_mail)
+    .catch(error => {
+      console.error("Error on SQL : " + error);
+      throw error;
+    })
+}
 
-// const deleteEmailPortRelation = async (emailList) => {
-//   const deleteQueries = emailList.map(query => {
-//     return pool.query(query.text, query.value)
-//   })
+const deleteEmailPortRelation = async (emailList) => {
+  const deleteQueries = emailList.map(query => {
+    return pool.query(query.text, [query.value.emailaddress, query.value.idCompany])
+  })
 
-//   await Promise.all(deleteQueries);
-// }
+  await Promise.all(deleteQueries);
+}
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
@@ -899,11 +898,11 @@ export const addNewCarrierPorts = async (carrierEmails, ports, idCompany) => {
 
 export const getCarrierPortCoverageByID = async (idCarrier, idCompany) => {
   const query = "SELECT * FROM carrier_emails WHERE company_userID = ? AND carrier_id = ?"
-  console.log('Testeo Consulta SQL para obtener todos los port ID de carrier_emails' , pool.format(query, [idCarrier, idCompany]))
+  console.log('Testeo Consulta SQL para obtener todos los port ID de carrier_emails', pool.format(query, [idCarrier, idCompany]))
   return pool.query(query, [idCarrier, idCompany])
- .then() 
-  .catch(error => {
-    console.error("Error on SQL: " + error);
-    throw error
-  })
+    .then()
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error
+    })
 }

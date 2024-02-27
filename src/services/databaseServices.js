@@ -746,16 +746,15 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 
   const tableName = tableCalled
   const columnName = columnCalled
-
+ 
 
   if (tableCalled === 'carriers') {
     const carrierEmails = await getCarrierEmails(id, idCompany);
-
+    
     const queries = carrierEmails.map(i => {
       return {
         text: 'DELETE FROM carrier_emails WHERE email_address = ? AND company_userID = ?',
-        value: {emailaddress: i,
-        idcompany: idCompany.value}
+        value: { emailaddress: i, idCompany: idCompany }
       };
     })
 
@@ -764,7 +763,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
   }
 
   const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
-  console.log('Testeo Consulta SQL para eliminar: ', pool.format(query, [id, idCompany]))
+
 
   return pool.query(query, [id, idCompany])
     .then(() => true)
@@ -786,7 +785,9 @@ const getCarrierEmails = async (carrierID, idCompany) => {
 }
 
 const deleteEmailPortRelation = async (emailList) => {
+
   const deleteQueries = emailList.map(query => {
+    console.log([query.value.emailaddress, query.value.idCompany]);
     return pool.query(query.text, [query.value.emailaddress, query.value.idCompany])
   })
 

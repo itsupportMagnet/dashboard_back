@@ -900,7 +900,7 @@ export const createQuote = async (req, res) => {
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   const apiKey = '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';
   const bccRecipients = JSON.stringify(carrier);
-  console.log(bccRecipients)
+
 
 
   const emailBody = `<!DOCTYPE html>

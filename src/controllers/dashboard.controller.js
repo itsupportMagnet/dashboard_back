@@ -73,7 +73,8 @@ import {
   getAllSslines,
   getAllSaleGrossToCompare,
   addNewCarrierPorts,
-  getCarrierPortCoverageByID
+  getCarrierPortCoverageByID,
+  getAllIdOpenQuotes
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -819,7 +820,9 @@ export const sendFee = async (req, res) => {
 };
 
 export const getQuote = async (req, res) => {
-  getQuoteById(req.params.id)
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
+  getQuoteById(id, idCompany)
     .then((rows) => {
       return res.status(200).json({ message: rows[0] });
     })
@@ -890,12 +893,14 @@ export const createQuote = async (req, res) => {
     quoteStatus,
     cordinator,
     coordinatorEmail,
-    idCompany
+    idCompany,
+    idCheck
   } = req.body;
 
 
 
-  const newCounter = (await getIdCounter()) + 1;
+  // const newCounter = (await getIdCounter()) + 1;
+  const newCounter = idCheck;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   const apiKey = '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';
@@ -1006,6 +1011,7 @@ export const createQuote = async (req, res) => {
     </html>`;
 
   saveNewQuote(
+    idCheck,
     newId,
     operation,
     pol,
@@ -1881,4 +1887,13 @@ export const getCarriersPortCoverage = (req, res) => {
       console.error(error);
       res.status(500).json(error);
     })
+}
+
+export const getAllQuotesForIdCheck = (req, res) => {
+  getAllIdOpenQuotes(req.params.idCompany)
+  .then((row) => res.status(200).json(row))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
 }

@@ -13,10 +13,10 @@ export const getUserEmail = async (email) => {
 
 }
 
-export const saveNewQuote = async (newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany) => {
-  const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
+export const saveNewQuote = async (idCheck, newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany) => {
+  const query = 'INSERT INTO quotes (idCounter, quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
   try {
-    await pool.query(query, [newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany]);
+    await pool.query(query, [idCheck, newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany]);
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;
@@ -104,9 +104,10 @@ export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate,
     })
 }
 
-export const getQuoteById = async (id) => {
-  const query = 'SELECT * FROM quotes WHERE quoteID = ?';
-  return pool.query(query, [id])
+export const getQuoteById = async (id, idCompany) => {
+  const query = 'SELECT * FROM quotes WHERE quoteID = ? AND company_userID = ?';
+  console.log('testeo getQuoteById: ' , pool.format(query, [id,idCompany]))
+  return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get all quotes:", error);
@@ -905,4 +906,15 @@ export const getCarrierPortCoverageByID = async (idCarrier, idCompany) => {
       console.error("Error on SQL: " + error);
       throw error
     })
+}
+
+export const getAllIdOpenQuotes = async (idCompany) => {
+  const query = "SELECT idCounter FROM quotes WHERE company_userID = ?"
+  console.log('Testeo de la Consulta getALLIdOpenQuotes: ' + pool.format(query, [idCompany]))
+  return pool.query(query, [idCompany])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error on SQL: " +  error);
+    throw error
+  })
 }

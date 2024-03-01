@@ -324,10 +324,10 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
     })
 }
 
-export const addNewClient = async (customerId, customerType, name, contact, clientPhone, clientEmail, country, state, city, zipcode, address, creditTerms, idCompany) => {
+export const addNewClient = async (customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany) => {
   const query = "INSERT INTO clients (id_Client, customer_type, customer_name, customer_contact, customer_phone, customer_email, client_country, client_state, client_city, client_zipcode, address, client_creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
-  return pool.query(query, [customerId, customerType, name, contact, clientPhone, clientEmail, country, state, city, zipcode, address, creditTerms, idCompany])
+  return pool.query(query, [customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL:", error);
@@ -337,11 +337,9 @@ export const addNewClient = async (customerId, customerType, name, contact, clie
 
 export const addNewCarrier = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany) => {
   const query = "INSERT INTO carriers (id_carrier, carrier_name, carrier_contact, mc, dot, carrier_SCAC, carrier_EIN, carrier_1099, carrier_insurance, carrier_address, carrier_city, carrier_zipcode, carrier_state, carrier_country, carrier_DOCT, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-
-  console.log(phonesJSON);
   return pool.query(query, [carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany])
     .then(() => true)
-    .catch(error => {
+    .catch(error => {s
       console.error("Error on SQL:", error); 
       throw error;
     });
@@ -658,10 +656,10 @@ export const getClientByIdAndCompany = async (idClient, idCompany) => {
     })
 }
 
-export const changeClientInfo = async (customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany) => {
-  const query = "UPDATE clients SET customer_name = ?, address = ?, customer_contact = ?, business_line = ?, customer_type = ?, customer_phone = ?, customer_email = ?  WHERE id_Client = ? AND company_userID = ?";
-  console.log('Consulta SQL UpdateClients: ', pool.format(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId, idCompany]))
-  return pool.query(query, [name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, customerId, idCompany])
+export const changeClientInfo = async ( customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany ) => {
+  const query = "UPDATE clients SET customer_type = ?, customer_name = ?, customer_contact = ?, customer_phone = ?, customer_email = ? , client_country = ? , client_state = ?, client_city = ?, client_zipcode = ?, address = ?, client_creditTerms = ? WHERE id_Client = ? AND company_userID = ?";
+  console.log('Consulta SQL UpdateClients: ', pool.format(query, [customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, customerId, idCompany]))
+  return pool.query(query, [customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, customerId, idCompany])
     .then(() => true)
     .catch(error => {
       console.error("Error on SQL : " + error)
@@ -744,24 +742,22 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-
   const tableName = tableCalled
   const columnName = columnCalled
  
-
-  if (tableCalled === 'carriers') {
-    const carrierEmails = await getCarrierEmails(id, idCompany);
+  // if (tableCalled === 'carriers') {
+  //   const carrierEmails = await getCarrierEmails(id, idCompany);
     
-    const queries = carrierEmails.map(i => {
-      return {
-        text: 'DELETE FROM carrier_emails WHERE email_address = ? AND company_userID = ?',
-        value: { emailaddress: i, idCompany: idCompany }
-      };
-    })
+  //   const queries = carrierEmails.map(i => {
+  //     return {
+  //       text: 'DELETE FROM carrier_emails WHERE email_address = ? AND company_userID = ?',
+  //       value: { emailaddress: i, idCompany: idCompany }
+  //     };
+  //   })
 
-    await deleteEmailPortRelation(queries);
+  //   await deleteEmailPortRelation(queries);
 
-  }
+  // }
 
   const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
 
@@ -775,25 +771,25 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
     })
 }
 
-const getCarrierEmails = async (carrierID, idCompany) => {
-  const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
-  return pool.query(query, [carrierID, idCompany])
-    .then(data => data[0][0].carrier_contact_mail)
-    .catch(error => {
-      console.error("Error on SQL : " + error);
-      throw error;
-    })
-}
+// const getCarrierEmails = async (carrierID, idCompany) => {
+//   const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
+//   return pool.query(query, [carrierID, idCompany])
+//     .then(data => data[0][0].carrier_contact_mail)
+//     .catch(error => {
+//       console.error("Error on SQL : " + error);
+//       throw error;
+//     })
+// }
 
-const deleteEmailPortRelation = async (emailList) => {
+// const deleteEmailPortRelation = async (emailList) => {
 
-  const deleteQueries = emailList.map(query => {
-    console.log([query.value.emailaddress, query.value.idCompany]);
-    return pool.query(query.text, [query.value.emailaddress, query.value.idCompany])
-  })
+//   const deleteQueries = emailList.map(query => {
+//     console.log([query.value.emailaddress, query.value.idCompany]);
+//     return pool.query(query.text, [query.value.emailaddress, query.value.idCompany])
+//   })
 
-  await Promise.all(deleteQueries);
-}
+//   await Promise.all(deleteQueries);
+// }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
@@ -805,10 +801,10 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
     })
 }
 
-export const changeCarrierInfoById = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, phoneNumbers, carrierEmails, idCompany) => {
+export const changeCarrierInfoById = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany) => {
   const query = "UPDATE carriers SET carrier_name = ? , carrier_contact = ?, mc = ? , dot = ? , carrier_SCAC = ?, carrier_EIN = ?, carrier_1099 = ?, carrier_insurance = ? , carrier_address = ? , carrier_city = ?, carrier_zipcode = ? , carrier_state = ? , carrier_country = ?, carrier_DOCT = ?, carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
-  console.log('Testeo Consulta SQL para editar Carriers Info: ', pool.format(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany]))
-  return pool.query(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, phoneNumbers, carrierEmails, carrierId, idCompany])
+  console.log('Testeo Consulta SQL para editar Carriers Info: ', pool.format(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, carrierId, idCompany]))
+  return pool.query(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, carrierId, idCompany])
     .then()
     .catch(error => {
       console.error("Error on SQL: " + error)

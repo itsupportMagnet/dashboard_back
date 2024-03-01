@@ -901,11 +901,12 @@ export const createQuote = async (req, res) => {
 
   // const newCounter = (await getIdCounter()) + 1;
   const newCounter = idCheck;
+  console.log('valor de newCounter: ' + newCounter)
+  console.log(typeof(newCounter))
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   const apiKey = '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';
-  const bccRecipients = JSON.stringify(carrier);
-
+  // const bccRecipients = JSON.stringify(carrier);
 
 
   const emailBody = `<!DOCTYPE html>
@@ -1033,11 +1034,11 @@ export const createQuote = async (req, res) => {
       console.log(apiKey)
       sgMail.setApiKey(apiKey)
       const msg = {
-        to: 'felipe.reichertgodoy@gmail.com', // Change to your recipient
+        to: carrier, // Change to your recipient
         from: 'it.support@magnetlogisticscorp.com', // Change to your verified sender
         replyTo: 'h.j.delascasas@gmail.com', 
         subject: emailSubject,
-        bcc: bccRecipients,
+        // bcc: bccRecipients,
         text: 'Testeo bla bla bla',
         html: emailBody,
       }
@@ -1308,11 +1309,11 @@ export const getOperation = async (req, res) => {
 
 export const addClient = async (req, res) => {
 
-  const { customerId, customerType, name, contact, clientPhone, clientEmail, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
+  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
   // const emailsJSON = JSON.stringify(customerEmails);
   // const phonesJSON = JSON.stringify(phoneNumbers);
 
-  addNewClient(customerId, customerType, name, contact, clientPhone, clientEmail, country, state, city, zipcode, address, creditTerms, idCompany)
+  addNewClient(customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1725,8 +1726,8 @@ export const fetchClientById = async (req, res) => {
 }
 
 export const updateClientInfoById = async (req, res) => {
-  const { customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany } = req.body;
-  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany)
+  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
+  changeClientInfo( customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany )
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1823,8 +1824,8 @@ export const fetchCarrierById = async (req, res) => {
 }
 
 export const updateCarrierInfoById = async (req, res) => {
-  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, phoneNumbers, carrierEmails, idCompany } = req.body;
-  changeCarrierInfoById(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, phoneNumbers, carrierEmails, idCompany)
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany } = req.body;
+  changeCarrierInfoById(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

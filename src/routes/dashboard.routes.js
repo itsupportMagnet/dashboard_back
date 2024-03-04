@@ -91,7 +91,7 @@ router
 .get("/get/quotes/:id/:idCompany", getQuote)
 .get("/get/clients", getAllClients)
 .get("/get/quotes-fees/:id", getQuotesFeeById)
-.get("/get/carriers-fees/:id", getCarriersFeeByID)
+.get("/get/carriers-fees/:id/:idCompany", getCarriersFeeByID)
 .post("/post/update-carrier-fee", updateCarrierFee)
 .get("/get/accesorials", getAllAccesorials)
 .get("/get/providers/:idCompany", getAllProviders)

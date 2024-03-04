@@ -1010,7 +1010,7 @@ export const createQuote = async (req, res) => {
             business relationship is extremely important for us. Simplifying your
             logistics needs!</b></i></p>
       <img style="margin-top: 10px;" width="200"
-        src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/07/magnet-logo.png"
+        src="https://tms.easyfreight.ai/logo.svg"
         alt="logo">
     </body>
     </html>`;
@@ -1036,6 +1036,7 @@ export const createQuote = async (req, res) => {
     .then(() => {
       console.log(process.env.SENDGRID_API_KEY)
       console.log(apiKey)
+      console.log(carrier)
       sgMail.setApiKey(apiKey)
       const msg = {
         to: carrier, // Change to your recipient
@@ -1043,7 +1044,7 @@ export const createQuote = async (req, res) => {
         replyTo: 'h.j.delascasas@gmail.com', 
         subject: emailSubject,
         // bcc: bccRecipients,
-        text: '',
+        text: 'EasyFreight 2024',
         html: emailBody,
       }
       sgMail

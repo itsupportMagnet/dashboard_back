@@ -71,11 +71,15 @@ import {
   changeClosedQuoteInfoById,
   getAllCarriersNameByCompanyId,
   getAllSslines,
-  getAllSaleGrossToCompare
+  getAllSaleGrossToCompare,
+  addNewCarrierPorts,
+  getCarrierPortCoverageByID,
+  getAllIdOpenQuotes
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import sgMail from '@sendgrid/mail';
 
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
@@ -101,7 +105,7 @@ export const login = async (req, res) => {
       }
       //make jwt
 
-      jwt.sign(user.userID, process.env.tokenPrivateKey, (err, token) => {
+      jwt.sign(user.userID, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
@@ -816,7 +820,9 @@ export const sendFee = async (req, res) => {
 };
 
 export const getQuote = async (req, res) => {
-  getQuoteById(req.params.id)
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
+  getQuoteById(id, idCompany)
     .then((rows) => {
       return res.status(200).json({ message: rows[0] });
     })
@@ -871,6 +877,7 @@ export const getAllAccesorials = async (req, res) => {
 
 export const createQuote = async (req, res) => {
   const {
+    carrier,
     operation,
     isExport,
     pol,
@@ -886,12 +893,20 @@ export const createQuote = async (req, res) => {
     quoteStatus,
     cordinator,
     coordinatorEmail,
+    idCompany,
+    idCheck
   } = req.body;
 
-  const newCounter = (await getIdCounter()) + 1;
+
+
+  // const newCounter = (await getIdCounter()) + 1;
+  const newCounter = idCheck;
+  console.log('valor de newCounter: ' + newCounter)
+  console.log(typeof(newCounter))
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
-  // const bccRecipients = carrier;
+  const apiKey = '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';
+  // const bccRecipients = JSON.stringify(carrier);
 
 
   const emailBody = `<!DOCTYPE html>
@@ -963,14 +978,14 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
         </tr>
-       
+
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
         </tr>
-    
+
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Bonded</td>
@@ -997,6 +1012,7 @@ export const createQuote = async (req, res) => {
     </html>`;
 
   saveNewQuote(
+    idCheck,
     newId,
     operation,
     pol,
@@ -1010,10 +1026,31 @@ export const createQuote = async (req, res) => {
     bonded,
     loadType,
     quoteStatus,
-    cordinator
+    cordinator,
+    idCompany
   )
     .then(() => {
-      return sendEmail(emailSubject, emailBody, coordinatorEmail);
+      console.log(process.env.SENDGRID_API_KEY)
+      console.log(apiKey)
+      sgMail.setApiKey(apiKey)
+      const msg = {
+        to: carrier, // Change to your recipient
+        from: 'it.support@magnetlogisticscorp.com', // Change to your verified sender
+        replyTo: 'h.j.delascasas@gmail.com', 
+        subject: emailSubject,
+        // bcc: bccRecipients,
+        text: 'Testeo bla bla bla',
+        html: emailBody,
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      // return sendEmail(emailSubject, emailBody, coordinatorEmail);
     })
     .then(() => {
       return updateIdCounter(newCounter);
@@ -1037,7 +1074,9 @@ export const getAllRoutes = async (req, res) => {
 };
 
 export const getCarriersByPort = async (req, res) => {
-  getCarriers(req.params.id)
+  const selectedPort = req.params.id;
+  const idCompany = req.params.idCompany;
+  getCarriers(selectedPort, idCompany)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1153,8 +1192,8 @@ export const newOperation = async (req, res) => {
     lfd
   } = req.body;
 
-  console.log('Controller '+operationDate);
-  
+  console.log('Controller ' + operationDate);
+
   saveNewOperation(
     idOperation,
     quoteID,
@@ -1270,11 +1309,11 @@ export const getOperation = async (req, res) => {
 
 export const addClient = async (req, res) => {
 
-  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers, idCompany } = req.body;
-  const emailsJSON = JSON.stringify(customerEmails);
-  const phonesJSON = JSON.stringify(phoneNumbers);
+  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
+  // const emailsJSON = JSON.stringify(customerEmails);
+  // const phonesJSON = JSON.stringify(phoneNumbers);
 
-  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON, idCompany)
+  addNewClient(customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1284,15 +1323,19 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
 
-  const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany } = req.body;
-  const phonesJSON = JSON.stringify(phoneNumbers);
-  const emailsJSON = JSON.stringify(carrierEmails);
-  addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON, idCompany)
-    .then(() => res.status(200).json({ message: "ok" }))
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany } = req.body;
+  // const phonesJSON = JSON.stringify(phoneNumbers);
+  // const emailsJSON = JSON.stringify(carrierEmails);
+  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany)
+  // const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports, idCompany);
+
+  Promise.all([addNewCarrierPromise])
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
-      res.status(500).json(error);
-      console.log(error);
-    })
+      console.error("Error in one of the operations: ", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+
 }
 
 export const getAllStates = async (req, res) => {
@@ -1398,7 +1441,7 @@ export const updateOperationById = async (req, res) => {
   const idCompany = req.params.idCompany;
 
   console.log(operationDate);
-  
+
   updateOperation(
     lfd,
     quoteID,
@@ -1613,7 +1656,7 @@ export const updateProfitSalesGross = async (req, res) => {
 }
 
 export const deleteSale = async (req, res) => {
-  const id  = req.params.id;
+  const id = req.params.id;
   const idCompany = req.params.idCompany
 
   deleteSaleById(id, idCompany)
@@ -1683,8 +1726,8 @@ export const fetchClientById = async (req, res) => {
 }
 
 export const updateClientInfoById = async (req, res) => {
-  const { customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany } = req.body;
-  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails, idCompany)
+  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
+  changeClientInfo( customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany )
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1764,75 +1807,93 @@ export const deleteGenericRow = async (req, res) => {
   const tableCalled = req.params.tableCalled;
   const columnCalled = req.params.columnCalled;
 
-  console.log('id: ' + id + ' idCompany: ' + idCompany + ' tableCalled: ' + tableCalled + ' columnCalled: ' + columnCalled )
-
   deleteGenericRowById(tableCalled, columnCalled, id, idCompany)
-  .then(res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log('Error Controller deleteGenericRow' + error)
-    res.status(500).json({ error })
-  })
+    .then(res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log('Error Controller deleteGenericRow' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const fetchCarrierById = async (req, res) => {
   const idCarrier = req.params.idCarrier;
   const idCompany = req.params.idCompany;
   getCarrierByIdAndCompany(idCarrier, idCompany)
-  .then(data => res.status(200).json(data))
-  .catch(error => res.status(500).json({error}))
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
 }
 
 export const updateCarrierInfoById = async (req, res) => {
-  const {carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany} = req.body;
-  changeCarrierInfoById( carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails, idCompany )
-  .then(() => res.status(200).json({ message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error });
-  })
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany } = req.body;
+  changeCarrierInfoById(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
 }
 
 export const fetchClosedQuoteById = async (req, res) => {
   const closedQuoteId = req.params.id;
   const idCompany = req.params.idCompany;
   getClosedQuoteByIdAndCompany(closedQuoteId, idCompany)
-  .then(data => res.status(200).json(data))
-  .catch(error => res.status(500).json({error}))
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
 }
 
 export const updateClosedQuoteInfoById = async (req, res) => {
-  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany} = req.body;
+  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
   changeClosedQuoteInfoById(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({error});
-  })
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
 
 }
 
 export const fetchCarriersNamesByCompanyId = (req, res) => {
   getAllCarriersNameByCompanyId(req.params.idCompany)
-  .then((row) => res.status(200).json(row))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({error});
-  })
+    .then((row) => res.status(200).json(row))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
 }
 
 export const getSsLineData = async (req, res) => {
   getAllSslines()
-  .then((row) => res.status(200).json(row))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getInfoToCompareSaleGross = (req, res) => {
   getAllSaleGrossToCompare(req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getCarriersPortCoverage = (req, res) => {
+  const idCarrier = req.params.idCarrier;
+  const idCompany = req.params.idCompany;
+  getCarrierPortCoverageByID(idCarrier, idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllQuotesForIdCheck = (req, res) => {
+  getAllIdOpenQuotes(req.params.idCompany)
   .then((row) => res.status(200).json(row))
-  .catch((error) =>  {
+  .catch((error) => {
     console.error(error);
     res.status(500).json(error);
   })

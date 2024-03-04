@@ -11,7 +11,7 @@ export const validarJWT = (req, res, next) => {
   }
 
   try {
-    jwt.verify(token, process.env.tokenPrivateKey)
+    jwt.verify(token, 'testtoken') //process.env.tokenPrivateKey 
     next()
   } catch (error) {
     console.log(error);

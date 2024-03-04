@@ -158,7 +158,8 @@ export const saveFee = async (req, res) => {
     sellDrayageUniteRate,
     sellChassisUnitRate,
     sellAccesorials,
-    notes
+    notes,
+    companyID
   } = req.body;
 
   try {
@@ -188,7 +189,8 @@ export const saveFee = async (req, res) => {
       sellDrayageUniteRate,
       sellChassisUnitRate,
       sellAccesorialsJSON,
-      notes
+      notes,
+      companyID
     );
     return res.status(200).json({ message: "ok" });
   } catch (error) {
@@ -843,8 +845,10 @@ export const getQuotesFeeById = async (req, res) => {
 };
 
 export const getCarriersFeeByID = async (req, res) => {
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
   try {
-    const [rows] = await getCarrierFeeByQuoteId(req.params.id);
+    const [rows] = await getCarrierFeeByQuoteId(id, idCompany);
     res.status(200).json(rows);
   } catch (error) {
     console.error(error);
@@ -1039,7 +1043,7 @@ export const createQuote = async (req, res) => {
         replyTo: 'h.j.delascasas@gmail.com', 
         subject: emailSubject,
         // bcc: bccRecipients,
-        text: 'Testeo bla bla bla',
+        text: '',
         html: emailBody,
       }
       sgMail

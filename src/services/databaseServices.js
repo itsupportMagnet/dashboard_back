@@ -45,10 +45,11 @@ export const saveNewQuoteFee = async (quoteID,
   sellDrayageUniteRate,
   sellChassisUnitRate,
   sellAccesorialsJSON,
-  notes) => {
-  const query = "INSERT INTO carriers_fees (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorials, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorials, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  notes,
+  companyID) => {
+  const query = "INSERT INTO carriers_fees (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorials, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorials, notes, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
   try {
-    await pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorialsJSON, sellDrayageUniteRate, sellChassisUnitRate, sellAccesorialsJSON, notes])
+    await pool.query(query, [quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, otherCommodity, hazardous, hazardousClass, bonded, loadType, date, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorialsJSON, sellDrayageUniteRate, sellChassisUnitRate, sellAccesorialsJSON, notes, companyID])
   } catch (error) {
     console.error("Error to get specific quote:", error);
     throw error;
@@ -71,10 +72,10 @@ export const saveQuoteSent = async (quoteID, modeOfOperation, pol, deliveryAddre
     });
 }
 
-export const getCarrierFeeByQuoteId = async (id) => {
-  const query = 'SELECT * FROM carriers_fees WHERE quoteID = ?';
+export const getCarrierFeeByQuoteId = async (id, idCompany) => {
+  const query = 'SELECT * FROM carriers_fees WHERE quoteID = ? and company_userID = ?';
   try {
-    const [rows] = await pool.query(query, [id]);
+    const [rows] = await pool.query(query, [id, idCompany]);
     return [rows]
   } catch (error) {
     console.error("Error to get specific quote:", error);

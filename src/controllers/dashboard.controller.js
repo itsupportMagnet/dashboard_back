@@ -1010,7 +1010,7 @@ export const createQuote = async (req, res) => {
             business relationship is extremely important for us. Simplifying your
             logistics needs!</b></i></p>
       <img style="margin-top: 10px;" width="200"
-        src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/07/magnet-logo.png"
+        src="https://tms.easyfreight.ai/logo.svg"
         alt="logo">
     </body>
     </html>`;

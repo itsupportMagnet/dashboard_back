@@ -1036,6 +1036,7 @@ export const createQuote = async (req, res) => {
     .then(() => {
       console.log(process.env.SENDGRID_API_KEY)
       console.log(apiKey)
+      console.log(carrier)
       sgMail.setApiKey(apiKey)
       const msg = {
         to: carrier, // Change to your recipient
@@ -1043,7 +1044,7 @@ export const createQuote = async (req, res) => {
         replyTo: 'h.j.delascasas@gmail.com', 
         subject: emailSubject,
         // bcc: bccRecipients,
-        text: '',
+        text: 'EasyFreight 2024',
         html: emailBody,
       }
       sgMail

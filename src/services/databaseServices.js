@@ -340,7 +340,7 @@ export const addNewCarrier = async (carrierId, name, contact, mc, dot, SCAC, EIN
   const query = "INSERT INTO carriers (id_carrier, carrier_name, carrier_contact, mc, dot, carrier_SCAC, carrier_EIN, carrier_1099, carrier_insurance, carrier_address, carrier_city, carrier_zipcode, carrier_state, carrier_country, carrier_DOCT, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   return pool.query(query, [carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany])
     .then(() => true)
-    .catch(error => {s
+    .catch(error => {
       console.error("Error on SQL:", error); 
       throw error;
     });

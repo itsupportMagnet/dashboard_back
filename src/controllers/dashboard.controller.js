@@ -1037,8 +1037,8 @@ export const createQuote = async (req, res) => {
       sgMail.setApiKey(sendGridKey)
       const msg = {
         to: carrier, // Change to your recipient
-        from: fromEmail, // Change to your verified sender
-        replyTo: replyToEmail, 
+        from: 'no-reply@easyfreight.ai', // Change to your verified sender
+        replyTo: 'andre.gonzalez@magnetlogisticscorp.com', 
         subject: emailSubject,
         // bcc: bccRecipients,
         text: 'EasyFreight 2024',

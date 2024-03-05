@@ -81,6 +81,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import sgMail from '@sendgrid/mail';
 
+const { sendGridKey, fromEmail, replyToEmail  } = process.env
+
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
 };
@@ -909,7 +911,7 @@ export const createQuote = async (req, res) => {
   console.log(typeof(newCounter))
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
-  const apiKey = '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';
+  // const apiKey = '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';
   // const bccRecipients = JSON.stringify(carrier);
 
 
@@ -1037,11 +1039,12 @@ export const createQuote = async (req, res) => {
       console.log(process.env.SENDGRID_API_KEY)
       console.log(apiKey)
       console.log(carrier)
-      sgMail.setApiKey(apiKey)
+      console.log(sendGridKey)
+      sgMail.setApiKey(sendGridKey)
       const msg = {
         to: carrier, // Change to your recipient
-        from: 'it.support@magnetlogisticscorp.com', // Change to your verified sender
-        replyTo: 'h.j.delascasas@gmail.com', 
+        from: 'no-reply@easyfreight.ai', // Change to your verified sender
+        replyTo: 'andre.gonzalez@magnetlogisticscorp.com', 
         subject: emailSubject,
         // bcc: bccRecipients,
         text: 'EasyFreight 2024',

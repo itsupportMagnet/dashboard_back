@@ -81,7 +81,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import sgMail from '@sendgrid/mail';
 
-const { sendGridKey, fromEmail, replyToEmail  } = process.env
+const { sendGridKey, fromEmail, replyToEmail } = process.env
 
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
@@ -908,7 +908,7 @@ export const createQuote = async (req, res) => {
   // const newCounter = (await getIdCounter()) + 1;
   const newCounter = idCheck;
   console.log('valor de newCounter: ' + newCounter)
-  console.log(typeof(newCounter))
+  console.log(typeof (newCounter))
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   // const apiKey = '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';
@@ -1044,7 +1044,7 @@ export const createQuote = async (req, res) => {
       const msg = {
         to: carrier, // Change to your recipient
         from: 'no-reply@easyfreight.ai', // Change to your verified sender
-        replyTo: 'andre.gonzalez@magnetlogisticscorp.com', 
+        replyTo: 'andre.gonzalez@magnetlogisticscorp.com',
         subject: emailSubject,
         // bcc: bccRecipients,
         text: 'EasyFreight 2024',
@@ -1310,6 +1310,8 @@ export const updateContainerId = async (req, res) => {
 export const getOperation = async (req, res) => {
   const id = req.params.id;
   const idCompany = req.params.idCompany;
+  console.log(id)
+  console.log(idCompany)
   getOperationByIdAndCompany(id, idCompany)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
@@ -1735,7 +1737,7 @@ export const fetchClientById = async (req, res) => {
 
 export const updateClientInfoById = async (req, res) => {
   const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
-  changeClientInfo( customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany )
+  changeClientInfo(customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1900,9 +1902,9 @@ export const getCarriersPortCoverage = (req, res) => {
 
 export const getAllQuotesForIdCheck = (req, res) => {
   getAllIdOpenQuotes(req.params.idCompany)
-  .then((row) => res.status(200).json(row))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }

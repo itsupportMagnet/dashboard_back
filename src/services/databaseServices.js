@@ -401,10 +401,10 @@ export const changeNote = async (note, idOperation) => {
       throw (error)
     })
 }
-export const changeQuotexId = async (quoteID, idOperation) => {
-  const query = "UPDATE operations SET quoteID = ? WHERE idOperation = ?;";
+export const changeQuoteIdById = async (quoteID, idOperation, idCompany) => {
+  const query = "UPDATE operations SET quoteID = ? WHERE idOperation = ? AND company_userID = ?;";
 
-  return pool.query(query, [quoteID, idOperation])
+  return pool.query(query, [quoteID, idOperation, idCompany])
     .then(() => { return true })
     .catch(error => {
       console.log(error);

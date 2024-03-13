@@ -34,7 +34,7 @@ import {
   changeQuote,
   getAllQuoteIds,
   changeNote,
-  changeQuotexId,
+  changeQuoteIdById,
   changeWeightxId,
   getAllOperationsForTable,
   getAllClosedQuotes,
@@ -1396,9 +1396,9 @@ export const changeNoteQuote = async (req, res) => {
     })
 }
 export const changeQuoteId = async (req, res) => {
-  //recibimos el json(destructuracion de obj)
-  const { quoteID, idOperation } = req.body
-  changeQuotexId(quoteID, idOperation)
+  const { quoteID, idOperation } = req.body;
+  const idCompany = req.params.idCompany;
+  changeQuoteIdById(quoteID, idOperation, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch((error) => {
       console.log(error);

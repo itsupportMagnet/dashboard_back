@@ -117,7 +117,7 @@ router
 .post("/post/change-status-quote", changeStatusQuote)
 .get("/get/getQuoteIds/:idCompany", getQuoteIds)
 .post("/post/change-notes", changeNoteQuote)
-.post("/post/change-quoteid", changeQuoteId)
+.post("/post/change-quoteid/:idCompany", changeQuoteId)
 .post("/post/change-weight", changeWeight) 
 .get("/get/allOperationsTable/:id", getAllOperationsTable)
 .get("/get/allClosedQuotes/:id", getClosedQuotes)

@@ -279,36 +279,36 @@ export const getAllOperations = async () => {
     })
 }
 
-export const changeOperationStatus = async (idOperation, status) => {
-  const query = "UPDATE operations SET status = ? WHERE idOperation = ?";
-  return pool.query(query, [status, idOperation])
+export const changeOperationStatus = async (idOperation, status, idCompany) => {
+  const query = "UPDATE operations SET status = ? WHERE idOperation = ? AND company_userID = ?";
+  return pool.query(query, [status, idOperation, idCompany])
     .then(() => { return true }).catch(error => {
       console.error("Error on SQL:", error);
       throw error;
     });
 }
 
-export const changeOperationContainerStatus = async (idOperation, status) => {
-  const query = "UPDATE operations SET containerStatus = ? WHERE idOperation = ?";
-  return pool.query(query, [status, idOperation])
+export const changeOperationContainerStatus = async (idOperation, status, idCompany) => {
+  const query = "UPDATE operations SET containerStatus = ? WHERE idOperation = ? AND company_userID = ?";
+  return pool.query(query, [status, idOperation, idCompany])
     .then(() => { return true }).catch(error => {
       console.error("Error on SQL:", error);
       throw error;
     });
 }
 
-export const changeBookingBl = async (idOperation, bookingBl) => {
-  const query = "UPDATE operations SET bookingBl = ? WHERE idOperation = ?";
-  return pool.query(query, [bookingBl, idOperation])
+export const changeBookingBl = async (idOperation, bookingBl, idCompany) => {
+  const query = "UPDATE operations SET bookingBl = ? WHERE idOperation = ? AND company_userID = ?";
+  return pool.query(query, [bookingBl, idOperation, idCompany])
     .then(() => { return true }).catch(error => {
       console.error("Error on SQL:", error);
       throw error;
     });
 }
 
-export const changeContainerId = async (idOperation, containerId) => {
-  const query = "UPDATE operations SET containerId = ? WHERE idOperation = ?";
-  return pool.query(query, [containerId, idOperation])
+export const changeContainerId = async (idOperation, containerId, idCompany) => {
+  const query = "UPDATE operations SET containerId = ? WHERE idOperation = ? AND company_userID = ?";
+  return pool.query(query, [containerId, idOperation, idCompany])
     .then(() => { return true }).catch(error => {
       console.error("Error on SQL:", error);
       throw error;
@@ -317,9 +317,12 @@ export const changeContainerId = async (idOperation, containerId) => {
 
 export const getOperationByIdAndCompany = async (operationId, idCompany) => {
   const query = 'SELECT * FROM operations WHERE idOperation = ? AND company_userID = ?';
-  console.log('Test para saber cuales valores estoy utilizando: ', pool.format(query, [operationId, idCompany]))
+  // console.log('Test para saber cuales valores estoy utilizando: ', pool.format(query, [operationId, idCompany]))
   return pool.query(query, [operationId, idCompany])
-    .then(data => data[0])
+    .then(data => {
+      console.log(data[0])
+      return data[0]
+      })
     .catch(error => {
       console.log(error);
       throw error;
@@ -387,21 +390,21 @@ export const getAllQuoteIds = async (idCompany) => {
     });
 }
 
-export const changeNote = async (note, idOperation) => {
+export const changeNote = async (note, idOperation, idCompany) => {
   //consulta SQL
-  const query = "UPDATE operations SET notes = ? WHERE idOperation = ?"
+  const query = "UPDATE operations SET notes = ? WHERE idOperation = ? and company_userID = ?"
   //ejecución de consulta(query)
-  return pool.query(query, [note, idOperation])
+  return pool.query(query, [note, idOperation, idCompany])
     .then(() => { return true })
     .catch(error => {
       console.log(error);
       throw (error)
     })
 }
-export const changeQuotexId = async (quoteID, idOperation) => {
-  const query = "UPDATE operations SET quoteID = ? WHERE idOperation = ?;";
+export const changeQuoteIdById = async (quoteID, idOperation, idCompany) => {
+  const query = "UPDATE operations SET quoteID = ? WHERE idOperation = ? AND company_userID = ?;";
 
-  return pool.query(query, [quoteID, idOperation])
+  return pool.query(query, [quoteID, idOperation, idCompany])
     .then(() => { return true })
     .catch(error => {
       console.log(error);
@@ -605,9 +608,9 @@ export const getAllClosedQuoteId = async (idCompany) => {
     });
 }
 
-export const getClosedQuoteById = async id => {
-  const query = "SELECT * FROM closed_quotes WHERE quoteID = ?";
-  return pool.query(query, [id])
+export const getClosedQuoteById = async (id, idCompany) => {
+  const query = "SELECT * FROM closed_quotes WHERE quoteID = ? AND company_userID = ?";
+  return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get the quotes id:", error);
@@ -615,9 +618,9 @@ export const getClosedQuoteById = async id => {
     });
 }
 
-export const getNormalQuoteById = async id => {
-  const query = "SELECT * FROM carriers_fees WHERE quoteID = ?"
-  return pool.query(query, [id])
+export const getNormalQuoteById = async (id, idCompany) => {
+  const query = "SELECT * FROM carriers_fees WHERE quoteID = ? AND company_userID = ?"
+  return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {
       console.error("Error trying to get the quotes id:", error);

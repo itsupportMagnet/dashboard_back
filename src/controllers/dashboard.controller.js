@@ -34,7 +34,7 @@ import {
   changeQuote,
   getAllQuoteIds,
   changeNote,
-  changeQuotexId,
+  changeQuoteIdById,
   changeWeightxId,
   getAllOperationsForTable,
   getAllClosedQuotes,
@@ -1259,9 +1259,9 @@ export const getOperations = async (req, res) => {
 }
 
 export const changeStatus = async (req, res) => {
-  const { idOperation, status } = req.body;
+  const { idOperation, status, idCompany } = req.body;
 
-  changeOperationStatus(idOperation, status)
+  changeOperationStatus(idOperation, status, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1270,9 +1270,9 @@ export const changeStatus = async (req, res) => {
 }
 
 export const changeContainerStatus = async (req, res) => {
-  const { idOperation, containerStatus } = req.body;
+  const { idOperation, containerStatus, idCompany } = req.body;
 
-  changeOperationContainerStatus(idOperation, containerStatus)
+  changeOperationContainerStatus(idOperation, containerStatus, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1281,8 +1281,8 @@ export const changeContainerStatus = async (req, res) => {
 }
 
 export const updateBookingBl = async (req, res) => {
-  const { idOperation, bookingBl } = req.body;
-  changeBookingBl(idOperation, bookingBl)
+  const { idOperation, bookingBl, idCompany } = req.body;
+  changeBookingBl(idOperation, bookingBl, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1291,8 +1291,8 @@ export const updateBookingBl = async (req, res) => {
 }
 
 export const updateContainerId = async (req, res) => {
-  const { idOperation, containerId } = req.body;
-  changeContainerId(idOperation, containerId)
+  const { idOperation, containerId, idCompany } = req.body;
+  changeContainerId(idOperation, containerId, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1304,8 +1304,6 @@ export const updateContainerId = async (req, res) => {
 export const getOperation = async (req, res) => {
   const id = req.params.id;
   const idCompany = req.params.idCompany;
-  console.log(id)
-  console.log(idCompany)
   getOperationByIdAndCompany(id, idCompany)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
@@ -1381,9 +1379,9 @@ export const getQuoteIds = async (req, res) => {
 
 export const changeNoteQuote = async (req, res) => {
   //formato json enviado por el cliente
-  const { note, idOperation } = req.body
+  const { note, idOperation, idCompany } = req.body
   //ejecucion de query
-  changeNote(note, idOperation)
+  changeNote(note, idOperation, idCompany)
     //respuesta
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch((error) => {
@@ -1392,9 +1390,9 @@ export const changeNoteQuote = async (req, res) => {
     })
 }
 export const changeQuoteId = async (req, res) => {
-  //recibimos el json(destructuracion de obj)
-  const { quoteID, idOperation } = req.body
-  changeQuotexId(quoteID, idOperation)
+  const { quoteID, idOperation } = req.body;
+  const idCompany = req.params.idCompany;
+  changeQuoteIdById(quoteID, idOperation, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch((error) => {
       console.log(error);
@@ -1681,7 +1679,7 @@ export const getClosedQuoteId = async (req, res) => {
 }
 
 export const getClosedQuote = async (req, res) => {
-  getClosedQuoteById(req.params.id)
+  getClosedQuoteById(req.params.id, req.params.idCompany)
     .then(row => res.status(200).json(row[0]))
     .catch(error => {
       console.log('Error Controller getFloridaQuote: ' + error)
@@ -1690,7 +1688,7 @@ export const getClosedQuote = async (req, res) => {
 }
 
 export const getNormalQuote = async (req, res) => {
-  getNormalQuoteById(req.params.id)
+  getNormalQuoteById(req.params.id, req.params.idCompany)
     .then(row => res.status(200).json(row[0]))
     .catch(error => {
       console.log('Error Controller getNormalQuote: ' + error)

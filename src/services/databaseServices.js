@@ -869,17 +869,15 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
     })
 }
 
-export const addNewCarrierPorts = async (carrierEmails, ports, idCompany) => {
+export const addNewCarrierPorts = async (carrierId, ports, idCompany) => {
   const queries = [];
 
-  carrierEmails.forEach(email => {
-    ports.forEach(port => {
-      const query = {
-        text: 'INSERT INTO carrier_emails (email_address, port_id, company_userID) VALUES (?, ?, ?)',
-        values: [email, port, idCompany]
-      };
-      queries.push(query);
-    });
+  ports.forEach(port => {
+    const query = {
+      text: 'INSERT INTO carrier_emails (carrier_id, port_id, company_userID) VALUES (?, ?, ?)',
+      values: [carrierId, port, idCompany]
+    };
+    queries.push(query);
   });
 
   try {
@@ -900,10 +898,10 @@ export const addNewCarrierPorts = async (carrierEmails, ports, idCompany) => {
 }
 
 export const getCarrierPortCoverageByID = async (idCarrier, idCompany) => {
-  const query = "SELECT * FROM carrier_emails WHERE company_userID = ? AND carrier_id = ?"
+  const query = "SELECT port_id FROM carrier_emails WHERE carrier_id = ? AND company_userID = ?"
   console.log('Testeo Consulta SQL para obtener todos los port ID de carrier_emails', pool.format(query, [idCarrier, idCompany]))
   return pool.query(query, [idCarrier, idCompany])
-    .then()
+    .then(data => data[0])
     .catch(error => {
       console.error("Error on SQL: " + error);
       throw error
@@ -917,6 +915,17 @@ export const getAllIdOpenQuotes = async (idCompany) => {
   .then(rows => rows[0])
   .catch(error => {
     console.error("Error on SQL: " +  error);
+    throw error
+  })
+}
+
+export const fetchEmailsWithPortId = async (portId, idCompany) => {
+  const query = "SELECT ce.port_id, ce.carrier_id, c.carrier_contact_mail FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
+  console.log('Testeando el fetch de la consulta ' + pool.format(query, [portId, idCompany]))
+  return pool.query(query, [portId, idCompany])
+  .then(data => data[0])
+  .catch(error => {
+    console.error("Error on SQL: " + error);
     throw error
   })
 }

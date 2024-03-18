@@ -74,7 +74,9 @@ import {
   getAllSaleGrossToCompare,
   addNewCarrierPorts,
   getCarrierPortCoverageByID,
-  getAllIdOpenQuotes
+  getAllIdOpenQuotes,
+  fetchEmailsWithPortId,
+  fetchAllBuySaleGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1325,13 +1327,13 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
 
-  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany } = req.body;
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
   // const phonesJSON = JSON.stringify(phoneNumbers);
   // const emailsJSON = JSON.stringify(carrierEmails);
   const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany)
-  // const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmails, ports, idCompany);
+  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierId, ports, idCompany);
 
-  Promise.all([addNewCarrierPromise])
+  Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.error("Error in one of the operations: ", error);
@@ -1899,4 +1901,22 @@ export const getAllQuotesForIdCheck = (req, res) => {
       console.error(error);
       res.status(500).json(error);
     })
+}
+
+export const getAllEmailsWithPortId = (req, res) => {
+  fetchEmailsWithPortId(req.params.id, req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getAllBuySaleGrossData = (req, res) => {
+  fetchAllBuySaleGross(req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
 }

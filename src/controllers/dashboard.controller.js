@@ -75,7 +75,8 @@ import {
   addNewCarrierPorts,
   getCarrierPortCoverageByID,
   getAllIdOpenQuotes,
-  fetchEmailsWithPortId
+  fetchEmailsWithPortId,
+  fetchAllBuySaleGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1910,6 +1911,15 @@ export const getAllQuotesForIdCheck = (req, res) => {
 
 export const getAllEmailsWithPortId = (req, res) => {
   fetchEmailsWithPortId(req.params.id, req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getAllBuySaleGrossData = (req, res) => {
+  fetchAllBuySaleGross(req.params.idCompany)
   .then((data) => res.status(200).json(data))
   .catch((error) => {
     console.error(error);

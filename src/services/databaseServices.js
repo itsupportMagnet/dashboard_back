@@ -929,3 +929,8 @@ export const fetchEmailsWithPortId = async (portId, idCompany) => {
     throw error
   })
 }
+
+export const fetchAllBuySaleGross = async (idCompany) => {
+  // const query = "SELECT"
+
+}

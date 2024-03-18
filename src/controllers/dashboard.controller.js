@@ -76,7 +76,9 @@ import {
   getCarrierPortCoverageByID,
   getAllIdOpenQuotes,
   fetchEmailsWithPortId,
-  fetchAllBuySaleGross
+  fetchAllBuySaleGross,
+  fetchAllSellSaleGross,
+  fetchAllProfitSaleGross
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1920,6 +1922,24 @@ export const getAllEmailsWithPortId = (req, res) => {
 
 export const getAllBuySaleGrossData = (req, res) => {
   fetchAllBuySaleGross(req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getAllSellSaleGrossData = (req, res) => {
+  fetchAllSellSaleGross(req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getAllProfitSaleGrossData = (req, res) => {
+  fetchAllProfitSaleGross(req.params.idCompany)
   .then((data) => res.status(200).json(data))
   .catch((error) => {
     console.error(error);

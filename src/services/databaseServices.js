@@ -931,6 +931,61 @@ export const fetchEmailsWithPortId = async (portId, idCompany) => {
 }
 
 export const fetchAllBuySaleGross = async (idCompany) => {
-  // const query = "SELECT"
+  const query = "SELECT SUBSTRING(invoice_date, 1, 2) AS month, SUBSTRING(invoice_date, 7, 4) AS year, SUM(buy) AS totalBuy FROM sales_gross WHERE company_userID = ? GROUP BY month, year";
+  console.log('Testeando el query buy: ' + pool.format(query, [idCompany]));
+  return pool.query(query, [idCompany])
+    .then(([data]) => { // Destructurar la primera matriz para acceder a los resultados
 
+      const TotalsBuy = data.map(row => ({
+        month: row.month,
+        year: row.year,
+        totalBuy: row.totalBuy
+      }));
+      console.log("Total de compra por mes:", TotalsBuy);
+      return TotalsBuy;
+    })
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error;
+    });
+}
+
+export const fetchAllSellSaleGross = async (idCompany) => {
+  const query = "SELECT SUBSTRING(invoice_date, 1, 2) AS month, SUBSTRING(invoice_date, 7, 4) AS year, SUM(sell) AS totalSell FROM sales_gross WHERE company_userID = ? GROUP by month, year";
+  console.log('Testeando el query sell: ' + pool.format(query, [idCompany]));
+  return pool.query(query, [idCompany])
+  .then(([data]) => {
+
+    const TotalsSell = data.map(row => ({
+      month: row.month,
+      year: row.year,
+      totalSell: row.totalSell
+    }));
+    console.log("Total de Venta por mes: ", TotalsSell);
+    return TotalsSell;
+  })
+  .catch(error => {
+    console.error("Error on SQL: " + error);
+    throw error;
+  })
+}
+
+export const fetchAllProfitSaleGross = async (idCompany) => {
+  const query = "SELECT SUBSTRING(invoice_date, 1, 2) AS month, SUBSTRING(invoice_date, 7, 4) AS year, SUM(profit) AS totalProfit FROM sales_gross WHERE company_userID = ? GROUP by month, year";
+  console.log('Testeando el query profit: ' + pool.format(query, [idCompany]));
+  return pool.query(query, [idCompany])
+  .then(([data]) => {
+
+    const TotalsProfit = data.map(row => ({
+      month: row.month,
+      year: row.year,
+      totalProfit: parseFloat(row.totalProfit)
+    }));
+    console.log("Total de Profit por mes: ", TotalsProfit);
+    return TotalsProfit;
+  })
+  .catch(error => {
+    console.error("Error on SQL: " + error);
+    throw error;
+  })
 }

@@ -77,7 +77,9 @@ import {
     getCarriersPortCoverage,
     getAllQuotesForIdCheck,
     getAllEmailsWithPortId,
-    getAllBuySaleGrossData
+    getAllBuySaleGrossData,
+    getAllSellSaleGrossData,
+    getAllProfitSaleGrossData,
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -161,6 +163,9 @@ router
 .get("/get/openQuoteIdCheck/:idCompany", getAllQuotesForIdCheck)
 .get("/get/portCarriersEmails/:id/:idCompany", getAllEmailsWithPortId)
 .get("/get/allBuySaleGross/:idCompany", getAllBuySaleGrossData)
+.get("/get/allSellSaleGross/:idCompany", getAllSellSaleGrossData)
+.get("/get/allProfitSaleGross/:idCompany", getAllProfitSaleGrossData)
+
 
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

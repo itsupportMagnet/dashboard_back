@@ -158,7 +158,7 @@ export const getQuotes = async (id) => {
 };
 
 export const getSales = async (id) => {
-  const query = "SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, month_of_invoice FROM sales_gross WHERE company_userID = ? "; //Empiezo a Especificar las tablas pedidas
+  const query = "SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, invoice_date FROM sales_gross WHERE company_userID = ? "; //Empiezo a Especificar las tablas pedidas
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -511,7 +511,7 @@ export const create = async (userName, email, password) => {
 }
 
 export const newInputQuerySaleGross = async (bookingBl, containerId, provider, customer, date) => {
-  const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, month_of_invoice) VALUES (?,?,?,?,?)"
+  const query = "INSERT INTO sales_gross (booking_bl, container_id, provider, customer, invoice_date) VALUES (?,?,?,?,?)"
 
   return pool.query(query, [bookingBl, containerId, provider, customer, date])
     .then(() => true)
@@ -523,7 +523,7 @@ export const newInputQuerySaleGross = async (bookingBl, containerId, provider, c
 }
 
 export const newInputQueryFLSaleGross = async (operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis) => {
-  const query = "INSERT INTO sales_gross (operation_id ,booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, buyAccesorials, sellAccesorials, buyChassis, sellChassis) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO sales_gross (operation_id ,booking_bl, container_id, provider, customer, buy, sell, profit, invoice_date, buyAccesorials, sellAccesorials, buyChassis, sellChassis) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis,])
     .then(() => true)
@@ -703,7 +703,7 @@ export const fetchSaleGrossInfoById = async (idOperation) => {
 }
 
 export const newOperationToSalesGross = async (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany) => {
-  const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, month_of_invoice, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO sales_gross (operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, invoice_date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, JSON.stringify(buyAccesorials), JSON.stringify(sellAccesorials), buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany])
     .then(() => true)

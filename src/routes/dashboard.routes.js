@@ -80,6 +80,11 @@ import {
     getAllBuySaleGrossData,
     getAllSellSaleGrossData,
     getAllProfitSaleGrossData,
+    getAllWarehousesData,
+    addWarehouse,
+    fetchWarehouseById,
+    updateWarehouseInfoById,
+    deleteWarehouse
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -165,6 +170,11 @@ router
 .get("/get/allBuySaleGross/:idCompany", getAllBuySaleGrossData)
 .get("/get/allSellSaleGross/:idCompany", getAllSellSaleGrossData)
 .get("/get/allProfitSaleGross/:idCompany", getAllProfitSaleGrossData)
+.get("/get/warehouses/:idCompany", getAllWarehousesData)
+.post("/post/addWarehouse", addWarehouse)
+.get("/get/warehousesById/:id/:idCompany", fetchWarehouseById)
+.post("/post/updateWarehouse", updateWarehouseInfoById)
+.delete("/delete/deleteWarehouse/:id/:idCompany", deleteWarehouse)
 
 
 // .get("/maxIdOperation", maxIdOperation )

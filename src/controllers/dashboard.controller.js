@@ -78,7 +78,12 @@ import {
   fetchEmailsWithPortId,
   fetchAllBuySaleGross,
   fetchAllSellSaleGross,
-  fetchAllProfitSaleGross
+  fetchAllProfitSaleGross,
+  getWarehouses,
+  addNewWarehouse,
+  getWarehouseByIdAndCompany,
+  changeWarehouseInfo,
+  deleteWarehouseById
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -1944,5 +1949,53 @@ export const getAllProfitSaleGrossData = (req, res) => {
   .catch((error) => {
     console.error(error);
     res.status(500).json(error);
+  })
+}
+
+export const getAllWarehousesData = (req, res) => {
+
+  getWarehouses(req.params.idCompany)
+  .then((row) => res.status(200).json(row))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  });
+}
+
+export const addWarehouse = (req, res) => {
+  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
+
+  addNewWarehouse(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
+  .then(() => res.status(200).json({ message: "ok"}))
+  .catch(error => {
+    res.status(500).json(error);
+    console.log(error);
+  })
+}
+
+export const fetchWarehouseById = (req, res) => {
+  const idWarehouse = req.params.id;
+  const idCompany = req.params.idCompany;
+  getWarehouseByIdAndCompany(idWarehouse, idCompany)
+  .then(data => res.status(200).json(data))
+  .catch(error => res.status(500).json({ error}))
+}
+
+export const updateWarehouseInfoById = (req, res) => {
+  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
+  changeWarehouseInfo(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
+  .then(() => res.status(200).json({ message: 'ok'}))
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  })
+}
+
+export const deleteWarehouse = (req, res) => {
+  deleteWarehouseById(req.params.id, req.params.idCompany)
+  .then(res.status(200).json({ message: 'ok'}))
+  .catch(error => {
+    console.log('Error Controller deleteWarehouse ' + error)
+    res.status(500).json({ error })
   })
 }

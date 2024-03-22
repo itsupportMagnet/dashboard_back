@@ -989,3 +989,55 @@ export const fetchAllProfitSaleGross = async (idCompany) => {
     throw error;
   })
 }
+
+export const getWarehouses = async (idCompany) => {
+  const query = "SELECT * from warehouses WHERE company_userID = ?";
+  return pool.query(query, [idCompany])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.log(error)
+    throw error
+  })
+}
+
+export const addNewWarehouse = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany) => {
+  const query = "INSERT INTO warehouses (warehouse_id, warehouse_type, warehouse_name, warehouse_contact, warehouse_phone, warehouse_email, warehouse_country, warehouse_state, warehouse_city, warehouse_zipcode, warehouse_address, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+
+  return pool.query(query, [warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL: ", error);
+    throw error;
+  });
+}
+
+export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
+  const query = 'SELECT * FROM warehouses WHERE warehouse_id = ? AND company_userID = ?';
+  return pool.query(query, [idWarehouse, idCompany])
+  .then(data => data[0])
+  .catch(error => {
+    console.log(error);
+    throw error;
+  })
+}
+
+export const changeWarehouseInfo = async ( warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany) => {
+  const query = 'UPDATE warehouses SET warehouse_type = ? , warehouse_name = ?, warehouse_contact = ?, warehouse_phone = ?, warehouse_email = ?, warehouse_country = ?, warehouse_state = ?, warehouse_city = ?, warehouse_zipcode = ?, warehouse_address = ? WHERE warehouse_id = ? AND company_userID = ?'
+  console.log('Consulta SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, warehouseId, idCompany]))
+  return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, warehouseId, idCompany])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL: " + error)
+    throw error
+  }) 
+}
+
+export const deleteWarehouseById = async (id, idCompany) => {
+  const query = "DELETE FROM warehouses WHERE warehouse_id = ? AND company_userID = ?";
+  return pool.query(query, [id, idCompany])
+  .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL :" + error)
+    throw error
+  })
+}

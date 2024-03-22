@@ -916,8 +916,6 @@ export const createQuote = async (req, res) => {
 
   // const newCounter = (await getIdCounter()) + 1;
   const newCounter = idCheck;
-  console.log('valor de newCounter: ' + newCounter)
-  console.log(typeof (newCounter))
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
   // const apiKey = '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';
@@ -1021,7 +1019,7 @@ export const createQuote = async (req, res) => {
             business relationship is extremely important for us. Simplifying your
             logistics needs!</b></i></p>
       <img style="margin-top: 10px;" width="200"
-        src="https://tms.easyfreight.ai/logo.svg"
+        src="https://tms.easyfreight.ai/logoPNG.png"
         alt="logo">
     </body>
     </html>`;
@@ -1045,10 +1043,6 @@ export const createQuote = async (req, res) => {
     idCompany
   )
     .then(() => {
-      console.log(process.env.SENDGRID_API_KEY)
-      console.log(apiKey)
-      console.log(carrier)
-      console.log(sendGridKey)
       sgMail.setApiKey(sendGridKey)
       const msg = {
         to: carrier, // Change to your recipient

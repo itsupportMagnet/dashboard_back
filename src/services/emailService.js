@@ -5,7 +5,7 @@ import 'isomorphic-fetch';
 
 const { tenantId, clientId, clientSecret } = process.env;
 
-export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [], propCcRecipients, coordinatorEmail) => {
+export const sendEmail = async (emailSubject, emailBody, coordinatorEmail) => {
   const resource = coordinatorEmail;
   const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
   const authProvider = new TokenCredentialAuthenticationProvider(credential, { scopes: ["https://graph.microsoft.com/.default"] });
@@ -19,19 +19,16 @@ export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [],
   // ]
 
   const recipients = [
-    "josiaxs@gmail.com",
-
+    'josiaxs@gmail.com'
   ];
 
-  recipients.push(...emails.filter(email => email !== resource));
+  console.log(coordinatorEmail);
 
-  console.log('testeo resource: ' + resource)
-  console.log('testeo emails: ' + emails)
-  console.log('testeo recipients: ' + recipients)
+  // recipients.push(...emails.filter(email => email !== resource));
 
-  if (propCcRecipients && propCcRecipients.length !== 0) {
-    recipients.push(...propCcRecipients);
-  }
+  // if (propCcRecipients && propCcRecipients.length !== 0) {
+  //   recipients.push(...propCcRecipients);
+  // }
 
   const ccRecipients = recipients.map(email => ({ emailAddress: { address: email } }));
 
@@ -47,10 +44,10 @@ export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [],
       }
     };
 
-    if (propBccRecipients && propBccRecipients.length > 0) {
-      const bccRecipients = propBccRecipients.map(email => ({ emailAddress: { address: email } }));
-      sendFeesEmail.message.bccRecipients = bccRecipients;
-    }
+    // if (propBccRecipients && propBccRecipients.length > 0) {
+    //   const bccRecipients = propBccRecipients.map(email => ({ emailAddress: { address: email } }));
+    //   sendFeesEmail.message.bccRecipients = bccRecipients;
+    // }
 
     await client.api(`/users/${resource}/sendMail`).post(sendFeesEmail);
     return true;

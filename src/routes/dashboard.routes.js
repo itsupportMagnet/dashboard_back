@@ -84,7 +84,8 @@ import {
     addWarehouse,
     fetchWarehouseById,
     updateWarehouseInfoById,
-    deleteWarehouse
+    deleteWarehouse,
+    fetchWarehouseData
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -175,6 +176,7 @@ router
 .get("/get/warehousesById/:id/:idCompany", fetchWarehouseById)
 .post("/post/updateWarehouse", updateWarehouseInfoById)
 .delete("/delete/deleteWarehouse/:id/:idCompany", deleteWarehouse)
+.get("/get/warehousesByName/:id/:idCompany", fetchWarehouseData)
 
 
 // .get("/maxIdOperation", maxIdOperation )

@@ -1041,3 +1041,13 @@ export const deleteWarehouseById = async (id, idCompany) => {
     throw error
   })
 }
+
+export const getWarehouseDataById = async (id, idCompany) => {
+  const query = "SELECT warehouse_address FROM warehouses WHERE id = ? AND company_userID = ?"
+  return pool.query(query, [id, idCompany])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error on SQL : " + error)
+    throw error
+  })
+}

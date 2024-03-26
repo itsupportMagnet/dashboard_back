@@ -107,7 +107,7 @@ export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate,
 
 export const getQuoteById = async (id, idCompany) => {
   const query = 'SELECT * FROM quotes WHERE quoteID = ? AND company_userID = ?';
-  console.log('testeo getQuoteById: ' , pool.format(query, [id,idCompany]))
+  console.log('testeo getQuoteById: ', pool.format(query, [id, idCompany]))
   return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {
@@ -322,7 +322,7 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
     .then(data => {
       console.log(data[0])
       return data[0]
-      })
+    })
     .catch(error => {
       console.log(error);
       throw error;
@@ -345,7 +345,7 @@ export const addNewCarrier = async (carrierId, name, contact, mc, dot, SCAC, EIN
   return pool.query(query, [carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany])
     .then(() => true)
     .catch(error => {
-      console.error("Error on SQL:", error); 
+      console.error("Error on SQL:", error);
       throw error;
     });
 }
@@ -661,7 +661,7 @@ export const getClientByIdAndCompany = async (idClient, idCompany) => {
     })
 }
 
-export const changeClientInfo = async ( customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany ) => {
+export const changeClientInfo = async (customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany) => {
   const query = "UPDATE clients SET customer_type = ?, customer_name = ?, customer_contact = ?, customer_phone = ?, customer_email = ? , client_country = ? , client_state = ?, client_city = ?, client_zipcode = ?, address = ?, client_creditTerms = ? WHERE id_Client = ? AND company_userID = ?";
   console.log('Consulta SQL UpdateClients: ', pool.format(query, [customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, customerId, idCompany]))
   return pool.query(query, [customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, customerId, idCompany])
@@ -749,10 +749,10 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
   const tableName = tableCalled
   const columnName = columnCalled
- 
+
   // if (tableCalled === 'carriers') {
   //   const carrierEmails = await getCarrierEmails(id, idCompany);
-    
+
   //   const queries = carrierEmails.map(i => {
   //     return {
   //       text: 'DELETE FROM carrier_emails WHERE email_address = ? AND company_userID = ?',
@@ -912,22 +912,22 @@ export const getAllIdOpenQuotes = async (idCompany) => {
   const query = "SELECT idCounter FROM quotes WHERE company_userID = ?"
   console.log('Testeo de la Consulta getALLIdOpenQuotes: ' + pool.format(query, [idCompany]))
   return pool.query(query, [idCompany])
-  .then(rows => rows[0])
-  .catch(error => {
-    console.error("Error on SQL: " +  error);
-    throw error
-  })
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error
+    })
 }
 
 export const fetchEmailsWithPortId = async (portId, idCompany) => {
   const query = "SELECT ce.port_id, ce.carrier_id, c.carrier_contact_mail FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
   console.log('Testeando el fetch de la consulta ' + pool.format(query, [portId, idCompany]))
   return pool.query(query, [portId, idCompany])
-  .then(data => data[0])
-  .catch(error => {
-    console.error("Error on SQL: " + error);
-    throw error
-  })
+    .then(data => data[0])
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error
+    })
 }
 
 export const fetchAllBuySaleGross = async (idCompany) => {
@@ -954,100 +954,110 @@ export const fetchAllSellSaleGross = async (idCompany) => {
   const query = "SELECT SUBSTRING(invoice_date, 1, 2) AS month, SUBSTRING(invoice_date, 7, 4) AS year, SUM(sell) AS totalSell FROM sales_gross WHERE company_userID = ? GROUP by month, year";
   console.log('Testeando el query sell: ' + pool.format(query, [idCompany]));
   return pool.query(query, [idCompany])
-  .then(([data]) => {
+    .then(([data]) => {
 
-    const TotalsSell = data.map(row => ({
-      month: row.month,
-      year: row.year,
-      totalSell: row.totalSell
-    }));
-    console.log("Total de Venta por mes: ", TotalsSell);
-    return TotalsSell;
-  })
-  .catch(error => {
-    console.error("Error on SQL: " + error);
-    throw error;
-  })
+      const TotalsSell = data.map(row => ({
+        month: row.month,
+        year: row.year,
+        totalSell: row.totalSell
+      }));
+      console.log("Total de Venta por mes: ", TotalsSell);
+      return TotalsSell;
+    })
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error;
+    })
 }
 
 export const fetchAllProfitSaleGross = async (idCompany) => {
   const query = "SELECT SUBSTRING(invoice_date, 1, 2) AS month, SUBSTRING(invoice_date, 7, 4) AS year, SUM(profit) AS totalProfit FROM sales_gross WHERE company_userID = ? GROUP by month, year";
   console.log('Testeando el query profit: ' + pool.format(query, [idCompany]));
   return pool.query(query, [idCompany])
-  .then(([data]) => {
+    .then(([data]) => {
 
-    const TotalsProfit = data.map(row => ({
-      month: row.month,
-      year: row.year,
-      totalProfit: parseFloat(row.totalProfit)
-    }));
-    console.log("Total de Profit por mes: ", TotalsProfit);
-    return TotalsProfit;
-  })
-  .catch(error => {
-    console.error("Error on SQL: " + error);
-    throw error;
-  })
+      const TotalsProfit = data.map(row => ({
+        month: row.month,
+        year: row.year,
+        totalProfit: parseFloat(row.totalProfit)
+      }));
+      console.log("Total de Profit por mes: ", TotalsProfit);
+      return TotalsProfit;
+    })
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error;
+    })
 }
 
 export const getWarehouses = async (idCompany) => {
   const query = "SELECT * from warehouses WHERE company_userID = ?";
   return pool.query(query, [idCompany])
-  .then(rows => rows[0])
-  .catch(error => {
-    console.log(error)
-    throw error
-  })
+    .then(rows => rows[0])
+    .catch(error => {
+      console.log(error)
+      throw error
+    })
 }
 
 export const addNewWarehouse = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany) => {
   const query = "INSERT INTO warehouses (warehouse_id, warehouse_type, warehouse_name, warehouse_contact, warehouse_phone, warehouse_email, warehouse_country, warehouse_state, warehouse_city, warehouse_zipcode, warehouse_address, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL: ", error);
-    throw error;
-  });
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL: ", error);
+      throw error;
+    });
 }
 
 export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
   const query = 'SELECT * FROM warehouses WHERE warehouse_id = ? AND company_userID = ?';
   return pool.query(query, [idWarehouse, idCompany])
-  .then(data => data[0])
-  .catch(error => {
-    console.log(error);
-    throw error;
-  })
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
 }
 
-export const changeWarehouseInfo = async ( warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany) => {
+export const changeWarehouseInfo = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany) => {
   const query = 'UPDATE warehouses SET warehouse_type = ? , warehouse_name = ?, warehouse_contact = ?, warehouse_phone = ?, warehouse_email = ?, warehouse_country = ?, warehouse_state = ?, warehouse_city = ?, warehouse_zipcode = ?, warehouse_address = ? WHERE warehouse_id = ? AND company_userID = ?'
   console.log('Consulta SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, warehouseId, idCompany]))
   return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, warehouseId, idCompany])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL: " + error)
-    throw error
-  }) 
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL: " + error)
+      throw error
+    })
 }
 
 export const deleteWarehouseById = async (id, idCompany) => {
   const query = "DELETE FROM warehouses WHERE warehouse_id = ? AND company_userID = ?";
   return pool.query(query, [id, idCompany])
-  .then(() => true)
-  .catch(error => {
-    console.error("Error on SQL :" + error)
-    throw error
-  })
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL :" + error)
+      throw error
+    })
 }
 
 export const getWarehouseDataById = async (id, idCompany) => {
   const query = "SELECT warehouse_address FROM warehouses WHERE id = ? AND company_userID = ?"
   return pool.query(query, [id, idCompany])
-  .then(rows => rows[0])
-  .catch(error => {
-    console.error("Error on SQL : " + error)
-    throw error
-  })
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
+    })
+}
+
+export const getLastClosedQuoteIdFromTable = async idCompany => {
+  const query = "SELECT quoteID FROM closed_quotes WHERE company_userID = ? ORDER BY id DESC LIMIT 1;"
+  return pool.query(query, [idCompany])
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
+    })
 }

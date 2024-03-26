@@ -84,7 +84,8 @@ import {
   getWarehouseByIdAndCompany,
   changeWarehouseInfo,
   deleteWarehouseById,
-  getWarehouseDataById
+  getWarehouseDataById,
+  getLastClosedQuoteIdFromTable
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -2004,6 +2005,17 @@ export const deleteWarehouse = (req, res) => {
 export const fetchWarehouseData = (req, res) => {
   getWarehouseDataById(req.params.id, req.params.idCompany)
   .then((row) => res.status(200).json(row))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getLastClosedQuoteId = (req, res) => {
+  getLastClosedQuoteIdFromTable(req.params.idCompany)
+  .then((data) => {
+    res.status(200).json(data.length ? data[0].quoteID : 1)
+  })
   .catch((error) => {
     console.error(error);
     res.status(500).json(error);

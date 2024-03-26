@@ -725,7 +725,7 @@ export const newClosedQuote = async (quoteID, operationType, pol, warehouse, cit
 }
 
 export const getAllClientsByCompanyId = async (id) => {
-  const query = 'SELECT * FROM clients WHERE company_userID = ?';
+  const query = 'SELECT id, company_userID, id_Client, customer_name, address, client_zipcode, client_city, client_state, client_country, customer_type, customer_email, customer_contact, customer_phone, client_creditTerms FROM clients WHERE company_userID = ?';
   return pool.query(query, [id])
     .then(data => data[0])
     .catch(error => {
@@ -991,7 +991,7 @@ export const fetchAllProfitSaleGross = async (idCompany) => {
 }
 
 export const getWarehouses = async (idCompany) => {
-  const query = "SELECT * from warehouses WHERE company_userID = ?";
+  const query = "SELECT id, company_userID, warehouse_id, warehouse_name, warehouse_address, warehouse_zipcode, warehouse_city, warehouse_state, warehouse_country, warehouse_type, warehouse_email, warehouse_contact, warehouse_phone from warehouses WHERE company_userID = ?";
   return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {

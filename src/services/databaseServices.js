@@ -1061,3 +1061,13 @@ export const getLastClosedQuoteIdFromTable = async idCompany => {
       throw error
     })
 }
+
+export const getCompanyInfoForSendQuote = async (idCompany) => {
+  const query = "SELECT name, company_phone, company_address, company_webpage, company_email FROM companies WHERE idCompanies = ?"
+  return pool.query(query, [idCompany])
+  .then(rows => rows[0])
+  .catch(error => {
+    console.error("Error on SQL : "  + error)
+    throw error
+  })
+}

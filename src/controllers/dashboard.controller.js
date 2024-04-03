@@ -85,7 +85,8 @@ import {
   changeWarehouseInfo,
   deleteWarehouseById,
   getWarehouseDataById,
-  getLastClosedQuoteIdFromTable
+  getLastClosedQuoteIdFromTable,
+  getCompanyInfoForSendQuote
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -920,7 +921,6 @@ export const createQuote = async (req, res) => {
   const newCounter = idCheck;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
   const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
-  // const apiKey = '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';
   // const bccRecipients = JSON.stringify(carrier);
 
 
@@ -1045,7 +1045,7 @@ export const createQuote = async (req, res) => {
     idCompany
   )
     .then(() => {
-      sgMail.setApiKey(sendGridKey)
+      sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
       const msg = {
         to: carrier, // Change to your recipient
         from: 'no-reply@easyfreight.ai', // Change to your verified sender
@@ -1790,8 +1790,8 @@ export const addNewOperationToSaleGross = async (req, res) => {
 }
 
 export const addNewCloseQuote = async (req, res) => {
-  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
-  newClosedQuote(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
+  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
+  newClosedQuote(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       res.status(500).json(error);
@@ -1914,104 +1914,113 @@ export const getAllQuotesForIdCheck = (req, res) => {
 
 export const getAllEmailsWithPortId = (req, res) => {
   fetchEmailsWithPortId(req.params.id, req.params.idCompany)
-  .then((data) => res.status(200).json(data))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getAllBuySaleGrossData = (req, res) => {
   fetchAllBuySaleGross(req.params.idCompany)
-  .then((data) => res.status(200).json(data))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getAllSellSaleGrossData = (req, res) => {
   fetchAllSellSaleGross(req.params.idCompany)
-  .then((data) => res.status(200).json(data))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getAllProfitSaleGrossData = (req, res) => {
   fetchAllProfitSaleGross(req.params.idCompany)
-  .then((data) => res.status(200).json(data))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getAllWarehousesData = (req, res) => {
 
   getWarehouses(req.params.idCompany)
-  .then((row) => res.status(200).json(row))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  });
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
 }
 
 export const addWarehouse = (req, res) => {
   const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
 
   addNewWarehouse(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
-  .then(() => res.status(200).json({ message: "ok"}))
-  .catch(error => {
-    res.status(500).json(error);
-    console.log(error);
-  })
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log(error);
+    })
 }
 
 export const fetchWarehouseById = (req, res) => {
   const idWarehouse = req.params.id;
   const idCompany = req.params.idCompany;
   getWarehouseByIdAndCompany(idWarehouse, idCompany)
-  .then(data => res.status(200).json(data))
-  .catch(error => res.status(500).json({ error}))
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
 }
 
 export const updateWarehouseInfoById = (req, res) => {
   const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
   changeWarehouseInfo(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
-  .then(() => res.status(200).json({ message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
 }
 
 export const deleteWarehouse = (req, res) => {
   deleteWarehouseById(req.params.id, req.params.idCompany)
-  .then(res.status(200).json({ message: 'ok'}))
-  .catch(error => {
-    console.log('Error Controller deleteWarehouse ' + error)
-    res.status(500).json({ error })
-  })
+    .then(res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log('Error Controller deleteWarehouse ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const fetchWarehouseData = (req, res) => {
   getWarehouseDataById(req.params.id, req.params.idCompany)
-  .then((row) => res.status(200).json(row))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getLastClosedQuoteId = (req, res) => {
   getLastClosedQuoteIdFromTable(req.params.idCompany)
-  .then((data) => {
-    res.status(200).json(data.length ? data[0].quoteID : 1)
-  })
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((data) => {
+      res.status(200).json(data.length ? data[0].quoteID : 1)
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const fetchSendQuoteCompInformation = (req, res) => {
+  getCompanyInfoForSendQuote(req.params.idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }

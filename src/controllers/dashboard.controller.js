@@ -1245,7 +1245,6 @@ export const newOperation = async (req, res) => {
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
-      console.log('se envio bien la informacion')
     })
     .catch((error) => {
       console.error(error);

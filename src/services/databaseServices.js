@@ -381,7 +381,7 @@ export const getAllContainerStatus = async (req, res) => {
 }
 
 export const getAllQuoteIds = async (idCompany) => {
-  const query = "SELECT quoteID FROM quotes WHERE company_userID = ? ";
+  const query = "SELECT quoteID FROM carriers_fees WHERE company_userID = ? ";
   return pool.query(query, [idCompany])
     .then(row => row[0])
     .catch(error => {

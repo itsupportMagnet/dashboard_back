@@ -1071,3 +1071,13 @@ export const getCompanyInfoForSendQuote = async (idCompany) => {
     throw error
   })
 }
+
+export const postBookUserForDemo = async email => {
+  const query = "INSET INTO client_emails (client_emails)  VALUES (?)";
+  return pool.query(query, [email])
+    .then(() => true)
+  .catch(error => {
+    console.error("Error on SQL: ", error);
+    throw error;
+  });
+}

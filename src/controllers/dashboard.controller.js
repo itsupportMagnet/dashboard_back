@@ -86,7 +86,8 @@ import {
   deleteWarehouseById,
   getWarehouseDataById,
   getLastClosedQuoteIdFromTable,
-  getCompanyInfoForSendQuote
+  getCompanyInfoForSendQuote,
+  postBookUserForDemo
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -2024,4 +2025,13 @@ export const fetchSendQuoteCompInformation = (req, res) => {
       console.error(error);
       res.status(500).json(error);
     })
+}
+
+export const bookUserForDemo = (req, res) => {
+  postBookUserForDemo(req.body.email)
+  .then(()=> res.status(200))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
 }

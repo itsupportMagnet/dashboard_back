@@ -1073,7 +1073,7 @@ export const getCompanyInfoForSendQuote = async (idCompany) => {
 }
 
 export const postBookUserForDemo = async email => {
-  const query = "INSET INTO client_emails (client_emails)  VALUES (?)";
+  const query = "INSET INTO clients_booking (email)  VALUES (?)";
   return pool.query(query, [email])
     .then(() => true)
   .catch(error => {

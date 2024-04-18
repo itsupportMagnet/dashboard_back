@@ -2028,7 +2028,8 @@ export const fetchSendQuoteCompInformation = (req, res) => {
 }
 
 export const bookUserForDemo = (req, res) => {
-  postBookUserForDemo(req.body.email)
+  console.log(req.body);
+  postBookUserForDemo(req.body)
   .then(()=> res.status(200))
   .catch((error) => {
     console.error(error);

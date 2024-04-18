@@ -182,7 +182,7 @@ router
 .delete("/delete/deleteWarehouse/:id/:idCompany", deleteWarehouse)
 .get("/get/warehousesByName/:id/:idCompany", fetchWarehouseData)
 .get("/get/fetchInfoSendQuote/:idCompany", fetchSendQuoteCompInformation)
-.get("/post/bookUserForDemo", bookUserForDemo)
+.post("/post/bookUserForDemo", bookUserForDemo)
 
 
 // .get("/maxIdOperation", maxIdOperation )

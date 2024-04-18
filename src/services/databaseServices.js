@@ -1073,8 +1073,10 @@ export const getCompanyInfoForSendQuote = async (idCompany) => {
 }
 
 export const postBookUserForDemo = async email => {
-  const query = "INSET INTO clients_booking (email)  VALUES (?)";
-  return pool.query(query, [email])
+  console.log(typeof(email))
+  const query = "INSERT INTO clients_booking (email) VALUES (?)";
+  console.log('Consulta clients_booking: ', pool.format(query, email))
+  return pool.query(query, email.email)
     .then(() => true)
   .catch(error => {
     console.error("Error on SQL: ", error);

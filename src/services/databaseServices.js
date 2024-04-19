@@ -979,7 +979,7 @@ export const fetchAllProfitSaleGross = async (idCompany) => {
       const TotalsProfit = data.map(row => ({
         month: row.month,
         year: row.year,
-        totalProfit: parseFloat(row.totalProfit)
+        totalProfit: row.totalProfit
       }));
       console.log("Total de Profit por mes: ", TotalsProfit);
       return TotalsProfit;

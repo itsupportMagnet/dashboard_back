@@ -1071,3 +1071,16 @@ export const getCompanyInfoForSendQuote = async (idCompany) => {
     throw error
   })
 }
+
+export const filterByColFromTable = async (cols, tableName, idCompany) => {
+  const columns = Object.keys(cols).join(', ');
+
+  const query = `SELECT ${columns} FROM ${tableName} WHERE company_userID = ?`;
+
+  return pool.query(query, [idCompany])
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    })
+}

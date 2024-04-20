@@ -86,7 +86,8 @@ import {
   deleteWarehouseById,
   getWarehouseDataById,
   getLastClosedQuoteIdFromTable,
-  getCompanyInfoForSendQuote
+  getCompanyInfoForSendQuote,
+  filterByColFromTable
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -2024,4 +2025,15 @@ export const fetchSendQuoteCompInformation = (req, res) => {
       console.error(error);
       res.status(500).json(error);
     })
+}
+
+export const filterByCol = (req, res) => {
+  const { cols, tableName } = req.body;
+
+  filterByColFromTable(cols, tableName, req.params.idCompany)
+  .then(data => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
 }

@@ -88,7 +88,8 @@ import {
     deleteWarehouse,
     fetchWarehouseData,
     fetchSendQuoteCompInformation,
-    filterByCol
+    filterByCol,
+    bookUserForDemo
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -183,6 +184,7 @@ router
 .get("/get/warehousesByName/:id/:idCompany", fetchWarehouseData)
 .get("/get/fetchInfoSendQuote/:idCompany", fetchSendQuoteCompInformation)
 .post("/post/filterByCol/:idCompany", filterByCol)
+.post("/post/bookUserForDemo", bookUserForDemo)
 
 
 // .get("/maxIdOperation", maxIdOperation )

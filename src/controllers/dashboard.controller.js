@@ -87,7 +87,8 @@ import {
   getWarehouseDataById,
   getLastClosedQuoteIdFromTable,
   getCompanyInfoForSendQuote,
-  filterByColFromTable
+  filterByColFromTable,
+  postBookUserForDemo
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -2032,6 +2033,16 @@ export const filterByCol = (req, res) => {
 
   filterByColFromTable(cols, tableName, req.params.idCompany)
   .then(data => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const bookUserForDemo = (req, res) => {
+  console.log(req.body);
+  postBookUserForDemo(req.body)
+  .then(()=> res.status(200))
   .catch((error) => {
     console.error(error);
     res.status(500).json(error);

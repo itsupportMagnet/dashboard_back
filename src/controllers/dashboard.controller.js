@@ -2042,7 +2042,7 @@ export const filterByCol = (req, res) => {
 export const bookUserForDemo = (req, res) => {
   console.log(req.body);
   postBookUserForDemo(req.body)
-  .then(()=> res.status(200))
+  .then(()=> res.status(200).json({message: 'ok'}))
   .catch((error) => {
     console.error(error);
     res.status(500).json(error);

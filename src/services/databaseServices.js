@@ -1097,3 +1097,14 @@ export const postBookUserForDemo = async email => {
   });
 
 }
+
+export const fetchEmailWithStateId = async (stateId, idCompany) => {
+  const query = "SELECT c.carrier_state, c.carrier_contact_mail FROM carriers c JOIN states se ON se.stateAbridged = c.carrier_state WHERE se.stateId = ? AND c.company_userID = ? "
+  console.log('Testeando el fetch de la consulta ' + pool.format(query, [stateId, idCompany]))
+  return pool.query(query, [stateId, idCompany])
+    .then(data => data[0])
+    .catch(error => {
+      console.error("Error on SQL: " + error);
+      throw error
+    })
+}

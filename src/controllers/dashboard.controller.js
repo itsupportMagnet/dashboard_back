@@ -88,7 +88,8 @@ import {
   getLastClosedQuoteIdFromTable,
   getCompanyInfoForSendQuote,
   filterByColFromTable,
-  postBookUserForDemo
+  postBookUserForDemo,
+  fetchEmailWithStateId
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
@@ -96,6 +97,8 @@ import jwt from "jsonwebtoken";
 import sgMail from '@sendgrid/mail';
 
 const { sendGridKey, fromEmail, replyToEmail } = process.env
+
+const sendGridTestKey = "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";
 
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
@@ -1049,7 +1052,8 @@ export const createQuote = async (req, res) => {
     idCompany
   )
     .then(() => {
-      sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
+      sgMail.setApiKey(sendGridTestKey)
+      // sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
       const msg = {
         to: carrier, // Change to your recipient
         from: 'no-reply@easyfreight.ai', // Change to your verified sender
@@ -2047,4 +2051,14 @@ export const bookUserForDemo = (req, res) => {
     console.error(error);
     res.status(500).json(error);
   })
+}
+
+export const getAllEmailsWithStateId = (req, res) => {
+  fetchEmailWithStateId(req.params.id, req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+
 }

@@ -89,7 +89,8 @@ import {
     fetchWarehouseData,
     fetchSendQuoteCompInformation,
     filterByCol,
-    bookUserForDemo
+    bookUserForDemo,
+    getAllEmailsWithStateId
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -185,6 +186,7 @@ router
 .get("/get/fetchInfoSendQuote/:idCompany", fetchSendQuoteCompInformation)
 .post("/post/filterByCol/:idCompany", filterByCol)
 .post("/post/bookUserForDemo", bookUserForDemo)
+.get("/get/statesCarriersEmails/:id/:idCompany", getAllEmailsWithStateId)
 
 
 // .get("/maxIdOperation", maxIdOperation )

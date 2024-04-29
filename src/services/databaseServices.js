@@ -808,7 +808,6 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
 
 export const changeCarrierInfoById = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany) => {
   const query = "UPDATE carriers SET carrier_name = ? , carrier_contact = ?, mc = ? , dot = ? , carrier_SCAC = ?, carrier_EIN = ?, carrier_1099 = ?, carrier_insurance = ? , carrier_address = ? , carrier_city = ?, carrier_zipcode = ? , carrier_state = ? , carrier_country = ?, carrier_DOCT = ?, carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
-  console.log('Testeo Consulta SQL para editar Carriers Info: ', pool.format(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, carrierId, idCompany]))
   return pool.query(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, carrierId, idCompany])
     .then()
     .catch(error => {
@@ -829,7 +828,7 @@ export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => 
 
 export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
   const query = "UPDATE closed_quotes SET operationType = ? , pol = ? , wareHouse = ? , city = ? , state = ? , zipCode = ? , equipment = ? , containerSize = ? , containerType = ? , weight = ?, commodity = ?, hazardous = ? , bonded = ? , loadType = ?, carrierID = ?, carrier = ?, carrierIdPerDestation = ?, buyDrayageUnitRate = ? , buyChassisUnitRate = ? , customerID = ?, client = ?, customerIdPerDestation = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ? WHERE quoteID = ? AND company_userID = ? "
-  console.log('Testeo Consulta SQL para editar ClosedQuotesInfo: ', pool.format(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany]))
+  
   return pool.query(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany])
     .then()
     .catch(error => {
@@ -840,7 +839,6 @@ export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, war
 
 export const getAllCarriersNameByCompanyId = async (idCompany) => {
   const query = "SELECT carrier_name FROM carriers WHERE company_userID = ?"
-  console.log('Testeo Consulta SQL para obtener todos los nombres de carriers: ', pool.format(query, [idCompany]))
   return pool.query(query, [idCompany])
     .then((rows) => rows[0])
     .catch(error => {
@@ -910,7 +908,6 @@ export const getCarrierPortCoverageByID = async (idCarrier, idCompany) => {
 
 export const getAllIdOpenQuotes = async (idCompany) => {
   const query = "SELECT idCounter FROM quotes WHERE company_userID = ?"
-  console.log('Testeo de la Consulta getALLIdOpenQuotes: ' + pool.format(query, [idCompany]))
   return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {
@@ -1062,8 +1059,8 @@ export const getLastClosedQuoteIdFromTable = async idCompany => {
     })
 }
 
-export const getCompanyInfoForSendQuote = async (idCompany) => {
-  const query = "SELECT name, company_phone, company_address, company_webpage, company_email FROM companies WHERE idCompanies = ?"
+export const getCompanyName = async (idCompany) => {
+  const query = "SELECT name FROM companies WHERE idCompanies = ?"
   return pool.query(query, [idCompany])
   .then(rows => rows[0])
   .catch(error => {
@@ -1086,7 +1083,6 @@ export const filterByColFromTable = async (cols, tableName, idCompany) => {
 }
 
 export const postBookUserForDemo = async email => {
-  console.log(typeof(email))
   const query = "INSERT INTO clients_booking (email) VALUES (?)";
   console.log('Consulta clients_booking: ', pool.format(query, email))
   return pool.query(query, email.email)

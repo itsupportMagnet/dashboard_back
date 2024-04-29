@@ -86,19 +86,15 @@ import {
   deleteWarehouseById,
   getWarehouseDataById,
   getLastClosedQuoteIdFromTable,
-  getCompanyInfoForSendQuote,
   filterByColFromTable,
   postBookUserForDemo,
-  fetchEmailWithStateId
+  fetchEmailWithStateId,
+  getCompanyName
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import sgMail from '@sendgrid/mail';
 
-const { sendGridKey, fromEmail, replyToEmail } = process.env
-
-const sendGridTestKey = "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";
 
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
@@ -114,23 +110,20 @@ export const login = async (req, res) => {
       const rol = user.rol;
       const companyUser = user.company_userID;
 
-      console.log(data);
-
 
       //verify password
       const validPassword = bcrypt.compareSync(password, user.password);
       if (!validPassword) {
         return res.status(400).json({ message: "password incorrect! " });
       }
+      
       //make jwt
-
       jwt.sign(user.userID, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
           res.status(200).send({ token, userName, rol, companyUser });
           console.log(res)
-
         }
       });
     })
@@ -917,17 +910,15 @@ export const createQuote = async (req, res) => {
     cordinator,
     coordinatorEmail,
     idCompany,
-    idCheck
+    idCheck,
+    companyName
   } = req.body;
 
-
-
+  console.log(companyName);
   // const newCounter = (await getIdCounter()) + 1;
   const newCounter = idCheck;
-  console.log('valor de newCounter: ' + newCounter)
-  console.log(typeof (newCounter))
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
-  const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
+  const emailSubject = `Drayage request from ${companyName} / ${newId}`;
   // const bccRecipients = JSON.stringify(carrier);
 
 
@@ -1027,9 +1018,11 @@ export const createQuote = async (req, res) => {
       <p><i style=" font-size: 15px; text-align: center; color: #1A6AFF;"><b>Our
             business relationship is extremely important for us. Simplifying your
             logistics needs!</b></i></p>
-      <img style="margin-top: 10px;" width="200"
-        src="https://tms.easyfreight.ai/logo.svg"
-        alt="logo">
+      <a href="https://easyfreight.ai/">
+        <img style="margin-top: 10px;" width="200"
+          src="https://tms.easyfreight.ai/logo.svg"
+          alt="logo">
+      </a>
     </body>
     </html>`;
 
@@ -1051,28 +1044,7 @@ export const createQuote = async (req, res) => {
     cordinator,
     idCompany
   )
-    .then(() => {
-      sgMail.setApiKey(sendGridTestKey)
-      // sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
-      const msg = {
-        to: carrier, // Change to your recipient
-        from: 'no-reply@easyfreight.ai', // Change to your verified sender
-        replyTo: 'andre.gonzalez@magnetlogisticscorp.com',
-        subject: emailSubject,
-        // bcc: bccRecipients,
-        text: 'EasyFreight 2024',
-        html: emailBody,
-      }
-      sgMail
-        .send(msg)
-        .then(() => {
-          console.log('Email sent')
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-      // return sendEmail(emailSubject, emailBody, coordinatorEmail);
-    })
+    .then(() => sendEmail(carrier, emailSubject, emailBody))
     .then(() => {
       return updateIdCounter(newCounter);
     })
@@ -2024,7 +1996,7 @@ export const getLastClosedQuoteId = (req, res) => {
 }
 
 export const fetchSendQuoteCompInformation = (req, res) => {
-  getCompanyInfoForSendQuote(req.params.idCompany)
+  getCompanyName(req.params.idCompany)
     .then((data) => res.status(200).json(data))
     .catch((error) => {
       console.error(error);
@@ -2060,5 +2032,13 @@ export const getAllEmailsWithStateId = (req, res) => {
     console.error(error);
     res.status(500).json(error);
   })
+}
 
+export const getCompanyNameForSendQuote = (req, res) => {
+  getCompanyName(req.params.idCompany)
+  .then(data => res.status(200).json(data[0].name))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
 }

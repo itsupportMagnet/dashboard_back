@@ -1,54 +1,27 @@
-import { Client } from "@microsoft/microsoft-graph-client";
-import { TokenCredentialAuthenticationProvider } from "@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials/index.js";
-import { ClientSecretCredential } from "@azure/identity";
-import 'isomorphic-fetch';
+import sgMail from '@sendgrid/mail';
+const { sendGridKey, fromEmail, replyToEmail } = process.env
+const sendGridTestKey = "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";
 
-const { tenantId, clientId, clientSecret } = process.env;
-
-export const sendEmail = async (emailSubject, emailBody, propBccRecipients = [], propCcRecipients ) => {
-  const resource = 'sales@magnetlogisticscorp.com';
-  const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-  const authProvider = new TokenCredentialAuthenticationProvider(credential, { scopes: ["https://graph.microsoft.com/.default"] });
-  const client = Client.initWithMiddleware({
-    authProvider
-  });
-
-
-  const recipients = [
-     "valeria.acosta@magnetlogisticscorp.com",
-     "operations2@magnetlogisticscorp.com",
-     "jcastro@magnetlogisticscorp.com",
-     "andre.gonzalez@magnetlogisticscorp.com",
-    
-  ];
-
-  if (propCcRecipients && propCcRecipients.length !== 0) {
-    recipients.push(...propCcRecipients); 
+export const sendEmail = async (carrier, emailSubject, emailBody) => {
+  console.log(carrier);
+  // sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
+  const msg = {
+    to: carrier, // Change to your recipient
+    from: 'Andre.gonzalez@easyfreight.ai', // Change to your verified sender
+    replyTo: 'Andre.gonzalez@magnetlogisticscorp.com',
+    subject: emailSubject,
+    // bcc: bccRecipients,
+    text: 'EasyFreight 2024',
+    html: emailBody,
   }
 
-  const ccRecipients = recipients.map(email => ({ emailAddress: { address: email } }));
+  sgMail.setApiKey(sendGridTestKey);
 
-  try {
-    const sendFeesEmail = {
-      message: {
-        subject: emailSubject,
-        body: {
-          contentType: 'HTML',
-          content: emailBody
-        },
-        ccRecipients: ccRecipients
-      }
-    };
+  sgMail.send(msg).then(() => {
+      console.log('Email sent')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 
-    if (propBccRecipients && propBccRecipients.length > 0) {
-      const bccRecipients = propBccRecipients.map(email => ({ emailAddress: { address: email } }));
-      sendFeesEmail.message.bccRecipients = bccRecipients;
-    }
-
-    await client.api(`/users/${resource}/sendMail`).post(sendFeesEmail);
-    return true;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
 };

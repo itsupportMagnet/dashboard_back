@@ -26,7 +26,7 @@ import {
   changeOperationContainerStatus,
   changeBookingBl,
   changeContainerId,
-  getOperationById,
+  getOperationByIdAndCompany,
   addNewClient,
   addNewCarrier,
   getStates,
@@ -34,10 +34,10 @@ import {
   changeQuote,
   getAllQuoteIds,
   changeNote,
-  changeQuotexId,
+  changeQuoteIdById,
   changeWeightxId,
   getAllOperationsForTable,
-  getAllFloridaQuotes,
+  getAllClosedQuotes,
   updateOperation,
   deleteOperationByID,
   create,
@@ -50,21 +50,51 @@ import {
   changeSellSalesGross,
   changeProfitSalesGross,
   deleteSaleById,
-  getAllFloridaQuoteId,
-  getFloridaQuoteById,
+  getAllClosedQuoteId,
+  getClosedQuoteById,
   getNormalQuoteById,
   updateSaleGrossById,
   deleteClientById,
-  getClientById,
+  getClientByIdAndCompany,
   changeClientInfo,
   changeSummarySalesGrossById,
   newSummaryInputSalesGross,
   fetchSaleGrossInfoById,
-  newOperationToSalesGross
+  newOperationToSalesGross,
+  newClosedQuote,
+  getAllClientsByCompanyId,
+  getOperationColFiltered,
+  deleteGenericRowById,
+  getCarrierByIdAndCompany,
+  changeCarrierInfoById,
+  getClosedQuoteByIdAndCompany,
+  changeClosedQuoteInfoById,
+  getAllCarriersNameByCompanyId,
+  getAllSslines,
+  getAllSaleGrossToCompare,
+  addNewCarrierPorts,
+  getCarrierPortCoverageByID,
+  getAllIdOpenQuotes,
+  fetchEmailsWithPortId,
+  fetchAllBuySaleGross,
+  fetchAllSellSaleGross,
+  fetchAllProfitSaleGross,
+  getWarehouses,
+  addNewWarehouse,
+  getWarehouseByIdAndCompany,
+  changeWarehouseInfo,
+  deleteWarehouseById,
+  getWarehouseDataById,
+  getLastClosedQuoteIdFromTable,
+  filterByColFromTable,
+  postBookUserForDemo,
+  fetchEmailWithStateId,
+  getCompanyName
 } from "../services/databaseServices.js";
 import { sendEmail } from "../services/emailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 
 export const verifyToken = async (req, res) => {
   return res.json("Valid token");
@@ -77,9 +107,8 @@ export const login = async (req, res) => {
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
-      const rol = user.rol
-
-      console.log(data);
+      const rol = user.rol;
+      const companyUser = user.company_userID;
 
 
       //verify password
@@ -87,15 +116,14 @@ export const login = async (req, res) => {
       if (!validPassword) {
         return res.status(400).json({ message: "password incorrect! " });
       }
+      
       //make jwt
-
-      jwt.sign(user.userID, process.env.tokenPrivateKey, (err, token) => {
+      jwt.sign(user.userID, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
         if (err) {
           res.status(400).send({ msg: "error" });
         } else {
-          res.status(200).send({ token, userName, rol });
+          res.status(200).send({ token, userName, rol, companyUser });
           console.log(res)
-
         }
       });
     })
@@ -142,7 +170,8 @@ export const saveFee = async (req, res) => {
     sellDrayageUniteRate,
     sellChassisUnitRate,
     sellAccesorials,
-    notes
+    notes,
+    companyID
   } = req.body;
 
   try {
@@ -172,7 +201,8 @@ export const saveFee = async (req, res) => {
       sellDrayageUniteRate,
       sellChassisUnitRate,
       sellAccesorialsJSON,
-      notes
+      notes,
+      companyID
     );
     return res.status(200).json({ message: "ok" });
   } catch (error) {
@@ -804,7 +834,9 @@ export const sendFee = async (req, res) => {
 };
 
 export const getQuote = async (req, res) => {
-  getQuoteById(req.params.id)
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
+  getQuoteById(id, idCompany)
     .then((rows) => {
       return res.status(200).json({ message: rows[0] });
     })
@@ -825,8 +857,10 @@ export const getQuotesFeeById = async (req, res) => {
 };
 
 export const getCarriersFeeByID = async (req, res) => {
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
   try {
-    const [rows] = await getCarrierFeeByQuoteId(req.params.id);
+    const [rows] = await getCarrierFeeByQuoteId(id, idCompany);
     res.status(200).json(rows);
   } catch (error) {
     console.error(error);
@@ -859,6 +893,7 @@ export const getAllAccesorials = async (req, res) => {
 
 export const createQuote = async (req, res) => {
   const {
+    carrier,
     operation,
     isExport,
     pol,
@@ -871,14 +906,21 @@ export const createQuote = async (req, res) => {
     hazardous,
     bonded,
     loadType,
-    carrier,
     quoteStatus,
-    cordinator
+    cordinator,
+    coordinatorEmail,
+    idCompany,
+    idCheck,
+    companyName
   } = req.body;
-  const newCounter = (await getIdCounter()) + 1;
+
+  console.log(companyName);
+  // const newCounter = (await getIdCounter()) + 1;
+  const newCounter = idCheck;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
-  const emailSubject = `Drayage request from Magnet logistics / ${newId}`;
-  const bccRecipients = carrier;
+  const emailSubject = `Drayage request from ${companyName} / ${newId}`;
+  // const bccRecipients = JSON.stringify(carrier);
+
 
   const emailBody = `<!DOCTYPE html>
   <html lang="en">
@@ -949,14 +991,14 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${commodity}</td>
         </tr>
-       
+
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Hazardous</td>
           <td
             style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${hazardous}</td>
         </tr>
-    
+
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600;">Bonded</td>
@@ -976,13 +1018,16 @@ export const createQuote = async (req, res) => {
       <p><i style=" font-size: 15px; text-align: center; color: #1A6AFF;"><b>Our
             business relationship is extremely important for us. Simplifying your
             logistics needs!</b></i></p>
-      <img style="margin-top: 10px;" width="200"
-        src="http://www.magnetlogisticscorp.com/wp-content/uploads/2023/07/magnet-logo.png"
-        alt="logo">
+      <a href="https://easyfreight.ai/">
+        <img style="margin-top: 10px;" width="200"
+          src="https://tms.easyfreight.ai/logo.svg"
+          alt="logo">
+      </a>
     </body>
     </html>`;
 
   saveNewQuote(
+    idCheck,
     newId,
     operation,
     pol,
@@ -996,11 +1041,10 @@ export const createQuote = async (req, res) => {
     bonded,
     loadType,
     quoteStatus,
-    cordinator
+    cordinator,
+    idCompany
   )
-    .then(() => {
-      return sendEmail(emailSubject, emailBody, bccRecipients, "");
-    })
+    .then(() => sendEmail(carrier, emailSubject, emailBody))
     .then(() => {
       return updateIdCounter(newCounter);
     })
@@ -1023,7 +1067,9 @@ export const getAllRoutes = async (req, res) => {
 };
 
 export const getCarriersByPort = async (req, res) => {
-  getCarriers(req.params.id)
+  const selectedPort = req.params.id;
+  const idCompany = req.params.idCompany;
+  getCarriers(selectedPort, idCompany)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1041,7 +1087,7 @@ export const getAllPorts = async (req, res) => {
 };
 
 export const getAllQuotes = async (req, res) => {
-  getQuotes()
+  getQuotes(req.params.id)
     .then((rows) => res.status(200).json(rows))
     .catch((error) => {
       console.error(error);
@@ -1050,7 +1096,7 @@ export const getAllQuotes = async (req, res) => {
 };
 
 export const getAllSales = (req, res) => {
-  getSales()
+  getSales(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1086,7 +1132,7 @@ export const getAllClients = (req, res) => {
 };
 
 export const getAllProviders = (req, res) => {
-  getProviders()
+  getProviders(req.params.idCompany)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1095,7 +1141,7 @@ export const getAllProviders = (req, res) => {
 };
 
 export const getAllCarriers = (req, res) => {
-  getCarriersList()
+  getCarriersList(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1135,7 +1181,11 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    idCompany,
+    lfd
   } = req.body;
+
+  console.log('Controller ' + operationDate);
 
   saveNewOperation(
     idOperation,
@@ -1168,10 +1218,11 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
+    lfd,
+    idCompany,
   )
     .then(() => {
       res.status(200).json({ message: "ok" });
-      console.log('se envio bien la informacion')
     })
     .catch((error) => {
       console.error(error);
@@ -1198,9 +1249,9 @@ export const getOperations = async (req, res) => {
 }
 
 export const changeStatus = async (req, res) => {
-  const { idOperation, status } = req.body;
+  const { idOperation, status, idCompany } = req.body;
 
-  changeOperationStatus(idOperation, status)
+  changeOperationStatus(idOperation, status, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1209,9 +1260,9 @@ export const changeStatus = async (req, res) => {
 }
 
 export const changeContainerStatus = async (req, res) => {
-  const { idOperation, containerStatus } = req.body;
+  const { idOperation, containerStatus, idCompany } = req.body;
 
-  changeOperationContainerStatus(idOperation, containerStatus)
+  changeOperationContainerStatus(idOperation, containerStatus, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1220,8 +1271,8 @@ export const changeContainerStatus = async (req, res) => {
 }
 
 export const updateBookingBl = async (req, res) => {
-  const { idOperation, bookingBl } = req.body;
-  changeBookingBl(idOperation, bookingBl)
+  const { idOperation, bookingBl, idCompany } = req.body;
+  changeBookingBl(idOperation, bookingBl, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1230,8 +1281,8 @@ export const updateBookingBl = async (req, res) => {
 }
 
 export const updateContainerId = async (req, res) => {
-  const { idOperation, containerId } = req.body;
-  changeContainerId(idOperation, containerId)
+  const { idOperation, containerId, idCompany } = req.body;
+  changeContainerId(idOperation, containerId, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -1241,18 +1292,20 @@ export const updateContainerId = async (req, res) => {
 }
 
 export const getOperation = async (req, res) => {
-  getOperationById(req.params.id)
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
+  getOperationByIdAndCompany(id, idCompany)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }))
 }
 
 export const addClient = async (req, res) => {
 
-  const { customerId, name, address, contact, businessLine, customerType, customerEmails, phoneNumbers } = req.body;
-  const emailsJSON = JSON.stringify(customerEmails);
-  const phonesJSON = JSON.stringify(phoneNumbers);
+  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
+  // const emailsJSON = JSON.stringify(customerEmails);
+  // const phonesJSON = JSON.stringify(phoneNumbers);
 
-  addNewClient(customerId, name, address, contact, businessLine, customerType, emailsJSON, phonesJSON)
+  addNewClient(customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1262,15 +1315,19 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
 
-  const { carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phoneNumbers, carrierEmails } = req.body;
-  const phonesJSON = JSON.stringify(phoneNumbers);
-  const emailsJSON = JSON.stringify(carrierEmails);
-  addNewCarrier(carrierId, name, mc, dot, w2, address, zipcode, state, doct, businessLine, carrierType, phonesJSON, emailsJSON)
-    .then(() => res.status(200).json({ message: "ok" }))
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
+  // const phonesJSON = JSON.stringify(phoneNumbers);
+  // const emailsJSON = JSON.stringify(carrierEmails);
+  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany)
+  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierId, ports, idCompany);
+
+  Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
-      res.status(500).json(error);
-      console.log(error);
-    })
+      console.error("Error in one of the operations: ", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+
 }
 
 export const getAllStates = async (req, res) => {
@@ -1302,7 +1359,7 @@ export const changeStatusQuote = async (req, res) => {
 }
 
 export const getQuoteIds = async (req, res) => {
-  getAllQuoteIds()
+  getAllQuoteIds(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);
@@ -1312,9 +1369,9 @@ export const getQuoteIds = async (req, res) => {
 
 export const changeNoteQuote = async (req, res) => {
   //formato json enviado por el cliente
-  const { note, idOperation } = req.body
+  const { note, idOperation, idCompany } = req.body
   //ejecucion de query
-  changeNote(note, idOperation)
+  changeNote(note, idOperation, idCompany)
     //respuesta
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch((error) => {
@@ -1323,9 +1380,9 @@ export const changeNoteQuote = async (req, res) => {
     })
 }
 export const changeQuoteId = async (req, res) => {
-  //recibimos el json(destructuracion de obj)
-  const { quoteID, idOperation } = req.body
-  changeQuotexId(quoteID, idOperation)
+  const { quoteID, idOperation } = req.body;
+  const idCompany = req.params.idCompany;
+  changeQuoteIdById(quoteID, idOperation, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch((error) => {
       console.log(error);
@@ -1372,6 +1429,11 @@ export const updateOperationById = async (req, res) => {
     notes,
     lfd
   } = req.body
+
+  const idCompany = req.params.idCompany;
+
+  console.log(operationDate);
+
   updateOperation(
     lfd,
     quoteID,
@@ -1403,6 +1465,7 @@ export const updateOperationById = async (req, res) => {
     cargoCut,
     notes,
     idOperation,
+    idCompany
   )
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => res.status(500).json(error))
@@ -1434,8 +1497,8 @@ export const getAllOperationsTable = async (req, res) => {
     });
 };
 
-export const getFloridaQuotes = async (req, res) => {
-  getAllFloridaQuotes()
+export const getClosedQuotes = async (req, res) => {
+  getAllClosedQuotes(req.params.id)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);
@@ -1466,9 +1529,11 @@ export const newAccount = async (req, res) => {
 }
 
 export const deleteOperationFromTable = async (req, res) => {
-  const { id } = req.params
+  const id = req.params.id
+  const idCompany = req.params.idCompany
   console.log(id);
-  deleteOperationByID(id)
+  console.log(idCompany)
+  deleteOperationByID(id, idCompany)
     .then(() => res.status(200).json({ message: "Operation Deleted Successfully" }))
     .catch(error => {
       console.error(error);
@@ -1484,7 +1549,7 @@ export const newInputSaleGross = async (req, res) => {
     customer,
     date
   } = req.body;
-  console.log('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer+ ' con la fecha de: ' + date) 
+  console.log('testeo desde controller + booking bl: ' + bookingBl + ' containerId: ' + containerId + ' provider: ' + provider + ' customer: ' + customer + ' con la fecha de: ' + date)
 
   newInputQuerySaleGross(bookingBl, containerId, provider, customer, date)
     .then(() => res.status(200).json({ message: "ok" }))
@@ -1513,7 +1578,7 @@ export const newFLInputSaleGross = async (req, res) => {
     sellChassis,
   } = req.body;
 
-  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials,buyChassis, sellChassis)
+  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1583,9 +1648,10 @@ export const updateProfitSalesGross = async (req, res) => {
 }
 
 export const deleteSale = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const idCompany = req.params.idCompany
 
-  deleteSaleById(id)
+  deleteSaleById(id, idCompany)
     .then(res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log('Error Controller deleteSale: ' + error)
@@ -1593,17 +1659,17 @@ export const deleteSale = async (req, res) => {
     })
 }
 
-export const getFloridaQuoteId = async (req, res) => {
-  getAllFloridaQuoteId()
+export const getClosedQuoteId = async (req, res) => {
+  getAllClosedQuoteId(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch(error => {
-      console.log('Error Controller getFloridaQuoteId: ' + error)
+      console.log('Error Controller getClosedQuoteId: ' + error)
       res.status(500).json({ error })
     })
 }
 
-export const getFloridaQuote = async (req, res) => {
-  getFloridaQuoteById(req.params.id)
+export const getClosedQuote = async (req, res) => {
+  getClosedQuoteById(req.params.id, req.params.idCompany)
     .then(row => res.status(200).json(row[0]))
     .catch(error => {
       console.log('Error Controller getFloridaQuote: ' + error)
@@ -1612,89 +1678,367 @@ export const getFloridaQuote = async (req, res) => {
 }
 
 export const getNormalQuote = async (req, res) => {
-  getNormalQuoteById(req.params.id)
-  .then(row => res.status(200).json(row[0]))
-  .catch(error => {
-    console.log('Error Controller getNormalQuote: ' + error)
-    res.status(500).json({error})
-  })
+  getNormalQuoteById(req.params.id, req.params.idCompany)
+    .then(row => res.status(200).json(row[0]))
+    .catch(error => {
+      console.log('Error Controller getNormalQuote: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const updateSaleGross = async (req, res) => {
-  const {operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body
-  console.log('Estos datos me llegan:' + JSON.stringify(req.body)) 
-  updateSaleGrossById(operation_id, booking_bl, container_id, provider, customer, date, buy,sell,profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis)
-  .then(() => res.status(200).json({ message: "saleGross Input Updated"}))
-  .catch(error => {
-    console.log('Error Controller updateSaleGross: ' + error)
-    res.status(500).json({error})
-  })
+  const { operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body
+  const idCompany = req.params.idCompany
+  console.log('Estos datos me llegan:' + JSON.stringify(req.body) + '  tambien el idCompany: ' + idCompany)
+  updateSaleGrossById(operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
+    .then(() => res.status(200).json({ message: "saleGross Input Updated" }))
+    .catch(error => {
+      console.log('Error Controller updateSaleGross: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const deleteClient = async (req, res) => {
   const { id } = req.params;
-  deleteClientById(id)
-  .then(res.status(200).json({ message: 'ok'}))
-  .catch(error => {
-    console.log('Error Controller deleteClient: ' + error)
-    res.status(500).json({error})
-  })
+  const idCompany = req.params.idCompany;
+  deleteClientById(id, idCompany)
+    .then(res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log('Error Controller deleteClient: ' + error)
+      res.status(500).json({ error })
+    })
 }
 
 export const fetchClientById = async (req, res) => {
-  getClientById(req.params.id)
-  .then(data => res.status(200).json(data))
-  .catch(error => res.status(500).json({ error }))
+  const idClient = req.params.id;
+  const idCompany = req.params.idCompany;
+  getClientByIdAndCompany(idClient, idCompany)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
 }
 
 export const updateClientInfoById = async (req, res) => {
-  const {customerId, name, address, contact, businessLine, customerType, phoneNumbers , customerEmails} = req.body;
-  changeClientInfo(customerId, name, address, contact, businessLine, customerType, phoneNumbers, customerEmails)
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error });
-  })
+  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
+  changeClientInfo(customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
 
 }
 
 export const updateSummarySalesGrossById = async (req, res) => {
-  const { operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
+  const { operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount } = req.body;
   changeSummarySalesGrossById(operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
 }
 
 export const newSummarySalesGrossById = async (req, res) => {
-  const { operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount} = req.body;
+  const { operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount } = req.body;
   newSummaryInputSalesGross(operationId, chassisBuyQuantity, chassisBuySummary, totalBuyChassisAmount, chassisSellQuantity, chassisSellSummary, totalSellChassisAmount)
-  .then(() => res.status(200).json({message: 'ok'}))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error })
-  })
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
 }
 
 export const getSalesGrossById = async (req, res) => {
   fetchSaleGrossInfoById(req.params.id)
-  .then(data => res.status(200).json(data[0]))
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error })
-  })
+    .then(data => res.status(200).json(data[0]))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
 }
 
 export const addNewOperationToSaleGross = async (req, res) => {
-  const {operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body;
-  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis)
-  .then(() => res.status(200).json({ message: 'ok'}))
-  .catch(error => {
+  const idCompany = req.params.idCompany
+  const { operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body;
+  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log("Error Controller addNewOperationToSaleGross: " + error)
+    })
+}
+
+export const addNewCloseQuote = async (req, res) => {
+  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
+  newClosedQuote(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log("Error Controller addNewOperationToSaleGross: " + error)
+    })
+}
+
+export const getAllClientsCompany = async (req, res) => {
+  getAllClientsByCompanyId(req.params.id)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
+}
+
+export const filterOperationCol = async (req, res) => {
+  const colList = Object.keys(req.body);
+  const idCompany = req.params.idCompany;
+
+  getOperationColFiltered(colList, idCompany)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
+}
+
+export const deleteGenericRow = async (req, res) => {
+  const id = req.params.id;
+  const idCompany = req.params.idCompany;
+  const tableCalled = req.params.tableCalled;
+  const columnCalled = req.params.columnCalled;
+
+  deleteGenericRowById(tableCalled, columnCalled, id, idCompany)
+    .then(res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log('Error Controller deleteGenericRow' + error)
+      res.status(500).json({ error })
+    })
+}
+
+export const fetchCarrierById = async (req, res) => {
+  const idCarrier = req.params.idCarrier;
+  const idCompany = req.params.idCompany;
+  getCarrierByIdAndCompany(idCarrier, idCompany)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
+}
+
+export const updateCarrierInfoById = async (req, res) => {
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany } = req.body;
+  changeCarrierInfoById(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
+}
+
+export const fetchClosedQuoteById = async (req, res) => {
+  const closedQuoteId = req.params.id;
+  const idCompany = req.params.idCompany;
+  getClosedQuoteByIdAndCompany(closedQuoteId, idCompany)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
+}
+
+export const updateClosedQuoteInfoById = async (req, res) => {
+  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
+  changeClosedQuoteInfoById(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
+
+}
+
+export const fetchCarriersNamesByCompanyId = (req, res) => {
+  getAllCarriersNameByCompanyId(req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    })
+}
+
+export const getSsLineData = async (req, res) => {
+  getAllSslines()
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getInfoToCompareSaleGross = (req, res) => {
+  getAllSaleGrossToCompare(req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getCarriersPortCoverage = (req, res) => {
+  const idCarrier = req.params.idCarrier;
+  const idCompany = req.params.idCompany;
+  getCarrierPortCoverageByID(idCarrier, idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllQuotesForIdCheck = (req, res) => {
+  getAllIdOpenQuotes(req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllEmailsWithPortId = (req, res) => {
+  fetchEmailsWithPortId(req.params.id, req.params.idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllBuySaleGrossData = (req, res) => {
+  fetchAllBuySaleGross(req.params.idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllSellSaleGrossData = (req, res) => {
+  fetchAllSellSaleGross(req.params.idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllProfitSaleGrossData = (req, res) => {
+  fetchAllProfitSaleGross(req.params.idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getAllWarehousesData = (req, res) => {
+
+  getWarehouses(req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+}
+
+export const addWarehouse = (req, res) => {
+  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
+
+  addNewWarehouse(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
+    .then(() => res.status(200).json({ message: "ok" }))
+    .catch(error => {
+      res.status(500).json(error);
+      console.log(error);
+    })
+}
+
+export const fetchWarehouseById = (req, res) => {
+  const idWarehouse = req.params.id;
+  const idCompany = req.params.idCompany;
+  getWarehouseByIdAndCompany(idWarehouse, idCompany)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }))
+}
+
+export const updateWarehouseInfoById = (req, res) => {
+  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
+  changeWarehouseInfo(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    })
+}
+
+export const deleteWarehouse = (req, res) => {
+  deleteWarehouseById(req.params.id, req.params.idCompany)
+    .then(res.status(200).json({ message: 'ok' }))
+    .catch(error => {
+      console.log('Error Controller deleteWarehouse ' + error)
+      res.status(500).json({ error })
+    })
+}
+
+export const fetchWarehouseData = (req, res) => {
+  getWarehouseDataById(req.params.id, req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const getLastClosedQuoteId = (req, res) => {
+  getLastClosedQuoteIdFromTable(req.params.idCompany)
+    .then((data) => {
+      res.status(200).json(data.length ? data[0].quoteID : 1)
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const fetchSendQuoteCompInformation = (req, res) => {
+  getCompanyName(req.params.idCompany)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
+}
+
+export const filterByCol = (req, res) => {
+  const { cols, tableName } = req.body;
+
+  filterByColFromTable(cols, tableName, req.params.idCompany)
+  .then(data => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
     res.status(500).json(error);
-    console.log("Error Controller addNewOperationToSaleGross: " + error)
   })
 }
 
+export const bookUserForDemo = (req, res) => {
+  console.log(req.body);
+  postBookUserForDemo(req.body)
+  .then(()=> res.status(200).json({message: 'ok'}))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
 
+export const getAllEmailsWithStateId = (req, res) => {
+  fetchEmailWithStateId(req.params.id, req.params.idCompany)
+  .then((data) => res.status(200).json(data))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}
+
+export const getCompanyNameForSendQuote = (req, res) => {
+  getCompanyName(req.params.idCompany)
+  .then(data => res.status(200).json(data[0].name))
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json(error);
+  })
+}

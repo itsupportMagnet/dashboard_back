@@ -38,7 +38,7 @@ import {
     changeQuoteId,
     changeWeight,
     getAllOperationsTable,
-    getFloridaQuotes,
+    getClosedQuotes,
     updateOperationById,
     // maxIdOperation,
     deleteOperationFromTable,
@@ -52,8 +52,9 @@ import {
     updateSellSalesGross,
     updateProfitSalesGross,
     deleteSale,
-    getFloridaQuoteId,
-    getFloridaQuote,
+    getClosedQuoteId,
+    getClosedQuote,
+    getLastClosedQuoteId,
     getNormalQuote,
     updateSaleGross,
     deleteClient,
@@ -62,7 +63,35 @@ import {
     updateSummarySalesGrossById,
     newSummarySalesGrossById,
     getSalesGrossById,
-    addNewOperationToSaleGross
+    addNewOperationToSaleGross,
+    addNewCloseQuote,
+    getAllClientsCompany,
+    filterOperationCol,
+    deleteGenericRow,
+    fetchCarrierById,
+    updateCarrierInfoById,
+    fetchClosedQuoteById,
+    updateClosedQuoteInfoById,
+    fetchCarriersNamesByCompanyId,
+    getSsLineData,
+    getInfoToCompareSaleGross,
+    getCarriersPortCoverage,
+    getAllQuotesForIdCheck,
+    getAllEmailsWithPortId,
+    getAllBuySaleGrossData,
+    getAllSellSaleGrossData,
+    getAllProfitSaleGrossData,
+    getAllWarehousesData,
+    addWarehouse,
+    fetchWarehouseById,
+    updateWarehouseInfoById,
+    deleteWarehouse,
+    fetchWarehouseData,
+    fetchSendQuoteCompInformation,
+    filterByCol,
+    bookUserForDemo,
+    getAllEmailsWithStateId,
+    getCompanyNameForSendQuote
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -70,21 +99,21 @@ const router = Router();
 
 router
 .post("/createQuote", createQuote)
-.get("/get/salesGross", getAllSales)
+.get("/get/salesGross/:id", getAllSales)
 .post("/post/send-fee", sendFee)
 .post("/post/save-fee", saveFee)
-.get("/get/allQuotes", getAllQuotes)
+.get("/get/allQuotes/:id", getAllQuotes)
 .get("/allRoutes", getAllRoutes) //Este endpoint no lo ocupamos en nada
-.get("/get/quotes/:id", getQuote)
+.get("/get/quotes/:id/:idCompany", getQuote)
 .get("/get/clients", getAllClients)
 .get("/get/quotes-fees/:id", getQuotesFeeById)
-.get("/get/carriers-fees/:id", getCarriersFeeByID)
+.get("/get/carriers-fees/:id/:idCompany", getCarriersFeeByID)
 .post("/post/update-carrier-fee", updateCarrierFee)
 .get("/get/accesorials", getAllAccesorials)
-.get("/get/providers", getAllProviders)
-.get("/get/carriers/:id", getCarriersByPort)
+.get("/get/providers/:idCompany", getAllProviders)
+.get("/get/carriers/:id/:idCompany", getCarriersByPort) //Debemos cambiarlo a futuro
 .get("/get/ports", getAllPorts)
-.get("/get/carriers", getAllCarriers)
+.get("/get/allCarriers/:id", getAllCarriers)
 .post("/login/users/sign_in", login)
 .get("/login/users/verify-token", [validarJWT], verifyToken)
 .get("/get/cities", getAllCities) //Este endpoint no lo ocupamos en nada
@@ -96,20 +125,20 @@ router
 .post("/post/change-containerStatus", changeContainerStatus)
 .post("/post/updateBookingBl", updateBookingBl)
 .post("/post/updateContainerID", updateContainerId)
-.get("/get/getOperation/:id", getOperation)
+.get("/get/getOperation/:id/:idCompany", getOperation)
 .post("/post/addClient", addClient)
 .post("/post/addCarrier", addCarrier)
 .get("/get/states", getAllStates)
 .get("/get/container-status", getContainerStatus)
 .post("/post/change-status-quote", changeStatusQuote)
-.get("/get/getQuoteIds", getQuoteIds)
+.get("/get/getQuoteIds/:idCompany", getQuoteIds)
 .post("/post/change-notes", changeNoteQuote)
-.post("/post/change-quoteid", changeQuoteId)
+.post("/post/change-quoteid/:idCompany", changeQuoteId)
 .post("/post/change-weight", changeWeight) 
-.get("/get/allOperationsTable", getAllOperationsTable)
-.get("/get/allFloridaQuotes", getFloridaQuotes)
-.post("/post/updateOperation", updateOperationById)
-.delete("/delete/deleteOperation/:id", deleteOperationFromTable)
+.get("/get/allOperationsTable/:id", getAllOperationsTable)
+.get("/get/allClosedQuotes/:id", getClosedQuotes)
+.post("/post/updateOperation/:idCompany", updateOperationById)
+.delete("/delete/deleteOperation/:id/:idCompany", deleteOperationFromTable)
 .post("/login/users/register",[validateRole],newAccount)
 .post("/post/newInfoSaleGross", newInputSaleGross)
 .post("/post/newSaleGrossFromFloridaQuotes" , newFLInputSaleGross)
@@ -119,17 +148,48 @@ router
 .post("/post/updateBuySalesGross", updateBuySalesGross)
 .post("/post/updateSellSalesGross", updateSellSalesGross)
 .post("/post/updateProfitSalesGross", updateProfitSalesGross)
-.delete("/delete/delete-sale/:id", deleteSale)
-.get("/get/get-florida-quoteId", getFloridaQuoteId)
-.get("/get/get-florida-quote/:id", getFloridaQuote)
-.get("/get/get-normal-quote/:id", getNormalQuote)
-.post("/post/updateSaleGross/", updateSaleGross)
-.delete("/delete/deleteClient/:id", deleteClient)
-.get("/get/clientsById/:id", fetchClientById)
+.delete("/delete/delete-sale/:id/:idCompany", deleteSale)
+.get("/get/get-closed-quoteId/:idCompany", getClosedQuoteId)
+.get("/get/get-closed-quote/:id/:idCompany", getClosedQuote)
+.get("/get/get-last-closed-quote-id/:idCompany", getLastClosedQuoteId)
+.get("/get/get-normal-quote/:id/:idCompany", getNormalQuote)
+.post("/post/updateSaleGross/:idCompany", updateSaleGross)
+.delete("/delete/deleteClient/:id/:idCompany", deleteClient)
+.get("/get/clientsById/:id/:idCompany", fetchClientById)
 .post("/post/updateClient", updateClientInfoById)
 .post("/post/updateSummarySalesGross", updateSummarySalesGrossById)
 .post("/post/newSummarySalesGross", newSummarySalesGrossById)
 .get("/get/getSalesGrossSelected/:id", getSalesGrossById)
-.post("/post/newOperationSaleGross", addNewOperationToSaleGross)
+.post("/post/newOperationSaleGross/:idCompany", addNewOperationToSaleGross)
+.post("/post/newCloseQuote", addNewCloseQuote)
+.get("/get/clients/:id", getAllClientsCompany)
+.post("/post/filterOperationCol/:idCompany", filterOperationCol)
+.delete("/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany", deleteGenericRow)
+.get("/get/carriersByID/:idCarrier/:idCompany", fetchCarrierById)
+.post("/post/updateCarrier", updateCarrierInfoById)
+.get("/get/closedQuoteByID/:id/:idCompany", fetchClosedQuoteById)
+.post("/post/updateClosedQuote", updateClosedQuoteInfoById)
+.get("/get/carriersNames/:idCompany", fetchCarriersNamesByCompanyId)
+.get("/get/ssLine", getSsLineData)
+.get("/get/salesGrossToCompare/:idCompany", getInfoToCompareSaleGross)
+.get("/get/carriersPortCoverage/:idCarrier/:idCompany", getCarriersPortCoverage)
+.get("/get/openQuoteIdCheck/:idCompany", getAllQuotesForIdCheck)
+.get("/get/portCarriersEmails/:id/:idCompany", getAllEmailsWithPortId)
+.get("/get/allBuySaleGross/:idCompany", getAllBuySaleGrossData)
+.get("/get/allSellSaleGross/:idCompany", getAllSellSaleGrossData)
+.get("/get/allProfitSaleGross/:idCompany", getAllProfitSaleGrossData)
+.get("/get/warehouses/:idCompany", getAllWarehousesData)
+.post("/post/addWarehouse", addWarehouse)
+.get("/get/warehousesById/:id/:idCompany", fetchWarehouseById)
+.post("/post/updateWarehouse", updateWarehouseInfoById)
+.delete("/delete/deleteWarehouse/:id/:idCompany", deleteWarehouse)
+.get("/get/warehousesByName/:id/:idCompany", fetchWarehouseData)
+.get("/get/fetchInfoSendQuote/:idCompany", fetchSendQuoteCompInformation)
+.post("/post/filterByCol/:idCompany", filterByCol)
+.post("/post/bookUserForDemo", bookUserForDemo)
+.get("/get/statesCarriersEmails/:id/:idCompany", getAllEmailsWithStateId)
+.get("/get/companyName/:idCompany", getCompanyNameForSendQuote);
+
+
 // .get("/maxIdOperation", maxIdOperation )
 export default router;

@@ -116,7 +116,7 @@ export const login = async (req, res) => {
       if (!validPassword) {
         return res.status(400).json({ message: "password incorrect! " });
       }
-      
+
       //make jwt
       jwt.sign(user.userID, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
         if (err) {
@@ -1794,10 +1794,7 @@ export const filterOperationCol = async (req, res) => {
 }
 
 export const deleteGenericRow = async (req, res) => {
-  const id = req.params.id;
-  const idCompany = req.params.idCompany;
-  const tableCalled = req.params.tableCalled;
-  const columnCalled = req.params.columnCalled;
+  const { id, idCompany, tableCalled, columnCalled } = req.params
 
   deleteGenericRowById(tableCalled, columnCalled, id, idCompany)
     .then(res.status(200).json({ message: 'ok' }))
@@ -2008,37 +2005,37 @@ export const filterByCol = (req, res) => {
   const { cols, tableName } = req.body;
 
   filterByColFromTable(cols, tableName, req.params.idCompany)
-  .then(data => res.status(200).json(data))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then(data => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const bookUserForDemo = (req, res) => {
   console.log(req.body);
   postBookUserForDemo(req.body)
-  .then(()=> res.status(200).json({message: 'ok'}))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then(() => res.status(200).json({ message: 'ok' }))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getAllEmailsWithStateId = (req, res) => {
   fetchEmailWithStateId(req.params.id, req.params.idCompany)
-  .then((data) => res.status(200).json(data))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }
 
 export const getCompanyNameForSendQuote = (req, res) => {
   getCompanyName(req.params.idCompany)
-  .then(data => res.status(200).json(data[0].name))
-  .catch((error) => {
-    console.error(error);
-    res.status(500).json(error);
-  })
+    .then(data => res.status(200).json(data[0].name))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    })
 }

@@ -7,7 +7,7 @@ export const sendEmail = async (carrier, emailSubject, emailBody) => {
   // sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
   const msg = {
     to: carrier, // Change to your recipient
-    from: 'Andre.gonzalez@easyfreight.ai', // Change to your verified sender
+    from: 'andre.gonzalez@easyfreight.ai', // Change to your verified sender
     replyTo: 'Andre.gonzalez@magnetlogisticscorp.com',
     subject: emailSubject,
     // bcc: bccRecipients,

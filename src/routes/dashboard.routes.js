@@ -54,6 +54,7 @@ import {
     deleteSale,
     getClosedQuoteId,
     getClosedQuote,
+    getLastClosedQuoteId,
     getNormalQuote,
     updateSaleGross,
     deleteClient,
@@ -84,7 +85,13 @@ import {
     addWarehouse,
     fetchWarehouseById,
     updateWarehouseInfoById,
-    deleteWarehouse
+    deleteWarehouse,
+    fetchWarehouseData,
+    fetchSendQuoteCompInformation,
+    filterByCol,
+    bookUserForDemo,
+    getAllEmailsWithStateId,
+    getCompanyNameForSendQuote
 } from "../controllers/dashboard.controller.js";
 import { validarJWT } from "../../middlewares/validar-jwt.js";
 import { validateRole } from "../../middlewares/verifyRol.js";
@@ -144,6 +151,7 @@ router
 .delete("/delete/delete-sale/:id/:idCompany", deleteSale)
 .get("/get/get-closed-quoteId/:idCompany", getClosedQuoteId)
 .get("/get/get-closed-quote/:id/:idCompany", getClosedQuote)
+.get("/get/get-last-closed-quote-id/:idCompany", getLastClosedQuoteId)
 .get("/get/get-normal-quote/:id/:idCompany", getNormalQuote)
 .post("/post/updateSaleGross/:idCompany", updateSaleGross)
 .delete("/delete/deleteClient/:id/:idCompany", deleteClient)
@@ -175,6 +183,12 @@ router
 .get("/get/warehousesById/:id/:idCompany", fetchWarehouseById)
 .post("/post/updateWarehouse", updateWarehouseInfoById)
 .delete("/delete/deleteWarehouse/:id/:idCompany", deleteWarehouse)
+.get("/get/warehousesByName/:id/:idCompany", fetchWarehouseData)
+.get("/get/fetchInfoSendQuote/:idCompany", fetchSendQuoteCompInformation)
+.post("/post/filterByCol/:idCompany", filterByCol)
+.post("/post/bookUserForDemo", bookUserForDemo)
+.get("/get/statesCarriersEmails/:id/:idCompany", getAllEmailsWithStateId)
+.get("/get/companyName/:idCompany", getCompanyNameForSendQuote);
 
 
 // .get("/maxIdOperation", maxIdOperation )

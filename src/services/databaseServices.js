@@ -747,8 +747,16 @@ export const getOperationColFiltered = async (colList, idCompany) => {
 }
 
 export const deleteGenericRowById = async (tableCalled, columnCalled, id, idCompany) => {
-  const tableName = tableCalled
-  const columnName = columnCalled
+
+  const query = `DELETE FROM ${tableCalled} WHERE ${columnCalled} = ? AND company_userID = ? `;
+
+  return pool.query(query, [id, idCompany])
+    .then(() => true)
+    .catch(error => {
+      console.error("Error on SQL : " + error)
+      throw error
+
+    })
 
   // if (tableCalled === 'carriers') {
   //   const carrierEmails = await getCarrierEmails(id, idCompany);
@@ -763,17 +771,6 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
   //   await deleteEmailPortRelation(queries);
 
   // }
-
-  const query = `DELETE FROM ${tableName} WHERE ${columnName} = ? AND company_userID = ? `;
-
-
-  return pool.query(query, [id, idCompany])
-    .then(() => true)
-    .catch(error => {
-      console.error("Error on SQL : " + error)
-      throw error
-
-    })
 }
 
 // const getCarrierEmails = async (carrierID, idCompany) => {
@@ -988,7 +985,7 @@ export const fetchAllProfitSaleGross = async (idCompany) => {
 }
 
 export const getWarehouses = async (idCompany) => {
-  const query = "SELECT id, company_userID, warehouse_id, warehouse_name, warehouse_address, warehouse_zipcode, warehouse_city, warehouse_state, warehouse_country, warehouse_type, warehouse_email, warehouse_contact, warehouse_phone from warehouses WHERE company_userID = ?";
+  const query = "SELECT id, company_userID, warehouse_id, name, address, zipcode, city, state, country, type, email, contact, phone from warehouses WHERE company_userID = ?";
   return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {

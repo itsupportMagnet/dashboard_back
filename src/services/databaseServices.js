@@ -1016,7 +1016,7 @@ export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
 }
 
 export const changeWarehouseInfo = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany) => {
-  const query = 'UPDATE warehouses SET warehouse_type = ? , warehouse_name = ?, warehouse_contact = ?, warehouse_phone = ?, warehouse_email = ?, warehouse_country = ?, warehouse_state = ?, warehouse_city = ?, warehouse_zipcode = ?, warehouse_address = ? WHERE warehouse_id = ? AND company_userID = ?'
+  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ? WHERE warehouse_id = ? AND company_userID = ?'
   console.log('Consulta SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, warehouseId, idCompany]))
   return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, warehouseId, idCompany])
     .then(() => true)

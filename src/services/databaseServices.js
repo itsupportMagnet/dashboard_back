@@ -866,10 +866,10 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
 
 export const addNewCarrierPorts = async (carrierEmail, carrierId, ports, idCompany) => {
   const queries = [];
-
+  console.log(carrierEmail);
   ports.forEach(port => {
     const query = {
-      text: 'INSERT INTO carrier_emails (carrierEmail, carrier_id, port_id, company_userID) VALUES (?, ?, ?)',
+      text: 'INSERT INTO carrier_emails (carrier_email, carrier_id, port_id, company_userID) VALUES (?, ?, ?)',
       values: [carrierEmail, carrierId, port, idCompany]
     };
     queries.push(query);

@@ -228,7 +228,7 @@ export const getAccesorials = async () => {
 }
 
 export const getCarriersList = async (id) => {
-  const query = 'SELECT * FROM carriers WHERE company_userID = ? ';
+  const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, 1099, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, days_of_credit FROM carriers WHERE company_userID = ? ';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -341,7 +341,7 @@ export const addNewClient = async (customerId, customerType, name, contact, phon
 }
 
 export const addNewCarrier = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany) => {
-  const query = "INSERT INTO carriers (id_carrier, carrier_name, carrier_contact, mc, dot, carrier_SCAC, carrier_EIN, carrier_1099, carrier_insurance, carrier_address, carrier_city, carrier_zipcode, carrier_state, carrier_country, carrier_DOCT, carrier_type, carrier_phone_number, carrier_contact_mail, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO carriers (id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, phone_number, contact_email, company_userID ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   return pool.query(query, [carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany])
     .then(() => true)
     .catch(error => {
@@ -804,13 +804,13 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
 }
 
 export const changeCarrierInfoById = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany) => {
-  const query = "UPDATE carriers SET carrier_name = ? , carrier_contact = ?, mc = ? , dot = ? , carrier_SCAC = ?, carrier_EIN = ?, carrier_1099 = ?, carrier_insurance = ? , carrier_address = ? , carrier_city = ?, carrier_zipcode = ? , carrier_state = ? , carrier_country = ?, carrier_DOCT = ?, carrier_type = ?, carrier_phone_number = ? , carrier_contact_mail = ? WHERE id_carrier = ? AND company_userID = ?"
+  const query = `UPDATE carriers SET name = ? , contact = ?, mc = ? , dot = ? , SCAC = ?, EIN = ?, \`1099\` = ?, insurance = ? , address = ? , city = ?, zipcode = ? , state = ? , country = ?, DOCT = ?, type = ?, phone_number = ? , contact_email = ? WHERE id_carrier = ? AND company_userID = ?`;
   return pool.query(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, carrierId, idCompany])
     .then()
     .catch(error => {
-      console.error("Error on SQL: " + error)
-      throw error
-    })
+      console.error("Error on SQL: " + error);
+      throw error;
+    });
 }
 
 export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => {
@@ -835,7 +835,7 @@ export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, war
 }
 
 export const getAllCarriersNameByCompanyId = async (idCompany) => {
-  const query = "SELECT carrier_name FROM carriers WHERE company_userID = ?"
+  const query = "SELECT name FROM carriers WHERE company_userID = ?"
   return pool.query(query, [idCompany])
     .then((rows) => rows[0])
     .catch(error => {
@@ -914,7 +914,7 @@ export const getAllIdOpenQuotes = async (idCompany) => {
 }
 
 export const fetchEmailsWithPortId = async (portId, idCompany) => {
-  const query = "SELECT ce.port_id, ce.carrier_id, c.carrier_contact_mail FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
+  const query = "SELECT ce.port_id, ce.carrier_id, c.carrier_contact_email FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
   console.log('Testeando el fetch de la consulta ' + pool.format(query, [portId, idCompany]))
   return pool.query(query, [portId, idCompany])
     .then(data => data[0])
@@ -1037,7 +1037,7 @@ export const deleteWarehouseById = async (id, idCompany) => {
 }
 
 export const getWarehouseDataById = async (id, idCompany) => {
-  const query = "SELECT warehouse_address FROM warehouses WHERE id = ? AND company_userID = ?"
+  const query = "SELECT address FROM warehouses WHERE id = ? AND company_userID = ?"
   return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {
@@ -1092,7 +1092,7 @@ export const postBookUserForDemo = async email => {
 }
 
 export const fetchEmailWithStateId = async (stateId, idCompany) => {
-  const query = "SELECT c.carrier_state, c.carrier_contact_mail FROM carriers c JOIN states se ON se.stateAbridged = c.carrier_state WHERE se.stateId = ? AND c.company_userID = ? "
+  const query = "SELECT c.carrier_state, c.carrier_contact_email FROM carriers c JOIN states se ON se.stateAbridged = c.carrier_state WHERE se.stateId = ? AND c.company_userID = ? "
   console.log('Testeando el fetch de la consulta ' + pool.format(query, [stateId, idCompany]))
   return pool.query(query, [stateId, idCompany])
     .then(data => data[0])

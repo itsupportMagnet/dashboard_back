@@ -330,7 +330,7 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
 }
 
 export const addNewClient = async (customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany) => {
-  const query = "INSERT INTO clients (id_Client, type, name, contact, phone, email, client_country, client_state, client_city, client_zipcode, address, client_creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO clients (id_Client, type, name, contact, phone, email, country, state, city, zipcode, address, creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany])
     .then(() => true)
@@ -662,7 +662,7 @@ export const getClientByIdAndCompany = async (idClient, idCompany) => {
 }
 
 export const changeClientInfo = async (customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany) => {
-  const query = "UPDATE clients SET type = ?, name = ?, contact = ?, phone = ?, email = ? , client_country = ? , client_state = ?, client_city = ?, client_zipcode = ?, address = ?, client_creditTerms = ? WHERE id_Client = ? AND company_userID = ?";
+  const query = "UPDATE clients SET type = ?, name = ?, contact = ?, phone = ?, email = ? , country = ? , state = ?, city = ?, zipcode = ?, address = ?, creditTerms = ? WHERE id_Client = ? AND company_userID = ?";
   console.log('Consulta SQL UpdateClients: ', pool.format(query, [customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, customerId, idCompany]))
   return pool.query(query, [customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, customerId, idCompany])
     .then(() => true)
@@ -725,7 +725,7 @@ export const newClosedQuote = async (quoteID, operationType, pol, warehouse, cit
 }
 
 export const getAllClientsByCompanyId = async (id) => {
-  const query = 'SELECT id, company_userID, id_Client, name, address, client_zipcode, client_city, client_state, client_country, type, email, contact, phone, client_creditTerms FROM clients WHERE company_userID = ?';
+  const query = 'SELECT id, company_userID, id_Client, name, address, zipcode, city, state, country, type, email, contact, phone, creditTerms FROM clients WHERE company_userID = ?';
   return pool.query(query, [id])
     .then(data => data[0])
     .catch(error => {

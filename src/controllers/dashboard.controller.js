@@ -893,7 +893,7 @@ export const getAllAccesorials = async (req, res) => {
 
 export const createQuote = async (req, res) => {
   const {
-    carrier,
+    carriers,
     operation,
     isExport,
     pol,
@@ -914,7 +914,6 @@ export const createQuote = async (req, res) => {
     companyName
   } = req.body;
 
-  console.log(companyName);
   // const newCounter = (await getIdCounter()) + 1;
   const newCounter = idCheck;
   const newId = `MGT${newCounter.toString().padStart(4, "0")}`;
@@ -1044,7 +1043,7 @@ export const createQuote = async (req, res) => {
     cordinator,
     idCompany
   )
-    .then(() => sendEmail(carrier, emailSubject, emailBody))
+    .then(() => sendEmail(carriers, emailSubject, emailBody))
     .then(() => {
       return updateIdCounter(newCounter);
     })

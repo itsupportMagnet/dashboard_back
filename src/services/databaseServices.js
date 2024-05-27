@@ -228,7 +228,7 @@ export const getAccesorials = async () => {
 }
 
 export const getCarriersList = async (id) => {
-  const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, 1099, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, days_of_credit FROM carriers WHERE company_userID = ? ';
+  const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, days_of_credit FROM carriers WHERE company_userID = ? ';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -714,7 +714,7 @@ export const newOperationToSalesGross = async (operation_id, booking_bl, contain
 }
 
 export const newClosedQuote = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
-  const query = "INSERT INTO closed_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, customerID, client, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO closed_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
   return pool.query(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany])
     .then(() => true)
@@ -866,14 +866,15 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
 
 export const addNewCarrierPorts = async (carrierEmail, carrierId, ports, idCompany) => {
   const queries = [];
-  console.log(carrierEmail);
   ports.forEach(port => {
     const query = {
       text: 'INSERT INTO carrier_emails (email_address, carrier_id, port_id, company_userID) VALUES (?, ?, ?, ?)',
-      values: [carrierEmail, carrierId, port, idCompany]
+      values: [carrierEmail, carrierId, port, parseInt(idCompany)]
     };
     queries.push(query);
   });
+
+  console.log(queries);
 
   try {
     const allQueries = queries.map(query => {
@@ -893,8 +894,8 @@ export const addNewCarrierPorts = async (carrierEmail, carrierId, ports, idCompa
 }
 
 export const getCarrierPortCoverageByID = async (idCarrier, idCompany) => {
-  const query = "SELECT port_id FROM carrier_emails WHERE carrier_id = ? AND company_userID = ?"
-  console.log('Testeo Consulta SQL para obtener todos los port ID de carrier_emails', pool.format(query, [idCarrier, idCompany]))
+  const query = "SELECT port_id FROM carrier_emails WHERE carrier_id = ? AND company_userID = ?";
+
   return pool.query(query, [idCarrier, idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -914,10 +915,13 @@ export const getAllIdOpenQuotes = async (idCompany) => {
 }
 
 export const fetchEmailsWithPortId = async (portId, idCompany) => {
-  const query = "SELECT ce.port_id, ce.carrier_id, c.carrier_contact_email FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
-  console.log('Testeando el fetch de la consulta ' + pool.format(query, [portId, idCompany]))
+  // const query = "SELECT ce.port_id, ce.carrier_id, c.contact_email FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
+  const query = `SELECT email_address FROM carrier_emails WHERE port_id = ? AND company_userID = ?`
   return pool.query(query, [portId, idCompany])
-    .then(data => data[0])
+    .then(data => {
+      console.log(data[0]);
+      return data[0]
+    })
     .catch(error => {
       console.error("Error on SQL: " + error);
       throw error

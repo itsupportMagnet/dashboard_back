@@ -16,7 +16,8 @@ export const sendEmail = async (carriers, replyEmail, emailSubject, emailBody) =
       html: emailBody,
     }
 
-    sgMail.setApiKey(sendGridTestKey);
+    console.log(msg);
+    sgMail.setApiKey(sendGridKey);
 
     sgMail.send(msg).then(() => {
       console.log('Email sent')

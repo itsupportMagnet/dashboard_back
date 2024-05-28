@@ -15,8 +15,7 @@ export const sendEmail = async (carriers, replyEmail, emailSubject, emailBody) =
       text: 'EasyFreight 2024',
       html: emailBody,
     }
-
-    console.log(msg);
+    
     sgMail.setApiKey(sendGridKey);
 
     sgMail.send(msg).then(() => {

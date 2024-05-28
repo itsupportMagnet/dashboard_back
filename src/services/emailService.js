@@ -1,6 +1,6 @@
 import sgMail from '@sendgrid/mail';
 const { sendGridKey, fromEmail, replyToEmail } = process.env
-const sendGridTestKey = "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";
+
 
 export const sendEmail = async (carriers, replyEmail, emailSubject, emailBody) => {
   // sgMail.setApiKey(sendGridKey)//Cambiar a sendGridKey
@@ -15,7 +15,7 @@ export const sendEmail = async (carriers, replyEmail, emailSubject, emailBody) =
       text: 'EasyFreight 2024',
       html: emailBody,
     }
-    
+
     sgMail.setApiKey(sendGridKey);
 
     sgMail.send(msg).then(() => {

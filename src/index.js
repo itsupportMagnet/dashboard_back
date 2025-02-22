@@ -8,12 +8,12 @@ const app = express();
 
 app.use(cors({
   origin: '*',
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200rehah
 }));
 
 app.use((req,res,next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
   next();
   

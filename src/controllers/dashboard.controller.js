@@ -6,7 +6,7 @@ import {
   getCarriers,
   getQuotes,
   getPorts,
-  getAccesorials,
+  getaccessorials,
   getQuoteFeeById,
   updateCarrierFeeById,
   getCarriersList,
@@ -166,17 +166,17 @@ export const saveFee = async (req, res) => {
     carrierEmail,
     buyDrayageUnitRate,
     buyChassisUnitRate,
-    buyAccesorials,
+    buyaccessorials,
     sellDrayageUniteRate,
     sellChassisUnitRate,
-    sellAccesorials,
+    sellaccessorials,
     notes,
     companyID
   } = req.body;
 
   try {
-    const buyAccesorialsJSON = JSON.stringify(buyAccesorials);
-    const sellAccesorialsJSON = JSON.stringify(sellAccesorials);
+    const buyaccessorialsJSON = JSON.stringify(buyaccessorials);
+    const sellaccessorialsJSON = JSON.stringify(sellaccessorials);
 
     await saveNewQuoteFee(
       quoteID,
@@ -197,10 +197,10 @@ export const saveFee = async (req, res) => {
       carrierEmail,
       buyDrayageUnitRate,
       buyChassisUnitRate,
-      buyAccesorialsJSON,
+      buyaccessorialsJSON,
       sellDrayageUniteRate,
       sellChassisUnitRate,
-      sellAccesorialsJSON,
+      sellaccessorialsJSON,
       notes,
       companyID
     );
@@ -239,8 +239,8 @@ export const sendFee = async (req, res) => {
     chassisUnitPrice,
     chassisTotalConcept,
     totalFeeToSend,
-    accesorialsWithFee,
-    accesorialsList,
+    accessorialsWithFee,
+    accessorialsList,
     // emailSubject,
     client,
     clientEmailsList,
@@ -295,7 +295,7 @@ export const sendFee = async (req, res) => {
           line-height: 2rem !important;
         }
 
-        .accesorialBox {
+        .accessorialBox {
           width: 200px !important;
         }
 
@@ -303,7 +303,7 @@ export const sendFee = async (req, res) => {
           padding: 40px 0 !important;
         }
 
-        .accesorialText {
+        .accessorialText {
           width: 200px !important;
         }
       }
@@ -336,7 +336,7 @@ export const sendFee = async (req, res) => {
         display: block;
       }
 
-      .accesorialBox {
+      .accessorialBox {
         width: 300px;
       }
 
@@ -344,20 +344,20 @@ export const sendFee = async (req, res) => {
         padding: 20px 0;
       }
 
-      .accesorialText {
+      .accessorialText {
         margin-bottom: 10px;
         display: inline-block;
         width: 110px;
         font-size: 17px;
       }
 
-      .accesorialWithFee{
+      .accessorialWithFee{
         display: flex; 
         flex-wrap: wrap; 
         justify-content: space-evenly;
       }
 
-      .accesorialList{
+      .accessorialList{
         width: 100%; 
         display: flex; 
         flex-wrap: wrap; 
@@ -645,15 +645,15 @@ export const sendFee = async (req, res) => {
           background-color: #1d4ed8;
           color: #fff;
           " 
-          class="md-text-2xl">ACCESORIAL CHARGES THAT WILL APPLY</h1>
+          class="md-text-2xl">accessorial CHARGES THAT WILL APPLY</h1>
 
           <div style="margin-top: 1rem; text-align: center">
           
-          ${!Object.entries(accesorialsWithFee).length ? (
+          ${!Object.entries(accessorialsWithFee).length ? (
       ' <p style="width: 95%; text-align: center; font-weight: 500; font-size: 16px; margin-bottom: 10px; padding: 0 15px;">NONE</p>'
     ) : (
-      `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                    ${Object.entries(accesorialsWithFee)
+      `<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accessorialWithFee">
+                    ${Object.entries(accessorialsWithFee)
         .slice(0, 7)
         .map(
           ([item, value]) => `
@@ -664,8 +664,8 @@ export const sendFee = async (req, res) => {
         .join("")}
                   </div>
 
-                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                  ${Object.entries(accesorialsWithFee)
+                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accessorialWithFee">
+                  ${Object.entries(accessorialsWithFee)
         .slice(7, 13)
         .map(
           ([item, value]) => `
@@ -676,8 +676,8 @@ export const sendFee = async (req, res) => {
         .join("")}
                   </div>
 
-                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                  ${Object.entries(accesorialsWithFee)
+                  <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accessorialWithFee">
+                  ${Object.entries(accessorialsWithFee)
         .slice(13, 18)
         .map(
           ([item, value]) => `
@@ -695,37 +695,37 @@ export const sendFee = async (req, res) => {
           
 
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 15px;" class="accesorialWithFee">
-                ${accesorialsList
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; margin-top: 15px;" class="accessorialWithFee">
+                ${accessorialsList
       .slice(0, 6)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
-                      ${item.accesorial}
+                      ${item.accessorial}
                   </p>`
       )
       .join("")}
               </div>
 
-              <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                ${accesorialsList
+              <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accessorialWithFee">
+                ${accessorialsList
       .slice(6, 12)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
-                      ${item.accesorial}
+                      ${item.accessorial}
                   </p>`
       )
       .join("")}
               </div>
 
-              <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accesorialWithFee">
-                ${accesorialsList
+              <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;" class="accessorialWithFee">
+                ${accessorialsList
       .slice(12, 18)
       .map(
         (item) =>
           `<p style="width: 12%; text-align: center; font-weight: 500; font-size: 14px; margin-bottom: 10px; padding: 0 10px;">
-                      ${item.accesorial}
+                      ${item.accessorial}
                   </p>`
       )
       .join("")}
@@ -804,7 +804,7 @@ export const sendFee = async (req, res) => {
           chassisUnitPrice,
           chassisTotalConcept,
           totalFeeToSend,
-          accesorialsWithFee,
+          accessorialsWithFee,
           client,
           clientEmailsList
         )
@@ -869,12 +869,12 @@ export const getCarriersFeeByID = async (req, res) => {
 };
 
 export const updateCarrierFee = async (req, res) => {
-  const { id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorials, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorials, notes } = req.body
+  const { id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorials, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorials, notes } = req.body
 
-  const buyAccesorialsJSON = JSON.stringify(buyAccesorials);
-  const sellAccesorialsJSON = JSON.stringify(sellAccesorials);
+  const buyaccessorialsJSON = JSON.stringify(buyaccessorials);
+  const sellaccessorialsJSON = JSON.stringify(sellaccessorials);
 
-  updateCarrierFeeById(id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyAccesorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellAccesorialsJSON, notes)
+  updateCarrierFeeById(id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
@@ -882,8 +882,8 @@ export const updateCarrierFee = async (req, res) => {
     })
 }
 
-export const getAllAccesorials = async (req, res) => {
-  getAccesorials()
+export const getAllaccessorials = async (req, res) => {
+  getaccessorials()
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.error(error);
@@ -1573,13 +1573,13 @@ export const newFLInputSaleGross = async (req, res) => {
     sell,
     profit,
     date,
-    carrierAccesorials,
-    magnetAccesorials,
+    carrieraccessorials,
+    magnetaccessorials,
     buyChassis,
     sellChassis,
   } = req.body;
 
-  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrierAccesorials, magnetAccesorials, buyChassis, sellChassis)
+  newInputQueryFLSaleGross(operationId, bookingBl, containerId, provider, customer, buy, sell, profit, date, carrieraccessorials, magnetaccessorials, buyChassis, sellChassis)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1688,10 +1688,10 @@ export const getNormalQuote = async (req, res) => {
 }
 
 export const updateSaleGross = async (req, res) => {
-  const { operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body
+  const { operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyaccessorials, sellaccessorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body
   const idCompany = req.params.idCompany
   console.log('Estos datos me llegan:' + JSON.stringify(req.body) + '  tambien el idCompany: ' + idCompany)
-  updateSaleGrossById(operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
+  updateSaleGrossById(operation_id, booking_bl, container_id, provider, customer, date, buy, sell, profit, buyaccessorials, sellaccessorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
     .then(() => res.status(200).json({ message: "saleGross Input Updated" }))
     .catch(error => {
       console.log('Error Controller updateSaleGross: ' + error)
@@ -1760,8 +1760,8 @@ export const getSalesGrossById = async (req, res) => {
 
 export const addNewOperationToSaleGross = async (req, res) => {
   const idCompany = req.params.idCompany
-  const { operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body;
-  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyAccesorials, sellAccesorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
+  const { operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyaccessorials, sellaccessorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis } = req.body;
+  newOperationToSalesGross(operation_id, booking_bl, container_id, provider, customer, buy, sell, profit, date, buyaccessorials, sellaccessorials, buyDrayageUnitRate, buyChassisUnitRate, buyQtyChassis, sellDrayageUnitRate, sellChassisUnitRate, sellQtyChassis, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       res.status(500).json(error);

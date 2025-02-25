@@ -10,7 +10,7 @@ import {
     getAllCitiesID,
     getCarriersByPort,
     createQuote,
-    getAllAccesorials,
+    getAllaccessorials,
     getQuotesFeeById,
     updateCarrierFee,
     getCarriersFeeByID,
@@ -109,7 +109,7 @@ router
 .get("/get/quotes-fees/:id", getQuotesFeeById)
 .get("/get/carriers-fees/:id/:idCompany", getCarriersFeeByID)
 .post("/post/update-carrier-fee", updateCarrierFee)
-.get("/get/accesorials", getAllAccesorials)
+.get("/get/accessorials", getAllaccessorials)
 .get("/get/providers/:idCompany", getAllProviders)
 .get("/get/carriers/:id/:idCompany", getCarriersByPort) //Debemos cambiarlo a futuro
 .get("/get/ports", getAllPorts)

@@ -1315,12 +1315,7 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
   
-  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
-  console.log(req);
-  console.log(req.body);
-  console.log(city);
-  console.log(zipcode);
-  console.log(ports);
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierPhone, carrierEmail, idCompany} = req.body;
   const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports);
   
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, ports, idCompany);
@@ -1328,11 +1323,6 @@ export const addCarrier = async (req, res) => {
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
-      console.log(req);
-      console.log(req.body);
-      console.log(city);
-      console.log(zipcode);
-      console.log(ports);
       console.error("Error in one of the operations: ", error);
       res.status(500).json({ error: 'Internal Server Error' });
     });

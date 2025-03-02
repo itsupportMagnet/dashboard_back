@@ -1318,6 +1318,10 @@ export const addCarrier = async (req, res) => {
   const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
   console.log("carrierType: ",carrierType);
   console.log("ports: ",ports);
+  carrierType = carrierType.join(', ');
+  ports = ports.join(', ');
+  console.log("carrierType: ",carrierType);
+  console.log("ports: ",ports);
   const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, [carrierType], carrierPhone, carrierEmail, idCompany, [ports]);
   
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, ports, idCompany);

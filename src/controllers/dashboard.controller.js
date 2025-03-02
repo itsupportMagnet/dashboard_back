@@ -1328,6 +1328,11 @@ export const addCarrier = async (req, res) => {
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
+      console.log(req);
+      console.log(req.body);
+      console.log(city);
+      console.log(zipcode);
+      console.log(ports);
       console.error("Error in one of the operations: ", error);
       res.status(500).json({ error: 'Internal Server Error' });
     });

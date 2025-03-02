@@ -1318,7 +1318,7 @@ export const addCarrier = async (req, res) => {
   const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
   // const phonesJSON = JSON.stringify(phoneNumbers);
   // const emailsJSON = JSON.stringify(carrierEmails);
-  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany);
+  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, ports, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany);
   
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, ports, idCompany);
 

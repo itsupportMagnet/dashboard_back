@@ -1317,7 +1317,8 @@ export const addCarrier = async (req, res) => {
   
   const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
   const carrierTypeStr = carrierType.join(', ');
-  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierTypeStr, carrierPhone, carrierEmail, idCompany, ports);
+  const portsStr = ports.join(', ');
+  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierTypeStr, carrierPhone, carrierEmail, idCompany, portsStr);
   
   const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, ports, idCompany);
 

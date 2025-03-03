@@ -230,15 +230,31 @@ export const getaccessorials = async () => {
 export const getCarriersList = async (id) => {
   //const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, ports FROM carriers WHERE company_userID = ? ';
   const query = `
-  SELECT c.id_carrier, c.name, c.contact, c.mc, c.dot, c.SCAC, c.EIN, c.\`1099\`, c.insurance, 
-       c.address, c.city, c.zipcode, c.state, c.country, c.DOCT, c.type, 
-       c.contact_email, c.phone_number, 
-       GROUP_CONCAT(p.port_name ORDER BY p.port_name SEPARATOR ', ') AS port_names
-FROM carriers c
-LEFT JOIN ports p ON FIND_IN_SET(p.id, c.ports) > 0
-WHERE c.company_userID = ?
-GROUP BY c.id_carrier;
-`
+    SELECT c.id_carrier, 
+           c.name, 
+           c.contact, 
+           c.mc, 
+           c.dot, 
+           c.SCAC, 
+           c.EIN, 
+           c.\`1099\`, 
+           c.insurance, 
+           c.address, 
+           c.city, 
+           c.zipcode, 
+           c.state, 
+           c.country, 
+           c.DOCT, 
+           c.type, 
+           c.contact_email, 
+           c.phone_number, 
+           GROUP_CONCAT(p.port_name ORDER BY p.port_name SEPARATOR ', ') AS ports
+    FROM carriers c
+    LEFT JOIN ports p ON FIND_IN_SET(p.id, c.ports) > 0
+    WHERE c.company_userID = '1'
+    GROUP BY c.id_carrier;
+`;
+
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

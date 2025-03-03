@@ -1815,9 +1815,7 @@ export const fetchCarrierById = async (req, res) => {
 
 export const updateCarrierInfoById = async (req, res) => {
   const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
-  const carrierTypeStr = carrierType.join(', ');
-  const portsStr = ports.join(', ');
-  changeCarrierInfoById(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierTypeStr, carrierPhone, carrierEmail, idCompany, portsStr)
+  changeCarrierInfoById(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

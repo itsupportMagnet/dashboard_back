@@ -1316,8 +1316,8 @@ export const addClient = async (req, res) => {
 export const addCarrier = async (req, res) => {
   
   const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType0, carrierPhone, carrierEmail, idCompany, ports0 } = req.body;
-  console.log("carrierType: ",carrierType);
-  console.log("ports: ",ports);
+  console.log("carrierType: ",carrierType0);
+  console.log("ports: ",ports0);
   carrierType = carrierType0.join(', ');
   ports = ports0.join(', ');
   console.log("carrierType: ",carrierType);

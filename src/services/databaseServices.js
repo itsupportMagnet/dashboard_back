@@ -228,7 +228,7 @@ export const getaccessorials = async () => {
 }
 
 export const getCarriersList = async (id) => {
-  const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, days_of_credit FROM carriers WHERE company_userID = ? ';
+  const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, ports FROM carriers WHERE company_userID = ? ';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

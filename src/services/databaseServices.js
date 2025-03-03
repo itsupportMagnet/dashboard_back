@@ -341,7 +341,7 @@ export const addNewClient = async (customerId, customerType, name, contact, phon
 }
 
 export const addNewCarrier = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports) => {
-  const query = "INSERT INTO carriers (id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, phone_number, contact_email, company_userID, ports) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+  const query = "INSERT INTO carriers (id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, phone_number, contact_email, company_userID, ports) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   return pool.query(query, [carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports])
     .then(() => true)
     .catch(error => {

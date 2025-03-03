@@ -1315,11 +1315,11 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
   
-  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType0, carrierPhone, carrierEmail, idCompany, ports0 } = req.body;
   console.log("carrierType: ",carrierType);
   console.log("ports: ",ports);
-  carrierType = carrierType.join(', ');
-  ports = ports.join(', ');
+  carrierType = carrierType0.join(', ');
+  ports = ports0.join(', ');
   console.log("carrierType: ",carrierType);
   console.log("ports: ",ports);
   const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, [carrierType], carrierPhone, carrierEmail, idCompany, [ports]);

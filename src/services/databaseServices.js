@@ -250,8 +250,8 @@ export const getCarriersList = async (id) => {
            c.phone_number, 
            GROUP_CONCAT(p.port_name ORDER BY p.port_name SEPARATOR ', ') AS ports
     FROM carriers c
-    LEFT JOIN ports p ON FIND_IN_SET(p.id, c.ports) > 0
-    WHERE c.company_userID = '1'
+    LEFT JOIN ports p ON FIND_IN_SET(p.id, REPLACE(c.ports, ' ', '')) > 0
+    WHERE c.company_userID = ?
     GROUP BY c.id_carrier, c.name, c.contact, c.mc, c.dot, c.SCAC, c.EIN, c.\`1099\`, c.insurance, c.address, c.city, c.zipcode, c.state, c.country, c.DOCT, c.type, c.contact_email, c.phone_number;
 `;
 

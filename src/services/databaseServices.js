@@ -804,7 +804,7 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
 }
 
 export const changeCarrierInfoById = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports) => {
-  const query = `UPDATE carriers SET name = ? , contact = ?, mc = ? , dot = ? , SCAC = ?, EIN = ?, \`1099\` = ?, insurance = ? , address = ? , city = ?, zipcode = ? , state = ? , country = ?, DOCT = ?, type = ?, phone_number = ? , contact_email = ? , ports = ? , WHERE id_carrier = ? AND company_userID = ?`;
+  const query = `UPDATE carriers SET name = ? , contact = ?, mc = ? , dot = ? , SCAC = ?, EIN = ?, \`1099\` = ?, insurance = ? , address = ? , city = ?, zipcode = ? , state = ? , country = ?, DOCT = ?, type = ?, phone_number = ? , contact_email = ? , ports = ? WHERE id_carrier = ? AND company_userID = ?`;
   return pool.query(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, ports, carrierId, idCompany])
     .then()
     .catch(error => {

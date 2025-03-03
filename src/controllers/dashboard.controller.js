@@ -1315,16 +1315,16 @@ export const addClient = async (req, res) => {
 
 export const addCarrier = async (req, res) => {
   
-  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType0, carrierPhone, carrierEmail, idCompany, ports0 } = req.body;
-  console.log("carrierType: ",carrierType0);
-  console.log("ports: ",ports0);
-  carrierType = carrierType0.join(', ');
-  ports = ports0.join(', ');
+  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
   console.log("carrierType: ",carrierType);
   console.log("ports: ",ports);
-  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, [carrierType], carrierPhone, carrierEmail, idCompany, [ports]);
+  carrierTypeStr = carrierType.join(', ');
+  portsStr = ports.join(', ');
+  console.log("carrierType: ",carrierTypeStr);
+  console.log("ports: ",portsStr);
+  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierTypeStr, carrierPhone, carrierEmail, idCompany, portsStr);
   
-  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, ports, idCompany);
+  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, portsStr, idCompany);
 
   Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
     .then(() => res.status(200).json({ message: 'ok' }))

@@ -1016,7 +1016,7 @@ export const fetchAllProfitSaleGross = async (idCompany) => {
 }
 
 export const getWarehouses = async (idCompany) => {
-  const query = "SELECT id, company_userID, warehouse_id, name, address, zipcode, city, state, country, type, email, contact, phone from warehouses WHERE company_userID = ?";
+  const query = "SELECT id, company_userID, warehouse_id, name, address, zipcode, city, state, country, type, email, contact, phone, scheduling_preference from warehouses WHERE company_userID = ?";
   return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {

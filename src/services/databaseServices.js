@@ -1028,6 +1028,7 @@ export const getWarehouses = async (idCompany) => {
 export const addNewWarehouse = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
   const query = "INSERT INTO warehouses (warehouse_id, type, name, contact, phone, email, country, state, city, zipcode, address, scheduling_preference, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
+  console.log(query);
   return pool.query(query, [warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany])
     .then(() => true)
     .catch(error => {

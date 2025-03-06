@@ -1028,10 +1028,6 @@ export const getWarehouses = async (idCompany) => {
 export const addNewWarehouse = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
   const query = "INSERT INTO warehouses (warehouse_id, type, name, contact, phone, email, country, state, city, zipcode, address, scheduling_preference, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
-  console.log(scheduling_preference)
-  console.log(idCompany)
-
-  
   return pool.query(query, [warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany])
     .then(() => true)
     .catch(error => {
@@ -1052,7 +1048,7 @@ export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
 
 export const changeWarehouseInfo = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
   const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ?, scheduling_preference = ? WHERE warehouse_id = ? AND company_userID = ?'
-  console.log('Consulta SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany]))
+  console.log('SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany]))
   return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany])
     .then(() => true)
     .catch(error => {

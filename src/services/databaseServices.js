@@ -1047,7 +1047,7 @@ export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
 }
 
 export const changeWarehouseInfo = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
-  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ?, scheduling_preference = ? WHERE warehouse_id = ? AND idCompany = ?'
+  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ?, scheduling_preference = ? WHERE warehouse_id = ? AND company_userID = ?'
   console.log('SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany]))
   return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany])
     .then(() => true)

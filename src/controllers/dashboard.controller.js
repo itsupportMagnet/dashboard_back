@@ -1937,7 +1937,7 @@ export const getAllWarehousesData = (req, res) => {
 export const addWarehouse = (req, res) => {
   const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany } = req.body;
 
-  console.log(req.body);
+  console.log("Req", req.body);
   addNewWarehouse(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {

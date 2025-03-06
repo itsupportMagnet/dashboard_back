@@ -1935,9 +1935,10 @@ export const getAllWarehousesData = (req, res) => {
 }
 
 export const addWarehouse = (req, res) => {
-  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
+  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany } = req.body;
 
-  addNewWarehouse(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
+  console.log(req.body);
+  addNewWarehouse(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany)
     .then(() => res.status(200).json({ message: "ok" }))
     .catch(error => {
       res.status(500).json(error);
@@ -1954,8 +1955,8 @@ export const fetchWarehouseById = (req, res) => {
 }
 
 export const updateWarehouseInfoById = (req, res) => {
-  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany } = req.body;
-  changeWarehouseInfo(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, idCompany)
+  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany } = req.body;
+  changeWarehouseInfo(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

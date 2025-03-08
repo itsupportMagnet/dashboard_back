@@ -98,6 +98,9 @@ import { validateRole } from "../../middlewares/verifyRol.js";
 const router = Router();
 
 router
+.get("/health", (req, res) => {
+    res.status(200).json({ status: "OK", message: "Service is healthy" });
+})
 .post("/createQuote", createQuote)
 .get("/get/salesGross/:id", getAllSales)
 .post("/post/send-fee", sendFee)

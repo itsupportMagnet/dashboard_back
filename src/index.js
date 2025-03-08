@@ -2,8 +2,6 @@ import express from 'express';
 import cors from 'cors'
 import router from './routes/dashboard.routes.js'
 
-const { webLink } = process.env
-
 const app = express();
 
 app.use(cors({

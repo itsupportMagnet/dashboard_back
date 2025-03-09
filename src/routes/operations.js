@@ -1,21 +1,21 @@
 import { Router } from 'express';
 import { 
-    newOperation, 
-    getOperations, 
-    getOperation, 
-    getAllOperationsTable, 
-    updateOperationById, 
-    deleteOperationFromTable, 
-    filterOperationCol 
+  newOperation, 
+  getOperations, 
+  getOperation, 
+  getAllOperationsTable, 
+  updateOperationById, 
+  deleteOperationFromTable, 
+  filterOperationCol 
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 router
-    .post('/post/newOperation', newOperation)
-    .get('/get/all-operations', getOperations)
-    .get('/get/getOperation/:id/:idCompany', getOperation)
-    .get('/get/allOperationsTable/:id', getAllOperationsTable)
-    .post('/post/updateOperation/:idCompany', updateOperationById)
-    .delete('/delete/deleteOperation/:id/:idCompany', deleteOperationFromTable)
-    .post('/post/filterOperationCol/:idCompany', filterOperationCol);
+  .post('/post/newOperation', newOperation)
+  .get('/get/all-operations', getOperations)
+  .get('/get/getOperation/:id/:idCompany', getOperation)
+  .get('/get/allOperationsTable/:id', getAllOperationsTable)
+  .post('/post/updateOperation/:idCompany', updateOperationById)
+  .delete('/delete/deleteOperation/:id/:idCompany', deleteOperationFromTable)
+  .post('/post/filterOperationCol/:idCompany', filterOperationCol);
 
 export default router;

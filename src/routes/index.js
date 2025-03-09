@@ -7,6 +7,7 @@ import carrierRoutes from './carrier.js';
 import salesGrossRoutes from './salesGross.js';
 import warehouseRoutes from './warehouse.js';
 import quotesRoutes from './quotes.js';
+import globalRoutes from './global.js';
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use('/', carrierRoutes);
 router.use('/', salesGrossRoutes);
 router.use('/', warehouseRoutes);
 router.use('/', quotesRoutes);
+router.use('/', globalRoutes);
 
 export default router;

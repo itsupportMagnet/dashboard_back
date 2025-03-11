@@ -1314,7 +1314,7 @@ export const addCarrier = async (req, res) => {
     const isEmailDuplicated = await isCarrierEmailDuplicated(carrierData.carrierEmail);
     if (isEmailDuplicated) {
       return res.status(400).json({
-        message: 'Carrier with this email already exists.'
+        message: 'It looks like there is already a carrier registered with this email address. Please double-check the email or use a different one.'
       });
     }
     const carrierId = await addNewCarrier(carrierData);

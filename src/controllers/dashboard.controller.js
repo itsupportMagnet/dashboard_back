@@ -29,6 +29,7 @@ import {
   getOperationByIdAndCompany,
   addNewClient,
   addNewCarrier,
+  isCarrierEmailDuplicated,
   getStates,
   getAllContainerStatus,
   changeQuote,
@@ -1308,21 +1309,30 @@ export const addClient = async (req, res) => {
 };
 
 export const addCarrier = async (req, res) => {
-  
-  const { carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports } = req.body;
-  const portsArr = ports.split(', ');
-  const addNewCarrierPromise = addNewCarrier(carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports);
-  
-  const addNewCarrierPortsPromise = addNewCarrierPorts(carrierEmail, carrierId, portsArr, idCompany);
+  try {
+    const carrierData = req.body;
+    const isEmailDuplicated = await isCarrierEmailDuplicated(carrierData.carrierEmail);
+    if (isEmailDuplicated) {
+      return res.status(400).json({
+        message: 'Carrier with this email already exists.'
+      });
+    }
+    const carrierId = await addNewCarrier(carrierData);
+    const carrierEmailId = await addNewCarrierPorts(carrierId, carrierData);
+    res.status(200).json({ 
+      message: 'Carrier added successfully' ,
+      carrier_id: carrierId,
+      carrier_email_id: carrierEmailId
 
-  Promise.all([addNewCarrierPromise, addNewCarrierPortsPromise])
-    .then(() => res.status(200).json({ message: 'ok' }))
-    .catch(error => {
-      console.error('Error in one of the operations: ', error);
-      res.status(500).json({ error: 'Internal Server Error' });
     });
 
+  } catch (error) {
+    // Captura de errores globales en todo el proceso
+    console.error('Error in adding carrier:', error.message || error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
 
 export const getAllStates = async (req, res) => {
   getStates(req.params.id)

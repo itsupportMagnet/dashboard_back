@@ -227,9 +227,8 @@ export const getaccessorials = async () => {
 };
 
 export const getCarriersList = async (id) => {
-  //const query = 'SELECT id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, contact_email, phone_number, ports FROM carriers WHERE company_userID = ? ';
   const query = `
-    SELECT c.id_carrier, 
+    SELECT c.id, 
            c.name, 
            c.contact, 
            c.mc, 
@@ -251,7 +250,7 @@ export const getCarriersList = async (id) => {
     FROM carriers c
     LEFT JOIN ports p ON FIND_IN_SET(p.id, REPLACE(c.ports, ' ', '')) > 0
     WHERE c.company_userID = ?
-    GROUP BY c.id_carrier, c.name, c.contact, c.mc, c.dot, c.SCAC, c.EIN, c.\`1099\`, c.insurance, c.address, c.city, c.zipcode, c.state, c.country, c.DOCT, c.type, c.contact_email, c.phone_number;
+    GROUP BY c.id, c.name, c.contact, c.mc, c.dot, c.SCAC, c.EIN, c.\`1099\`, c.insurance, c.address, c.city, c.zipcode, c.state, c.country, c.DOCT, c.type, c.contact_email, c.phone_number;
 `;
 
 
@@ -366,14 +365,47 @@ export const addNewClient = async (customerId, customerType, name, contact, phon
     });
 };
 
-export const addNewCarrier = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports) => {
-  const query = 'INSERT INTO carriers (id_carrier, name, contact, mc, dot, SCAC, EIN, `1099`, insurance, address, city, zipcode, state, country, DOCT, type, phone_number, contact_email, company_userID, ports) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-  return pool.query(query, [carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports])
-    .then(() => true)
-    .catch(error => {
-      console.error('Error on SQL:', error);
-      throw error;
-    });
+export const addNewCarrier = async (carrierData) => {
+  const {
+    name,
+    contact,
+    mc,
+    dot,
+    SCAC,
+    EIN,
+    form1099,
+    insurance,
+    address,
+    city,
+    zipcode,
+    state,
+    country,
+    doct,
+    carrierType,
+    carrierPhone,
+    carrierEmail,
+    idCompany,
+    ports
+  } = carrierData;
+
+
+  const query = `
+    INSERT INTO carriers 
+    (name, contact, mc, dot, SCAC, EIN, \`1099\`, insurance, address, city, zipcode, state, country, DOCT, type, phone_number, contact_email, company_userID, ports) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  try {
+    const [result] = await pool.query(query, [
+      name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, 
+      carrierType, carrierPhone, carrierEmail, idCompany, ports
+    ]);
+
+    const newCarrierId = result.insertId;
+    return newCarrierId;
+  } catch (error) {
+    console.error('Error on SQL:', error.message || error);
+    throw new Error('Failed to add new carrier');
+  }
 };
 
 export const getStates = async () => {
@@ -820,7 +852,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 // }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
-  const query = 'SELECT * FROM carriers WHERE id_carrier = ? AND company_userID = ?';
+  const query = 'SELECT * FROM carriers WHERE id = ? AND company_userID = ?';
   return pool.query(query, [idCarrier, idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -830,7 +862,7 @@ export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
 };
 
 export const changeCarrierInfoById = async (carrierId, name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, idCompany, ports) => {
-  const query = 'UPDATE carriers SET name = ? , contact = ?, mc = ? , dot = ? , SCAC = ?, EIN = ?, `1099` = ?, insurance = ? , address = ? , city = ?, zipcode = ? , state = ? , country = ?, DOCT = ?, type = ?, phone_number = ? , contact_email = ? , ports = ? WHERE id_carrier = ? AND company_userID = ?';
+  const query = 'UPDATE carriers SET name = ? , contact = ?, mc = ? , dot = ? , SCAC = ?, EIN = ?, `1099` = ?, insurance = ? , address = ? , city = ?, zipcode = ? , state = ? , country = ?, DOCT = ?, type = ?, phone_number = ? , contact_email = ? , ports = ? WHERE id = ? AND company_userID = ?';
   return pool.query(query, [name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, carrierType, carrierPhone, carrierEmail, ports, carrierId, idCompany])
     .then()
     .catch(error => {
@@ -890,32 +922,38 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
     });
 };
 
-export const addNewCarrierPorts = async (carrierEmail, carrierId, ports, idCompany) => {
-  const queries = [];
-  ports.forEach(port => {
-    const query = {
-      text: 'INSERT INTO carrier_emails (email_address, carrier_id, port_id, company_userID) VALUES (?, ?, ?, ?)',
-      values: [carrierEmail, carrierId, port, parseInt(idCompany)]
-    };
-    queries.push(query);
-  });
-
-  console.log(queries);
-
+export const isCarrierEmailDuplicated = async (contact_email) => {
   try {
-    const allQueries = queries.map(query => {
-      if (!query || !query.text || !query.values) {
-        throw new Error('Invalid query object:', query);
-      }
-      return pool.query(query.text, query.values);
+    const checkEmailQuery = 'SELECT COUNT(*) AS emailCount FROM carriers WHERE contact_email = ?';
+    const [emailCheckResult] = await pool.query(checkEmailQuery, [contact_email]);
+    const emailCount = emailCheckResult[0].emailCount;
+    return emailCount > 0;
+  } catch (error) {
+    console.error('Error checking email duplication:', error.message || error);
+    throw new Error('Failed to add carrier ports');
+  }
+};
+
+export const addNewCarrierPorts = async (carrierId, carrierData) => {
+  const ports = carrierData.ports.split(',');
+  try {
+    const promises = ports.map(port => {
+      const query = `
+        INSERT INTO carrier_emails (email_address, carrier_id, port_id, company_userID) 
+        VALUES (?, ?, ?, ?)`;
+
+      return pool.query(query, [carrierData.carrierEmail, carrierId, parseInt(port), parseInt(carrierData.idCompany)])
+        .then(([result]) => {
+          console.log(`Port ${port} inserted with ID ${result.insertId}`);
+        });
     });
 
-    await Promise.all(allQueries);
+    await Promise.all(promises);
 
-    return true;
+    return { message: 'Ports successfully added' };
   } catch (error) {
-    console.error('Error at addNewCarrierPorts: ', error);
-    throw error;
+    console.error('Error in one of the port insertions:', error);
+    throw new Error('Failed to add carrier ports');
   }
 };
 

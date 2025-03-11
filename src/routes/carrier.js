@@ -16,6 +16,7 @@ import {
 
 const router = Router();
 router
+  .post('/carriers', addCarrier)
   .post('/post/update-carrier-fee', updateCarrierFee)
   .get('/get/carriers-fees/:id/:idCompany', getCarriersFeeByID)
   .get('/get/allCarriers/:id', getAllCarriers)
@@ -27,6 +28,6 @@ router
   .get('/get/ssLine', getSsLineData)
   .get('/get/carriersPortCoverage/:idCarrier/:idCompany', getCarriersPortCoverage)
   .get('/get/portCarriersEmails/:id/:idCompany', getAllEmailsWithPortId)
-  .post('/post/addCarrier', addCarrier);
+  
 
 export default router;

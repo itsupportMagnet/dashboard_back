@@ -1094,6 +1094,24 @@ export const changeWarehouseInfo = async (warehouseId, warehouseType, name, cont
       throw error;
     });
 };
+export const deleteCarriersEmailsById = async (id) => {
+  const query = 'DELETE FROM carrier_emails WHERE carrier_id = ?';
+  return pool.query(query, [id])
+    .then(() => true)
+    .catch(error => {
+      console.error('Error on SQL :' + error);
+      throw error;
+    });
+};
+export const deleteCarriersById = async (id) => {
+  const query = 'DELETE FROM carriers WHERE id = ?';
+  return pool.query(query, [id])
+    .then(() => true)
+    .catch(error => {
+      console.error('Error on SQL :' + error);
+      throw error;
+    });
+};
 
 export const deleteWarehouseById = async (id, idCompany) => {
   const query = 'DELETE FROM warehouses WHERE warehouse_id = ? AND company_userID = ?';

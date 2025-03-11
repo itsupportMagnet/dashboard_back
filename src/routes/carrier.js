@@ -12,11 +12,13 @@ import {
   getCarriersPortCoverage,
   getAllEmailsWithPortId,
   addCarrier,
+  deleteCarrier,
 } from '../controllers/dashboard.controller.js';
 
 const router = Router();
 router
   .post('/carriers', addCarrier)
+  .delete('/carriers/:id', deleteCarrier)
   .post('/post/update-carrier-fee', updateCarrierFee)
   .get('/get/carriers-fees/:id/:idCompany', getCarriersFeeByID)
   .get('/get/allCarriers/:id', getAllCarriers)

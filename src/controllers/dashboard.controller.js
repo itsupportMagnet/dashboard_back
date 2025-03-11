@@ -29,6 +29,8 @@ import {
   getOperationByIdAndCompany,
   addNewClient,
   addNewCarrier,
+  deleteCarriersById,
+  deleteCarriersEmailsById,
   isCarrierEmailDuplicated,
   getStates,
   getAllContainerStatus,
@@ -1308,6 +1310,23 @@ export const addClient = async (req, res) => {
     });
 };
 
+export const deleteCarrier = async (req, res) => {
+  try {
+    const carrierId = req.params.id;
+    const isDeletedCarriersEmails = await deleteCarriersEmailsById(carrierId);
+    const isDeletedCarriers = await deleteCarriersById(carrierId);
+    if (isDeletedCarriersEmails && isDeletedCarriers) {
+      res.status(200).json({ 
+        message: 'Carrier deleted successfully' ,
+      });
+    }
+
+  } catch (error) {
+    // Captura de errores globales en todo el proceso
+    console.error('Error in adding carrier:', error.message || error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 export const addCarrier = async (req, res) => {
   try {
     const carrierData = req.body;

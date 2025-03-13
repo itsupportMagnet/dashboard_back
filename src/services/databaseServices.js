@@ -354,15 +354,35 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
     });
 };
 
-export const addNewClient = async (customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany) => {
-  const query = 'INSERT INTO clients (id_Client, type, name, contact, phone, email, country, state, city, zipcode, address, creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+export const addNewClient = async (clientData) => {
+  const {
+    customerId, 
+    customerType, 
+    name, 
+    contact, 
+    phoneNumber, 
+    email, 
+    country, 
+    city, 
+    address, 
+    creditTerms, 
+    idCompany,
+    ein
+  } = clientData;
+  const query = `
+    INSERT INTO clients (id_Client, type, name, contact, phone, email, country, city, address, EIN, creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
 
-  return pool.query(query, [customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany])
-    .then(() => true)
-    .catch(error => {
-      console.error('Error on SQL:', error);
-      throw error;
-    });
+  try {
+    const [result] = await pool.query(query, [
+      customerId, customerType, name, contact, phoneNumber, email, country, city, address, ein, creditTerms, idCompany
+    ]); 
+
+    const newClientId = result.insertId;
+    return newClientId;
+  } catch (error) {
+    console.error('Error on SQL:', error.message || error);
+    throw new Error('Failed to add new carrier');
+  }
 };
 
 export const addNewCarrier = async (carrierData) => {
@@ -920,6 +940,17 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
       console.log(error);
       throw error;
     });
+};
+export const isClientEmailDuplicated = async (contact_email) => {
+  try {
+    const checkEmailQuery = 'SELECT COUNT(*) AS emailCount FROM clients WHERE email = ?';
+    const [emailCheckResult] = await pool.query(checkEmailQuery, [contact_email]);
+    const emailCount = emailCheckResult[0].emailCount;
+    return emailCount > 0;
+  } catch (error) {
+    console.error('Error checking email duplication:', error.message || error);
+    throw new Error('Failed to add carrier ports');
+  }
 };
 
 export const isCarrierEmailDuplicated = async (contact_email) => {

@@ -28,6 +28,7 @@ import {
   changeContainerId,
   getOperationByIdAndCompany,
   addNewClient,
+  isClientEmailDuplicated,
   addNewCarrier,
   deleteCarriersById,
   deleteCarriersEmailsById,
@@ -1297,17 +1298,25 @@ export const getOperation = async (req, res) => {
 };
 
 export const addClient = async (req, res) => {
-
-  const { customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany } = req.body;
-  // const emailsJSON = JSON.stringify(customerEmails);
-  // const phonesJSON = JSON.stringify(phoneNumbers);
-
-  addNewClient(customerId, customerType, name, contact, phoneNumber, email, country, state, city, zipcode, address, creditTerms, idCompany)
-    .then(() => res.status(200).json({ message: 'ok' }))
-    .catch(error => {
-      res.status(500).json(error);
-      console.log(error);
+  try {
+    const clientData = req.body;
+    const isEmailDuplicated = await isClientEmailDuplicated(clientData.email);
+    if (isEmailDuplicated) {
+      return res.status(400).json({
+        message: 'This email is already registered. Please use a different one.'
+      });
+    }
+    const clientId = await addNewClient(clientData);
+    res.status(200).json({ 
+      message: 'Client added successfully' ,
+      client_id: clientId,
     });
+
+  } catch (error) {
+    // Captura de errores globales en todo el proceso
+    console.error('Error in adding carrier:', error.message || error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 export const deleteCarrier = async (req, res) => {

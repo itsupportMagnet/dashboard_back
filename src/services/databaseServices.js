@@ -803,7 +803,7 @@ export const newClosedQuote = async (quoteID, operationType, pol, warehouse, cit
 };
 
 export const getAllClientsByCompanyId = async (id) => {
-  const query = 'SELECT id, company_userID, id_Client, name, address, zipcode, city, state, country, type, email, contact, phone, creditTerms FROM clients WHERE company_userID = ?';
+  const query = 'SELECT id, company_userID, id_Client, name, address, ein, city, country, type, email, contact, phone, creditTerms FROM clients WHERE company_userID = ?';
   return pool.query(query, [id])
     .then(data => data[0])
     .catch(error => {

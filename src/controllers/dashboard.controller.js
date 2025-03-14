@@ -97,7 +97,9 @@ import {
   filterByColFromTable,
   postBookUserForDemo,
   fetchEmailWithStateId,
-  getCompanyName
+  getCompanyName,
+  isOperationQuoteIDDuplicated,
+  getOperationById
 } from '../services/databaseServices.js';
 import { sendEmail } from '../services/emailService.js';
 import bcrypt from 'bcrypt';
@@ -1169,6 +1171,27 @@ export const getAllCarriers = (req, res) => {
 };
 
 export const newOperation = async (req, res) => {
+
+  const operationData = req.body;
+  const isEmailDuplicated = await isOperationQuoteIDDuplicated(operationData.quoteID);
+  if (isEmailDuplicated) {
+    return res.status(400).json({
+      message: 'This quoteID is already registered in Operations. Please use a different one.'
+    });
+  }
+
+  const quotes = await getQuoteById(operationData.quoteID);
+  if (!quotes || quotes.length === 0) {
+    return res.status(404).json({ message: 'Quote not found' });
+  }
+
+  const quote = quotes[0];
+  // const clientId = await addNewClient(clientData);
+  // res.status(200).json({ 
+  //   message: 'Client added successfully' ,
+  //   client_id: clientId,
+  // });
+
   const {
     idOperation,
     quoteID,

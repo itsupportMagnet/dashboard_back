@@ -384,6 +384,19 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
     });
 };
 
+export const getOperationById = async (operationId) => {
+  const query = 'SELECT * FROM operations WHERE quoteID = ?';
+  return pool.query(query, [operationId, operationId])
+    .then(data => {
+      console.log(data[0]);
+      return data[0];
+    })
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+};
+
 export const addNewClient = async (clientData) => {
   const {
     customerId, 
@@ -975,6 +988,19 @@ export const getAllSaleGrossToCompare = async (idCompany) => {
       console.log(error);
       throw error;
     });
+};
+
+
+export const isOperationQuoteIDDuplicated = async (id) => {
+  try {
+    const checkEmailQuery = 'SELECT COUNT(*) AS quoteIDCount FROM operations WHERE quoteID = ?';
+    const [emailCheckResult] = await pool.query(checkEmailQuery, [id]);
+    const emailCount = emailCheckResult[0].quoteIDCount;
+    return emailCount > 0;
+  } catch (error) {
+    console.error('Error operation quoteID duplication:', error.message || error);
+    throw new Error('Failed');
+  }
 };
 export const isClientEmailDuplicated = async (contact_email) => {
   try {

@@ -978,6 +978,18 @@ export const isClientEmailDuplicated = async (contact_email) => {
   }
 };
 
+export const isQuoteAlreadyClosed = async (id) => {
+  try {
+    const checkEmailQuery = 'SELECT COUNT(*) AS countID FROM closed_quotes WHERE quoteID = ?';
+    const [emailCheckResult] = await pool.query(checkEmailQuery, [id]);
+    const emailCount = emailCheckResult[0].countID;
+    return emailCount > 0;
+  } catch (error) {
+    console.error('Error checking quote duplication:', error.message || error);
+    throw new Error('Failed to add quote');
+  }
+}; 
+
 export const isCarrierEmailDuplicated = async (contact_email) => {
   try {
     const checkEmailQuery = 'SELECT COUNT(*) AS emailCount FROM carriers WHERE contact_email = ?';

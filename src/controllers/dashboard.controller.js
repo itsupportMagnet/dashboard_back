@@ -35,6 +35,7 @@ import {
   deleteCarriersById,
   deleteCarriersEmailsById,
   isCarrierEmailDuplicated,
+  isQuoteAlreadyClosed,
   getStates,
   getAllContainerStatus,
   changeQuote,
@@ -1816,10 +1817,17 @@ export const addNewCloseQuote = async (req, res) => {
     if (!quoteID) {
       return res.status(400).json({ message: 'Quote ID is required' });
     }
-
     const quotes = await getQuoteById(quoteID);
     if (!quotes || quotes.length === 0) {
       return res.status(404).json({ message: 'Quote not found' });
+    }
+
+    const isQuoteClosed = await isQuoteAlreadyClosed(quoteID);
+    console.log(isQuoteClosed)
+    if (isQuoteClosed) {
+      return res.status(400).json({
+        message: 'This quote is already closed. Please use a different QuoteID.'
+      });
     }
 
     const quote = quotes[0];

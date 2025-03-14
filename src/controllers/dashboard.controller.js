@@ -69,6 +69,7 @@ import {
   fetchSaleGrossInfoById,
   newOperationToSalesGross,
   newClosedQuote,
+  deleteQuoteById,
   getAllClientsByCompanyId,
   getOperationColFiltered,
   deleteGenericRowById,
@@ -1823,7 +1824,7 @@ export const addNewCloseQuote = async (req, res) => {
     }
 
     const isQuoteClosed = await isQuoteAlreadyClosed(quoteID);
-    console.log(isQuoteClosed)
+
     if (isQuoteClosed) {
       return res.status(400).json({
         message: 'This quote is already closed. Please use a different QuoteID.'
@@ -1859,6 +1860,8 @@ export const addNewCloseQuote = async (req, res) => {
       loadType,
       company_userID,
     });
+
+    await deleteQuoteById(quoteID);
 
     return res.status(200).json({ message: 'Closed quote saved successfully' });
 

@@ -1088,6 +1088,15 @@ export const getAllPorts = async (req, res) => {
     });
 };
 
+export const getAllClosedQuote = async (req, res) => {
+  getAllClosedQuotes(req.params.idCompany)
+    .then(row => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
+
 export const getAllApprovedQuotes = async (req, res) => {
   getApprovedQuotes(req.params.idCompany)
     .then((rows) => res.status(200).json(rows))

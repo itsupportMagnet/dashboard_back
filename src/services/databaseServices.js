@@ -156,6 +156,17 @@ export const getQuotes = async (id) => {
     });
 };
 
+
+export const getApprovedQuotes = async (id) => {
+  const query = 'SELECT * FROM quotes WHERE company_userID = ? and quoteStatus = 5';
+  return pool.query(query, [id])
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error('Error trying to get all quotes:', error); //comment
+      throw error;
+    });
+};
+
 export const getSales = async (id) => {
   const query = 'SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, invoice_date FROM sales_gross WHERE company_userID = ? '; //Empiezo a Especificar las tablas pedidas
   return pool.query(query, [id])

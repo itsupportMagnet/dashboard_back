@@ -5,6 +5,7 @@ import {
   getProviders,
   getCarriers,
   getQuotes,
+  getApprovedQuotes,
   getPorts,
   getaccessorials,
   getQuoteFeeById,
@@ -1084,6 +1085,14 @@ export const getAllPorts = async (req, res) => {
     });
 };
 
+export const getAllApprovedQuotes = async (req, res) => {
+  getApprovedQuotes(req.params.idCompany)
+    .then((rows) => res.status(200).json(rows))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
 export const getAllQuotes = async (req, res) => {
   getQuotes(req.params.id)
     .then((rows) => res.status(200).json(rows))

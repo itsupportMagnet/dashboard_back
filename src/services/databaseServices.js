@@ -104,9 +104,18 @@ export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate,
     });
 };
 
-export const getQuoteById = async (id, idCompany) => {
+export const getQuoteById = async (id) => {
+  const query = 'SELECT * FROM quotes WHERE quoteID = ?';
+  return pool.query(query, [id])
+    .then(rows => rows[0])
+    .catch(error => {
+      console.error('Error trying to get all quotes:', error);
+      throw error;
+    });
+};
+
+export const getQuoteByIdAndCompanyID = async (id, idCompany) => {
   const query = 'SELECT * FROM quotes WHERE quoteID = ? AND company_userID = ?';
-  console.log('testeo getQuoteById: ', pool.format(query, [id, idCompany]));
   return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {
@@ -802,15 +811,20 @@ export const newOperationToSalesGross = async (operation_id, booking_bl, contain
     });
 };
 
-export const newClosedQuote = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
-  const query = 'INSERT INTO closed_quotes (quoteID, operationType, pol, wareHouse, city, state, zipCode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+export const newClosedQuote = async (quoteData) => {
+  try {
+    if (!quoteData || Object.keys(quoteData).length === 0) {
+      throw new Error('No data provided to insert');
+    }
 
-  return pool.query(query, [quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany])
-    .then(() => true)
-    .catch(error => {
-      console.error('Error on SQL: ' + error);
-      throw error;
-    });
+    const query = `INSERT INTO closed_quotes SET ?`;
+    await pool.query(query, quoteData);
+    
+    return true;
+  } catch (error) {
+    console.error('Error on SQL:', error);
+    throw error;
+  }
 };
 
 export const getAllClientsByCompanyId = async (id) => {

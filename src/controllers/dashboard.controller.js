@@ -16,6 +16,7 @@ import {
   getCitiesID,
   updateIdCounter,
   saveNewQuote,
+  getQuoteByIdAndCompanyID,
   getQuoteById,
   getCarrierFeeByQuoteId,
   saveNewQuoteFee,
@@ -841,7 +842,7 @@ export const sendFee = async (req, res) => {
 export const getQuote = async (req, res) => {
   const id = req.params.id;
   const idCompany = req.params.idCompany;
-  getQuoteById(id, idCompany)
+  getQuoteByIdAndCompanyID(id, idCompany)
     .then((rows) => {
       return res.status(200).json({ message: rows[0] });
     })
@@ -1810,13 +1811,53 @@ export const addNewOperationToSaleGross = async (req, res) => {
 };
 
 export const addNewCloseQuote = async (req, res) => {
-  const { quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany } = req.body;
-  newClosedQuote(quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrier, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, sellDrayageUnitRate, sellChassisUnitRate, idCompany)
-    .then(() => res.status(200).json({ message: 'ok' }))
-    .catch(error => {
-      res.status(500).json(error);
-      console.log('Error Controller addNewOperationToSaleGross: ' + error);
+  try {
+    const { quoteID } = req.body;
+    if (!quoteID) {
+      return res.status(400).json({ message: 'Quote ID is required' });
+    }
+
+    const quotes = await getQuoteById(quoteID);
+    if (!quotes || quotes.length === 0) {
+      return res.status(404).json({ message: 'Quote not found' });
+    }
+
+    const quote = quotes[0];
+
+    const {
+      quoteID: id,
+      pol,
+      equipment,
+      containerSize,
+      containerType,
+      weight,
+      commodity,
+      hazardous,
+      bonded,
+      loadType,
+      company_userID,
+    } = quote;
+
+    await newClosedQuote({
+      quoteID: id,
+      pol,
+      equipment,
+      containerSize,
+      containerType,
+      weight,
+      commodity,
+      hazardous,
+      bonded,
+      loadType,
+      company_userID,
     });
+
+    return res.status(200).json({ message: 'Closed quote saved successfully' });
+
+  } catch (error) {
+    console.error('Error in addNewCloseQuote:', error);
+    return res.status(500).json({ message: 'Internal server error', error });
+  }
 };
 
 export const getAllClientsCompany = async (req, res) => {

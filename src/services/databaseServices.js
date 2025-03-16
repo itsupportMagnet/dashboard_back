@@ -950,9 +950,9 @@ export const getClosedQuoteByIdAndCompany = async (closedQuoteId, idCompany) => 
 };
 
 export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, idCompany) => {
-  const query = 'UPDATE closed_quotes SET operationType = ? , pol = ? , wareHouse = ? , city = ? , state = ? , zipCode = ? , equipment = ? , containerSize = ? , containerType = ? , weight = ?, commodity = ?, hazardous = ? , bonded = ? , loadType = ?, carrierID = ?, carrier = ?, carrierIdPerDestation = ?, buyDrayageUnitRate = ? , buyChassisUnitRate = ? , customerID = ?, client = ?, customerIdPerDestation = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ? WHERE quoteID = ? AND company_userID = ? ';
+  const query = 'UPDATE closed_quotes SET operationType = ? , pol = ? , wareHouse = ? , city = ? , state = ? , zipCode = ? , equipment = ? , containerSize = ? , containerType = ? , weight = ?, commodity = ?, hazardous = ? , bonded = ? , loadType = ?, carrierID = ?, carrier = ?, carrierIdPerDestation = ?, buyDrayageUnitRate = ? , buyChassisUnitRate = ? , client = ?, customerIdPerDestation = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ? WHERE quoteID = ? AND company_userID = ? ';
   
-  return pool.query(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, clientID, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany])
+  return pool.query(query, [operationType, pol, warehouse, city, state, zipcode, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, carrierID, carrier, carrierIDPD, buyDrayageUnitRate, buyChassisUnitRate, client, clientIDPD, sellDrayageUnitRate, sellChassisUnitRate, quoteID, idCompany])
     .then()
     .catch(error => {
       console.error('Error on Sql: ' + error);

@@ -84,7 +84,7 @@ export const getQuoteFeeById = async (id) => {
 };
 
 export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes) => {
-  const query = 'UPDATE carriers_fees SET buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyaccessorials = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ?,  sellaccessorials  = ?, notes = ?, carrierEmail = ? WHERE id = ?';
+  const query = 'UPDATE carriers_fees SET buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyAccesorials = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ?,  sellAccesorials  = ?, notes = ?, carrierEmail = ? WHERE id = ?';
 
   return pool.query(query, (query, [buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes, carrierEmail, id]))
     .then(() => true)

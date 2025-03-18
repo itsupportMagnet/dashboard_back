@@ -601,6 +601,15 @@ export const getAllClosedQuotes = async (id) => {
     });
 };
 
+export const getAllRequestedQuotes = async (id) => {
+  const query = 'SELECT * FROM quotes WHERE company_userID = ? && quoteStatus != 5 && quoteStatus != 6';
+  return pool.query(query, [id]).then(row => row[0])
+    .catch(error => {
+      console.error('Error trying to get all florida operations', error);
+      throw error;
+    });
+};
+
 export const deleteOperationByID = async (id, idCompany) => {
   const query = 'DELETE FROM operations WHERE idOperation = ? AND company_userID = ?';
   console.log('Testeo Consulta SQL para borrar operacion por id y companyid: ', pool.format(query, [id, idCompany]));

@@ -44,6 +44,7 @@ import {
   changeWeightxId,
   getAllOperationsForTable,
   getAllClosedQuotes,
+  getAllRequestedQuotes,
   updateOperation,
   deleteOperationByID,
   create,
@@ -1085,6 +1086,15 @@ export const getAllPorts = async (req, res) => {
 
 export const getAllClosedQuote = async (req, res) => {
   getAllClosedQuotes(req.params.idCompany)
+    .then(row => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getAllRequestedQuote = async (req, res) => {
+  getAllRequestedQuotes(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

@@ -21,12 +21,14 @@ import {
   createQuote,
   getAllApprovedQuotes,
   getAllClosedQuote,
+  getAllRequestedQuote,
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 
 router
   .get('/quotes/approved/:idCompany', getAllApprovedQuotes)
   .get('/quotes/closed/:idCompany', getAllClosedQuote)
+  .get('/quotes/requested/:idCompany', getAllRequestedQuote)
   .post('/createQuote', createQuote)
   .get('/get/allQuotes/:id', getAllQuotes)
   .get('/get/quotes/:id/:idCompany', getQuote)

@@ -12,16 +12,6 @@ export const getUserEmail = async (email) => {
 
 };
 
-export const saveNewQuote = async (idCheck, newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany) => {
-  const query = 'INSERT INTO quotes (idCounter, quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'; //investigar
-  try {
-    await pool.query(query, [idCheck, newId, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany]);
-  } catch (error) {
-    console.error('Error to get specific quote:', error);
-    throw error;
-  }
-};
-
 export const saveNewQuoteFee = async (quoteID,
   modeOfOperation,
   pol,

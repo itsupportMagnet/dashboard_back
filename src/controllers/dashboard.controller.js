@@ -15,7 +15,6 @@ import {
   getCities,
   getCitiesID,
   updateIdCounter,
-  saveNewQuote,
   getQuoteByIdAndCompanyID,
   getQuoteById,
   getCarrierFeeByQuoteId,
@@ -98,9 +97,12 @@ import {
   postBookUserForDemo,
   fetchEmailWithStateId,
   getCompanyName,
-  isOperationQuoteIDDuplicated,
-  getOperationById
+  isOperationQuoteIDDuplicated
 } from '../services/databaseServices.js';
+import {
+  saveNewQuote,
+  generateNextQuoteID,
+} from '../services/quotes.js';
 import { sendEmail } from '../services/emailService.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -920,16 +922,11 @@ export const createQuote = async (req, res) => {
     cordinator,
     replyEmail,
     idCompany,
-    idCheck,
     companyName
   } = req.body;
 
-  // const newCounter = (await getIdCounter()) + 1;
-  const newCounter = idCheck;
-  const newId = `MGT${newCounter.toString().padStart(4, '0')}`;
-  const emailSubject = `Drayage request from ${companyName} / ${newId}`;
-  // const bccRecipients = JSON.stringify(carrier);
-
+  const quoteID = await generateNextQuoteID();
+  const emailSubject = `Drayage request from ${companyName} / ${quoteID}`;
 
   const emailBody = `<!DOCTYPE html>
   <html lang="en">
@@ -945,7 +942,7 @@ export const createQuote = async (req, res) => {
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Quote ID</td>
           <td
-            style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${newId}</td>
+            style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${quoteID}</td>
         </tr>
         <tr>
           <td
@@ -1036,8 +1033,7 @@ export const createQuote = async (req, res) => {
     </html>`;
 
   saveNewQuote(
-    idCheck,
-    newId,
+    quoteID,
     operation,
     pol,
     address,
@@ -1054,9 +1050,6 @@ export const createQuote = async (req, res) => {
     idCompany
   )
     .then(() => sendEmail(carriers, replyEmail, emailSubject, emailBody))
-    .then(() => {
-      return updateIdCounter(newCounter);
-    })
     .then(() => {
       res.status(200).json({ message: 'ok' });
     })
@@ -1186,6 +1179,7 @@ export const newOperation = async (req, res) => {
   }
 
   const quote = quotes[0];
+  console.log(quote)
   // const clientId = await addNewClient(clientData);
   // res.status(200).json({ 
   //   message: 'Client added successfully' ,

@@ -45,6 +45,7 @@ import {
   getAllOperationsForTable,
   getAllClosedQuotes,
   getAllRequestedQuotes,
+  getAllQuotesWithFees,
   updateOperation,
   deleteOperationByID,
   create,
@@ -1095,6 +1096,15 @@ export const getAllClosedQuote = async (req, res) => {
 
 export const getAllRequestedQuote = async (req, res) => {
   getAllRequestedQuotes(req.params.idCompany)
+    .then(row => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
+
+export const getAllQuotesWithFess = async (req, res) => {
+  getAllQuotesWithFees(req.params.idCompany)
     .then(row => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

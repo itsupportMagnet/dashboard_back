@@ -1868,6 +1868,7 @@ export const addNewCloseQuote = async (req, res) => {
     if (!quotes || quotes.length === 0) {
       return res.status(404).json({ message: 'Quote not found' });
     }
+    const quote = quotes[0];
 
     const isQuoteClosed = await isQuoteAlreadyClosed(quoteID);
 
@@ -1877,10 +1878,9 @@ export const addNewCloseQuote = async (req, res) => {
       });
     }
 
-    const quote = quotes[0];
-
     const {
       quoteID: id,
+      modeOfOperation,
       pol,
       equipment,
       containerSize,
@@ -1891,10 +1891,15 @@ export const addNewCloseQuote = async (req, res) => {
       bonded,
       loadType,
       company_userID,
+      sellChassisUnitRate,
+      sellDrayageUnitRate,
+      buyChassisUnitRate,
+      buyDrayageUnitRate,
     } = quote;
 
     await newClosedQuote({
       quoteID: id,
+      operationType: modeOfOperation,
       pol,
       equipment,
       containerSize,
@@ -1905,6 +1910,10 @@ export const addNewCloseQuote = async (req, res) => {
       bonded,
       loadType,
       company_userID,
+      sellChassisUnitRate,
+      sellDrayageUnitRate,
+      buyChassisUnitRate,
+      buyDrayageUnitRate
     });
 
     await deleteQuoteById(quoteID);

@@ -105,7 +105,7 @@ export const deleteQuoteById = async (id) => {
 };
 
 export const getQuoteById = async (id) => {
-  const query = 'SELECT * FROM quotes WHERE quoteID = ?';
+  const query = 'SELECT q.*, cf.* FROM EasyFreightDB.quotes q LEFT JOIN EasyFreightDB.carriers_fees cf ON q.quoteID = cf.quoteId WHERE q.quoteID = "MGT0010" ';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

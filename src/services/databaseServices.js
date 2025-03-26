@@ -259,7 +259,6 @@ export const getCarriersList = async (id) => {
            c.insurance, 
            c.address, 
            c.city, 
-           c.zipcode, 
            c.state, 
            c.country, 
            c.DOCT, 

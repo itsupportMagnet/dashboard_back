@@ -1254,7 +1254,7 @@ export const getLastClosedQuoteIdFromTable = async idCompany => {
 };
 
 export const getCompanyName = async (idCompany) => {
-  const query = 'SELECT name FROM companies WHERE idCompanies = ?';
+  const query = 'SELECT * FROM companies WHERE idCompanies = ?';
   return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {

@@ -443,12 +443,12 @@ export const addNewCarrier = async (carrierData) => {
 
   const query = `
     INSERT INTO carriers 
-    (name, contact, mc, dot, SCAC, EIN, \`1099\`, insurance, address, city, zipcode, state, country, DOCT, type, phone_number, contact_email, company_userID, ports) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    (name, contact, mc, dot, SCAC, EIN, \`1099\`, insurance, address, city, state, country, DOCT, type, phone_number, contact_email, company_userID, ports) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   try {
     const [result] = await pool.query(query, [
-      name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, zipcode, state, country, doct, 
+      name, contact, mc, dot, SCAC, EIN, form1099, insurance, address, city, state, country, doct, 
       carrierType, carrierPhone, carrierEmail, idCompany, ports
     ]);
 

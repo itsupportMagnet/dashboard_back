@@ -1185,32 +1185,18 @@ export const getAllCarriers = (req, res) => {
 
 export const newOperation = async (req, res) => {
 
-  const operationData = req.body;
-  const isEmailDuplicated = await isOperationQuoteIDDuplicated(operationData.quoteID);
-  if (isEmailDuplicated) {
-    return res.status(400).json({
-      message: 'This quoteID is already registered in Operations. Please use a different one.'
-    });
-  }
+  const { quoteID } = req.body;
+  const quotes = await getQuoteById(quoteID);
 
-  const quotes = await getQuoteById(operationData.quoteID);
   if (!quotes || quotes.length === 0) {
     return res.status(404).json({ message: 'Quote not found' });
   }
+  console.log("quotes",quotes)
 
-  const quote = quotes[0];
-  console.log(quote)
-  // const clientId = await addNewClient(clientData);
-  // res.status(200).json({ 
-  //   message: 'Client added successfully' ,
-  //   client_id: clientId,
-  // });
+  const quoteData = quotes[0];
 
   const {
-    idOperation,
-    quoteID,
-    status,
-    containerStatus,
+    company_userID,
     modeOfOperation,
     customer,
     businessLine,
@@ -1237,15 +1223,15 @@ export const newOperation = async (req, res) => {
     cargoCut,
     timeLine,
     notes,
-    idCompany,
     lfd
-  } = req.body;
+  } = quoteData;
 
-  console.log('Controller ' + operationDate);
+  const status = 1;
+  const containerStatus = 'NOT READY FOR DELIVERY';
 
   saveNewOperation(
-    idOperation,
     quoteID,
+    company_userID,
     status,
     containerStatus,
     modeOfOperation,
@@ -1275,7 +1261,6 @@ export const newOperation = async (req, res) => {
     timeLine,
     notes,
     lfd,
-    idCompany,
   )
     .then(() => {
       res.status(200).json({ message: 'ok' });

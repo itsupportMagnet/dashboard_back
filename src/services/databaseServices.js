@@ -105,7 +105,7 @@ export const deleteQuoteById = async (id) => {
 };
 
 export const getQuoteById = async (id) => {
-  const query = 'SELECT q.*, cf.* FROM EasyFreightDB.quotes q LEFT JOIN EasyFreightDB.carriers_fees cf ON q.quoteID = cf.quoteId WHERE q.quoteID = ?';
+  const query = 'SELECT * FROM EasyFreightDB.closed_quotes q LEFT JOIN EasyFreightDB.carriers_fees cf ON q.quoteID = cf.quoteId WHERE q.quoteID = ?';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {
@@ -291,11 +291,11 @@ export const updateIdCounter = async (newCounter) => {
   }
 };
 
-export const saveNewOperation = async (idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany) => {
+export const saveNewOperation = async (quoteID, company_userID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd) => {
   console.log('Db services ' + operationDate);
-  const query = 'INSERT INTO operations(idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes, lfd, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  const query = 'INSERT INTO operations(quoteID, company_userID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes, lfd) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
   try {
-    await pool.query(query, [idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd, idCompany]);
+    await pool.query(query, [quoteID, company_userID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, notes, lfd]);
   } catch (error) {
     console.error('Error to ger specific newOperation:', error);
     throw error;

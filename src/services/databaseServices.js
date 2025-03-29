@@ -617,10 +617,9 @@ export const getAllQuotesWithFees = async (id) => {
     });
 };
 
-export const deleteOperationByID = async (id, idCompany) => {
-  const query = 'DELETE FROM operations WHERE idOperation = ? AND company_userID = ?';
-  console.log('Testeo Consulta SQL para borrar operacion por id y companyid: ', pool.format(query, [id, idCompany]));
-  return pool.execute(query, [id, idCompany])
+export const deleteOperationByID = async (id) => {
+  const query = 'DELETE FROM operations WHERE id = ?';
+  return pool.execute(query, [id])
     .then(() => { console.log('Operation Deleted Successfully'); })
     .catch(error => {
       console.log('Error Operation Delete', error);

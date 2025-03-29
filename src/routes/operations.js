@@ -15,7 +15,7 @@ router
   .get('/get/getOperation/:id/:idCompany', getOperation)
   .get('/get/allOperationsTable/:id', getAllOperationsTable)
   .post('/post/updateOperation/:idCompany', updateOperationById)
-  .delete('/delete/deleteOperation/:id/:idCompany', deleteOperationFromTable)
+  .delete('/delete/deleteOperation/:id', deleteOperationFromTable)
   .post('/post/filterOperationCol/:idCompany', filterOperationCol);
 
 export default router;

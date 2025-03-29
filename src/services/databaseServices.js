@@ -97,7 +97,7 @@ export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate,
 export const deleteQuoteById = async (id) => {
   const query = 'DELETE FROM quotes WHERE quoteID = ?';
   return pool.query(query, [id])
-    .then(result => result.affectedRows > 0)
+    .then(() => true)
     .catch(error => {
       console.error('Error trying to delete quote:', error);
       throw error;

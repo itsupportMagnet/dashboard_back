@@ -1908,6 +1908,12 @@ export const addNewCloseQuote = async (req, res) => {
   }
 };
 
+export const deleteQuote = async (req, res) => {
+  deleteQuoteById(req.params.id)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }));
+};
+
 export const getAllClientsCompany = async (req, res) => {
   getAllClientsByCompanyId(req.params.id)
     .then(data => res.status(200).json(data))

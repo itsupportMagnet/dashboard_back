@@ -14,7 +14,6 @@ import {
   getUserEmail,
   getCities,
   getCitiesID,
-  updateIdCounter,
   getQuoteByIdAndCompanyID,
   getQuoteById,
   getCarrierFeeByQuoteId,
@@ -99,7 +98,7 @@ import {
   postBookUserForDemo,
   fetchEmailWithStateId,
   getCompanyName,
-  isOperationQuoteIDDuplicated
+  deleteClosedQuoteById,
 } from '../services/databaseServices.js';
 import {
   saveNewQuote,
@@ -1910,6 +1909,12 @@ export const addNewCloseQuote = async (req, res) => {
 
 export const deleteQuote = async (req, res) => {
   deleteQuoteById(req.params.id)
+    .then(data => res.status(200).json(data))
+    .catch(error => res.status(500).json({ error }));
+};
+
+export const deleteClosedQuote = async (req,res) => {
+  deleteClosedQuoteById(req.params.id)
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }));
 };

@@ -94,6 +94,16 @@ export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate,
     });
 };
 
+export const deleteClosedQuoteById = async (id) => {
+  const query = 'DELETE FROM closed_quotes WHERE quoteID = ?';
+  return pool.query(query, [id])
+    .then(() => true)
+    .catch(error => {
+      console.error('Error trying to delete quote:', error);
+      throw error;
+    });
+};
+
 export const deleteQuoteById = async (id) => {
   const query = 'DELETE FROM quotes WHERE quoteID = ?';
   return pool.query(query, [id])

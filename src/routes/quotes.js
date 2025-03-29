@@ -24,11 +24,13 @@ import {
   getAllRequestedQuote,
   getAllQuotesWithFess,
   deleteQuote,
+  deleteClosedQuote,
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 
 router
   .delete('/quotes/:id', deleteQuote)
+  .delete('/quotes/closed/:id', deleteClosedQuote)
   .get('/quotes/approved/:idCompany', getAllApprovedQuotes)
   .get('/quotes/closed/:idCompany', getAllClosedQuote)
   .get('/quotes/requested/:idCompany', getAllRequestedQuote)

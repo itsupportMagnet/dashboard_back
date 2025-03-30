@@ -18,10 +18,10 @@ export const generateNextQuoteID = async () => {
   }
 };
 
-export const saveNewQuote = async (quoteID, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany) => {
+export const saveNewQuote = async (quoteID, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, bussinessLine, quoteStatus, cordinator, idCompany) => {
   try {
-    const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-    await pool.query(query, [quoteID, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, quoteStatus, cordinator, idCompany]);
+    const query = 'INSERT INTO quotes (quoteID, modeOfOperation, pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, bussinessLine, quoteStatus, cordinator, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    await pool.query(query, [quoteID, operation, pol, address, equipment, containerSize, ContainerType, weight, commodity, hazardous, bonded, loadType, bussinessLine, quoteStatus, cordinator, idCompany]);
   } catch (error) {
     console.error('Error saving new quote:', error);
     throw error;

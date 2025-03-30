@@ -919,6 +919,7 @@ export const createQuote = async (req, res) => {
     hazardous,
     bonded,
     loadType,
+    bussinessLine,
     quoteStatus,
     cordinator,
     replyEmail,
@@ -1046,6 +1047,7 @@ export const createQuote = async (req, res) => {
     hazardous,
     bonded,
     loadType,
+    bussinessLine,
     quoteStatus,
     cordinator,
     idCompany

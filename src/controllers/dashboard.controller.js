@@ -2109,7 +2109,7 @@ export const updateWarehouseInfoById = (req, res) => {
 };
 
 export const deleteWarehouse = (req, res) => {
-  deleteWarehouseById(req.params.id, req.params.idCompany)
+  deleteWarehouseById(req.params.id)
     .then(res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log('Error Controller deleteWarehouse ' + error);

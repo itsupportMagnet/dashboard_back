@@ -14,7 +14,7 @@ router
   .post('/post/addWarehouse', addWarehouse)
   .get('/get/warehousesById/:id/:idCompany', fetchWarehouseById)
   .post('/post/updateWarehouse', updateWarehouseInfoById)
-  .delete('/delete/deleteWarehouse/:id/:idCompany', deleteWarehouse)
+  .delete('/delete/deleteWarehouse/:id', deleteWarehouse)
   .get('/get/warehousesByName/:id/:idCompany', fetchWarehouseData);
 
 export default router;

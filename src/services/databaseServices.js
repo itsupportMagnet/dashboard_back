@@ -1232,9 +1232,9 @@ export const deleteCarriersById = async (id) => {
     });
 };
 
-export const deleteWarehouseById = async (id, idCompany) => {
-  const query = 'DELETE FROM warehouses WHERE id = ? AND company_userID = ?';
-  return pool.query(query, [id, idCompany])
+export const deleteWarehouseById = async (id) => {
+  const query = 'DELETE FROM warehouses WHERE id = ?';
+  return pool.query(query, [id])
     .then(() => true)
     .catch(error => {
       console.error('Error on SQL :' + error);

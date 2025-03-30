@@ -1173,7 +1173,7 @@ export const fetchAllProfitSaleGross = async (idCompany) => {
 };
 
 export const getWarehouses = async (idCompany) => {
-  const query = 'SELECT id, company_userID, warehouse_id, name, address, zipcode, city, state, country, type, email, contact, phone, scheduling_preference from warehouses WHERE company_userID = ?';
+  const query = 'SELECT id, company_userID, name, address, zipcode, city, state, country, type, email, contact, phone, scheduling_preference from warehouses WHERE company_userID = ?';
   return pool.query(query, [idCompany])
     .then(rows => rows[0])
     .catch(error => {
@@ -1184,7 +1184,7 @@ export const getWarehouses = async (idCompany) => {
 
 
 export const addNewWarehouse = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
-  const query = 'INSERT INTO warehouses (warehouse_id, type, name, contact, phone, email, country, state, city, zipcode, address, scheduling_preference, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  const query = 'INSERT INTO warehouses (type, name, contact, phone, email, country, state, city, zipcode, address, scheduling_preference, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
   return pool.query(query, [warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany])
     .then(() => true)
@@ -1195,7 +1195,7 @@ export const addNewWarehouse = async (warehouseId, warehouseType, name, contact,
 };
 
 export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
-  const query = 'SELECT * FROM warehouses WHERE warehouse_id = ? AND company_userID = ?';
+  const query = 'SELECT * FROM warehouses WHERE id = ? AND company_userID = ?';
   return pool.query(query, [idWarehouse, idCompany])
     .then(data => data[0])
     .catch(error => {
@@ -1205,8 +1205,7 @@ export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
 };
 
 export const changeWarehouseInfo = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
-  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ?, scheduling_preference = ? WHERE warehouse_id = ? AND company_userID = ?';
-  console.log('SQL UpdateWarehouses: ', pool.format(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany]));
+  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ?, scheduling_preference = ? WHERE id = ? AND company_userID = ?';
   return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany])
     .then(() => true)
     .catch(error => {
@@ -1234,7 +1233,7 @@ export const deleteCarriersById = async (id) => {
 };
 
 export const deleteWarehouseById = async (id, idCompany) => {
-  const query = 'DELETE FROM warehouses WHERE warehouse_id = ? AND company_userID = ?';
+  const query = 'DELETE FROM warehouses WHERE id = ? AND company_userID = ?';
   return pool.query(query, [id, idCompany])
     .then(() => true)
     .catch(error => {

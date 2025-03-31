@@ -1183,10 +1183,10 @@ export const getWarehouses = async (idCompany) => {
 };
 
 
-export const addNewWarehouse = async (warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
+export const addNewWarehouse = async (type, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
   const query = 'INSERT INTO warehouses (type, name, contact, phone, email, country, state, city, zipcode, address, scheduling_preference, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
 
-  return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany])
+  return pool.query(query, [type, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany])
     .then(() => true)
     .catch(error => {
       console.error('Error on SQL: ', error);

@@ -13,7 +13,7 @@ router
   .get('/get/warehouses/:idCompany', getAllWarehousesData)
   .post('/post/addWarehouse', addWarehouse)
   .get('/get/warehousesById/:id/:idCompany', fetchWarehouseById)
-  .post('/post/updateWarehouse', updateWarehouseInfoById)
+  .post('/post/updateWarehouse/:id', updateWarehouseInfoById)
   .delete('/delete/deleteWarehouse/:id', deleteWarehouse)
   .get('/get/warehousesByName/:id/:idCompany', fetchWarehouseData);
 

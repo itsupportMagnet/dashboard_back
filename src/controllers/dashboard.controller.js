@@ -2099,8 +2099,9 @@ export const fetchWarehouseById = (req, res) => {
 };
 
 export const updateWarehouseInfoById = (req, res) => {
-  const { warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany } = req.body;
-  changeWarehouseInfo(warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany)
+  const { id } = req.params;
+  const { type, name, contact, phoneNumber, email, country, state, city, address, scheduling_preference } = req.body;
+  changeWarehouseInfo(id, type, name, contact, phoneNumber, email, country, state, city, address, scheduling_preference)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

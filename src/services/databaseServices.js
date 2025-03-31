@@ -1204,9 +1204,9 @@ export const getWarehouseByIdAndCompany = async (idWarehouse, idCompany) => {
     });
 };
 
-export const changeWarehouseInfo = async (warehouseId, warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, idCompany) => {
-  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, zipcode = ?, address = ?, scheduling_preference = ? WHERE id = ? AND company_userID = ?';
-  return pool.query(query, [warehouseType, name, contact, phoneNumber, email, country, state, city, zipcode, address, scheduling_preference, warehouseId, idCompany])
+export const changeWarehouseInfo = async (id, type, name, contact, phoneNumber, email, country, state, city, address, scheduling_preference) => {
+  const query = 'UPDATE warehouses SET type = ? , name = ?, contact = ?, phone = ?, email = ?, country = ?, state = ?, city = ?, address = ?, scheduling_preference = ? WHERE id = ?';
+  return pool.query(query, [type, name, contact, phoneNumber, email, country, state, city, address, scheduling_preference, id])
     .then(() => true)
     .catch(error => {
       console.error('Error on SQL: ' + error);

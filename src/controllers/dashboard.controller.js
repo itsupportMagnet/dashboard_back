@@ -1197,7 +1197,7 @@ export const newOperation = async (req, res) => {
 
   const {
     quoteID,
-    company_userID,
+    idCompany,
     modeOfOperation,
     customer,
     businessLine,
@@ -1223,11 +1223,12 @@ export const newOperation = async (req, res) => {
     lfd,
     status,
     containerStatus,
+    qty,
   } = req.body;
 
   saveNewOperation(
     quoteID,
-    company_userID,
+    idCompany,
     modeOfOperation,
     customer,
     businessLine,
@@ -1253,6 +1254,7 @@ export const newOperation = async (req, res) => {
     lfd,
     status,
     containerStatus,
+    qty,
   )
     .then(() => {
       res.status(200).json({ message: 'ok' });

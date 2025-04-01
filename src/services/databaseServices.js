@@ -302,10 +302,16 @@ export const updateIdCounter = async (newCounter) => {
   }
 };
 
-export const saveNewOperation = async (quoteID, company_userID, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus) => {
+export const saveNewOperation = async (quoteID, idCompany, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus, qty) => {
   const query = 'INSERT INTO operations(quoteID, company_userID, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, lfd, status, containerStatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
   try {
-    await pool.query(query, [quoteID, company_userID, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus]);
+    for (let i = 0; i < qty; i++) {
+      await pool.query(query, [
+        quoteID, idCompany, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl,
+        containerId, provider, port, terminal, ssline, state, city, equipment, containerSize, containerType,
+        weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus
+      ]);
+    }
   } catch (error) {
     console.error('Error to ger specific newOperation:', error);
     throw error;

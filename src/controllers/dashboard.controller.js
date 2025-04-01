@@ -1195,17 +1195,8 @@ export const getAllCarriers = (req, res) => {
 
 export const newOperation = async (req, res) => {
 
-  const { quoteID } = req.body;
-  const quotes = await getQuoteById(quoteID);
-
-  if (!quotes || quotes.length === 0) {
-    return res.status(404).json({ message: 'Quote not found' });
-  }
-  console.log("quotes",quotes)
-
-  const quoteData = quotes[0];
-
   const {
+    quoteID,
     company_userID,
     modeOfOperation,
     customer,
@@ -1232,18 +1223,14 @@ export const newOperation = async (req, res) => {
     bonded,
     cargoCut,
     timeLine,
-    notes,
-    lfd
-  } = quoteData;
-
-  const status = 1;
-  const containerStatus = 'NOT READY FOR DELIVERY';
+    lfd,
+    status,
+    containerStatus,
+  } = req.body;
 
   saveNewOperation(
     quoteID,
     company_userID,
-    status,
-    containerStatus,
     modeOfOperation,
     customer,
     businessLine,
@@ -1269,8 +1256,9 @@ export const newOperation = async (req, res) => {
     bonded,
     cargoCut,
     timeLine,
-    notes,
     lfd,
+    status,
+    containerStatus,
   )
     .then(() => {
       res.status(200).json({ message: 'ok' });

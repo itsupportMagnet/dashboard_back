@@ -21,6 +21,7 @@ import {
   createQuote,
   getAllApprovedQuotes,
   getAllClosedQuote,
+  getAllClosedCompletedQuote,
   getAllRequestedQuote,
   getAllQuotesWithFess,
   deleteQuote,
@@ -33,6 +34,7 @@ router
   .delete('/quotes/closed/:id', deleteClosedQuote)
   .get('/quotes/approved/:idCompany', getAllApprovedQuotes)
   .get('/quotes/closed/:idCompany', getAllClosedQuote)
+  .get('/quotes/closed/completed/:idCompany', getAllClosedCompletedQuote)
   .get('/quotes/requested/:idCompany', getAllRequestedQuote)
   .get('/quotes/requestedWithFees/:idCompany', getAllQuotesWithFess)
   .post('/createQuote', createQuote)

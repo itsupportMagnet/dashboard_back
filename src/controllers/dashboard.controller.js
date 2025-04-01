@@ -43,6 +43,7 @@ import {
   changeWeightxId,
   getAllOperationsForTable,
   getAllClosedQuotes,
+  getAllClosedCompletedQuotes,
   getAllRequestedQuotes,
   getAllQuotesWithFees,
   updateOperation,
@@ -1086,6 +1087,14 @@ export const getAllPorts = async (req, res) => {
     });
 };
 
+export const getAllClosedCompletedQuote = async (req, res) => {
+  getAllClosedCompletedQuotes(req.params.idCompany)
+    .then(row => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
 export const getAllClosedQuote = async (req, res) => {
   getAllClosedQuotes(req.params.idCompany)
     .then(row => res.status(200).json(row))

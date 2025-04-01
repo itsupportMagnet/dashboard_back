@@ -602,7 +602,20 @@ export const getAllOperationsForTable = async (id) => {
       throw error;
     });
 };
-
+export const getAllClosedCompletedQuotes = async (id) => {
+  const query = `
+  SELECT * 
+  FROM closed_quotes 
+  WHERE company_userID = ? 
+  AND warehouseID IS NOT NULL 
+  AND warehouseID != '';
+  `;
+  return pool.query(query, [id]).then(row => row[0])
+    .catch(error => {
+      console.error('Error trying to get all florida operations', error);
+      throw error;
+    });
+};
 
 export const getAllClosedQuotes = async (id) => {
   const query = 'SELECT * FROM closed_quotes WHERE company_userID = ? ';

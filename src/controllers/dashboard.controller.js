@@ -1197,6 +1197,7 @@ export const newOperation = async (req, res) => {
 
   const {
     quoteID,
+    warehouseID,
     idCompany,
     modeOfOperation,
     customer,
@@ -1228,6 +1229,7 @@ export const newOperation = async (req, res) => {
 
   saveNewOperation(
     quoteID,
+    warehouseID,
     idCompany,
     modeOfOperation,
     customer,

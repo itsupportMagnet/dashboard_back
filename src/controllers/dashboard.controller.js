@@ -1481,9 +1481,6 @@ export const updateOperationById = async (req, res) => {
     bookingBl,
     containerId,
     provider,
-    emptyLocation,
-    fullLocation,
-    warehouseLocation,
     port,
     terminal,
     ssline,
@@ -1497,13 +1494,8 @@ export const updateOperationById = async (req, res) => {
     hazardous,
     bonded,
     cargoCut,
-    notes,
     lfd
   } = req.body;
-
-  const idCompany = req.params.idCompany;
-
-  console.log(operationDate);
 
   updateOperation(
     lfd,
@@ -1518,9 +1510,6 @@ export const updateOperationById = async (req, res) => {
     bookingBl,
     containerId,
     provider,
-    emptyLocation,
-    fullLocation,
-    warehouseLocation,
     port,
     terminal,
     ssline,
@@ -1534,30 +1523,11 @@ export const updateOperationById = async (req, res) => {
     hazardous,
     bonded,
     cargoCut,
-    notes,
-    idOperation,
-    idCompany
+    idOperation
   )
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => res.status(500).json(error));
 };
-
-// export const getOperationById = async(req,res) => {
-//   const {id} = req.params
-//   getOperation(id)
-//   .then(() => res.status(200).json({message: 'ok'}))
-//   .catch((error) => res.status(500).json(error))
-// }s
-// export const updateContainerId = async (req, res) => {
-//   const { idOperation, containerId } = req.body;
-//   changeContainerId(idOperation, containerId)
-//   .then(() => res.status(500).json({ message: 'ok' }))
-//     .catch(error => {
-//       console.log(error);
-//       res.status(500).json({ error })
-//     })
-
-// }
 
 export const getAllOperationsTable = async (req, res) => {
   getAllOperationsForTable(req.params.id)

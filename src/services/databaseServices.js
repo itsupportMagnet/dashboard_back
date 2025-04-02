@@ -557,9 +557,6 @@ export const updateOperation = async (
   bookingBl,
   containerId,
   provider,
-  emptyLocation,
-  fullLocation,
-  warehouseLocation,
   port,
   terminal,
   ssline,
@@ -573,29 +570,13 @@ export const updateOperation = async (
   hazardous,
   bonded,
   cargoCut,
-  notes,
-  idOperation,
-  idCompany
+  idOperation
 ) => {
-  const query = 'UPDATE operations SET lfd = ?, status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, emptyLocation = ?, fullLocation = ?, warehouseLocation = ?, port = ?, terminal = ?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ?, notes = ?  WHERE idOperation = ? AND company_userID = ?';
-  console.log('Testeo para Update Operations SQL: ', pool.format(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, notes, idOperation, idCompany]));
-  return pool.query(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, notes, idOperation, idCompany])
+  const query = 'UPDATE operations SET lfd = ?, status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, port = ?, terminal = ?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ? WHERE id = ?';
+  return pool.query(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, idOperation])
     .then(() => true)
     .catch((error) => console.log(error));
 };
-
-// idOperation, quoteID, status, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, emptyLocation, fullLocation, warehouseLocation, port, terminal, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, notes
-
-// export const getMaxIdOperation = async () => {
-//   const query = "SELECT max(id) from operations";
-//   return pool.query(query)
-//     .then(rows => rows.max)
-//     .catch(error => {
-//       console.log("Error trying to get max id", error);
-//       throw error;
-//     });
-// }
-
 
 export const getAllOperationsForTable = async (id) => {
   const query = 'SELECT * FROM operations WHERE company_userID = ?';

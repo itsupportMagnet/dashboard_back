@@ -880,41 +880,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
       throw error;
 
     });
-
-  // if (tableCalled === 'carriers') {
-  //   const carrierEmails = await getCarrierEmails(id, idCompany);
-
-  //   const queries = carrierEmails.map(i => {
-  //     return {
-  //       text: 'DELETE FROM carrier_emails WHERE email_address = ? AND company_userID = ?',
-  //       value: { emailaddress: i, idCompany: idCompany }
-  //     };
-  //   })
-
-  //   await deleteEmailPortRelation(queries);
-
-  // }
 };
-
-// const getCarrierEmails = async (carrierID, idCompany) => {
-//   const query = "SELECT carrier_contact_mail FROM carriers WHERE id_carrier = ? AND company_userID = ?";
-//   return pool.query(query, [carrierID, idCompany])
-//     .then(data => data[0][0].carrier_contact_mail)
-//     .catch(error => {
-//       console.error("Error on SQL : " + error);
-//       throw error;
-//     })
-// }
-
-// const deleteEmailPortRelation = async (emailList) => {
-
-//   const deleteQueries = emailList.map(query => {
-//     console.log([query.value.emailaddress, query.value.idCompany]);
-//     return pool.query(query.text, [query.value.emailaddress, query.value.idCompany])
-//   })
-
-//   await Promise.all(deleteQueries);
-// }
 
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id = ? AND company_userID = ?';
@@ -1070,7 +1036,6 @@ export const getAllIdOpenQuotes = async (idCompany) => {
 };
 
 export const fetchEmailsWithPortId = async (portId, idCompany) => {
-  // const query = "SELECT ce.port_id, ce.carrier_id, c.contact_email FROM carrier_emails ce JOIN carriers c ON ce.carrier_id = c.id_carrier WHERE ce.port_id = ? AND c.company_userID = ?"
   const query = 'SELECT email_address FROM carrier_emails WHERE port_id = ? AND company_userID = ?';
   return pool.query(query, [portId, idCompany])
     .then(data => {

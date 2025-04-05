@@ -1052,10 +1052,6 @@ export const createQuote = async (req, res) => {
     });
 };
 
-export const getAllRoutes = async (res) => {
-  res.status(200);
-};
-
 export const getCarriersByPort = async (req, res) => {
   const selectedPort = req.params.id;
   const idCompany = req.params.idCompany;

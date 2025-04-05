@@ -7,7 +7,6 @@ import {
   getContainerStatus, 
   sendFee,
   saveFee,
-  getAllRoutes,
   changeNoteQuote,
   changeWeight,
   deleteGenericRow,
@@ -22,7 +21,6 @@ router
   .get('/get/container-status', getContainerStatus)
   .post('/post/send-fee', sendFee)
   .post('/post/save-fee', saveFee)
-  .get('/allRoutes', getAllRoutes)
   .post('/post/change-notes', changeNoteQuote)
   .post('/post/change-weight', changeWeight) 
   .delete('/delete/deleteGenericTable/:tableCalled/:columnCalled/:id/:idCompany', deleteGenericRow);

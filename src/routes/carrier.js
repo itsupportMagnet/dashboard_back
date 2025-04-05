@@ -8,7 +8,6 @@ import {
   fetchCarrierById, 
   updateCarrierInfoById,
   fetchCarriersNamesByCompanyId,
-  getSsLineData,
   getCarriersPortCoverage,
   getAllEmailsWithPortId,
   addCarrier,
@@ -22,14 +21,12 @@ router
   .post('/post/update-carrier-fee', updateCarrierFee)
   .get('/get/carriers-fees/:id/:idCompany', getCarriersFeeByID)
   .get('/get/allCarriers/:id', getAllCarriers)
-  .get('/get/carriers/:id/:idCompany', getCarriersByPort) //Debemos cambiarlo a futuro
+  .get('/get/carriers/:id/:idCompany', getCarriersByPort)
   .get('/get/statesCarriersEmails/:id/:idCompany', getAllEmailsWithStateId)
   .get('/get/carriersByID/:idCarrier/:idCompany', fetchCarrierById)
   .post('/post/updateCarrier', updateCarrierInfoById)
   .get('/get/carriersNames/:idCompany', fetchCarriersNamesByCompanyId)
-  .get('/get/ssLine', getSsLineData)
   .get('/get/carriersPortCoverage/:idCarrier/:idCompany', getCarriersPortCoverage)
-  .get('/get/portCarriersEmails/:id/:idCompany', getAllEmailsWithPortId)
+  .get('/get/portCarriersEmails/:id/:idCompany', getAllEmailsWithPortId);
   
-
 export default router;

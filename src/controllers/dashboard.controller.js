@@ -79,7 +79,6 @@ import {
   getClosedQuoteByIdAndCompany,
   changeClosedQuoteInfoById,
   getAllCarriersNameByCompanyId,
-  getAllSslines,
   getAllSaleGrossToCompare,
   addNewCarrierPorts,
   getCarrierPortCoverageByID,
@@ -1963,15 +1962,6 @@ export const fetchCarriersNamesByCompanyId = (req, res) => {
     .catch(error => {
       console.log(error);
       res.status(500).json({ error });
-    });
-};
-
-export const getSsLineData = async (req, res) => {
-  getAllSslines()
-    .then((row) => res.status(200).json(row))
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json(error);
     });
 };
 

@@ -144,20 +144,6 @@ export const login = async (req, res) => {
     });
 };
 
-export const getIdCounter = async () => {
-  try {
-    const [rows] = await pool.query(
-      'SELECT counter FROM id_counter LIMIT 1'
-    );
-    if (rows.length > 0) {
-      return rows[0].counter;
-    }
-  } catch (error) {
-    console.error('Error to get id counter:', error);
-    throw error;
-  }
-};
-
 export const saveFee = async (req, res) => {
   const {
     quoteID,

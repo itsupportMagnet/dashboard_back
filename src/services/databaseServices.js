@@ -282,16 +282,6 @@ export const getCarriersList = async (id) => {
     });
 };
 
-export const updateIdCounter = async (newCounter) => {
-  const query = 'UPDATE id_counter SET counter = ? LIMIT 1'; //CAMBIAR A FUTURO AL IDCOUNTER NORMAL
-  try {
-    await pool.query(query, [newCounter]);
-  } catch (error) {
-    console.log('Error trying to update the counter');
-    throw error;
-  }
-};
-
 export const saveNewOperation = async (quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus, qty) => {
   const query = 'INSERT INTO operations(quoteID, warehouseID, company_userID, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, emptyPickUp, fullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, lfd, status, containerStatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
   try {

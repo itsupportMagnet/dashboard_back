@@ -247,16 +247,6 @@ export const getCarriers = async (selectedPort, idCompany) => {
     });
 };
 
-export const getaccessorials = async () => {
-  const query = 'SELECT * FROM accessorials';
-  return pool.query(query)
-    .then(rows => rows[0])
-    .catch(error => {
-      console.error('Error trying to get all quotes:', error);
-      throw error;
-    });
-};
-
 export const getCarriersList = async (id) => {
   const query = `
     SELECT c.id, 

@@ -7,7 +7,6 @@ import {
   getQuotes,
   getApprovedQuotes,
   getPorts,
-  getaccessorials,
   getQuoteFeeById,
   updateCarrierFeeById,
   getCarriersList,
@@ -891,15 +890,6 @@ export const updateCarrierFee = async (req, res) => {
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);
-      res.status(500).json(error);
-    });
-};
-
-export const getAllaccessorials = async (req, res) => {
-  getaccessorials()
-    .then((row) => res.status(200).json(row))
-    .catch((error) => {
-      console.error(error);
       res.status(500).json(error);
     });
 };

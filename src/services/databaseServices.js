@@ -282,12 +282,12 @@ export const getCarriersList = async (id) => {
     });
 };
 
-export const saveNewOperation = async (quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus, qty) => {
-  const query = 'INSERT INTO operations(quoteID, warehouseID, company_userID, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, emptyPickUp, fullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, lfd, status, containerStatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+export const saveNewOperation = async (quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, scheduledAction, coordinator, bookingBl, containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus, qty) => {
+  const query = 'INSERT INTO operations(quoteID, warehouseID, company_userID, modeOfOperation, customer, businessLine, scheduledAction, coordinator, bookingBl, containerId, provider, port, emptyPickUp, fullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, lfd, status, containerStatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
   try {
     for (let i = 0; i < qty; i++) {
       await pool.query(query, [
-        quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl,
+        quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, scheduledAction, coordinator, bookingBl,
         containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType,
         weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus
       ]);

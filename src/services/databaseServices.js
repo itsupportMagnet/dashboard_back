@@ -525,6 +525,19 @@ export const changeWeightxId = async (weight, idOperation) => {
     .catch((error) => console.log(error));
 };
 export const updateOperation = async (operationData) => {
+  const fieldMappings = {
+    inptEmptyPickUp: 'emptyPickUp',
+    inptFullPickUp: 'fullPickUp',
+    idCompany: 'company_userID'
+  };
+
+  Object.keys(fieldMappings).forEach((oldKey) => {
+    if (Object.prototype.hasOwnProperty.call(operationData, oldKey)) {
+      operationData[fieldMappings[oldKey]] = operationData[oldKey];
+      delete operationData[oldKey];
+    }
+  });
+  
   const setFields = Object.entries(operationData)
     .filter(([key, value]) => key !== 'idOperation' && value !== undefined && value !== null)
     .map(([key, value]) => `${key} = ?`)

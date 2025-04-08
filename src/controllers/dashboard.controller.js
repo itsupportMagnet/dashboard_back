@@ -1446,7 +1446,7 @@ export const updateOperationById = async (req, res) => {
     return res.status(400).json({ message: 'idOperation is required' });
   }
   updateOperation(operationData)
-    .then(() => res.status(200).json({ message: 'Update successful' }))
+    .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => res.status(500).json(error));
 };
 

@@ -524,37 +524,20 @@ export const changeWeightxId = async (weight, idOperation) => {
     .then(() => { return true; })
     .catch((error) => console.log(error));
 };
-export const updateOperation = async (
-  lfd,
-  quoteID,
-  status,
-  containerStatus,
-  modeOfOperation,
-  customer,
-  businessLine,
-  operationDate,
-  coordinator,
-  bookingBl,
-  containerId,
-  provider,
-  port,
-  inptEmptyPickUp,
-  inptFullPickUp,
-  ssline,
-  state,
-  city,
-  equipment,
-  containerSize,
-  containerType,
-  weight,
-  commodity,
-  hazardous,
-  bonded,
-  cargoCut,
-  idOperation
-) => {
-  const query = 'UPDATE operations SET lfd = ?, status = ?, quoteID = ?, containerStatus = ?, modeOfOperation = ?, customer = ?, businessLine = ?, operationDate = ?, coordinator = ?, bookingBl = ?, containerId = ?, provider = ?, port = ?, emptyPickUp=?, fullPickUp=?, ssline = ?, state = ?, city = ?, equipment = ?, containerSize = ?, containerType = ?, weight = ?, commodity = ?, hazardous = ?, bonded = ?, cargoCut = ? WHERE id = ?';
-  return pool.query(query, [lfd, status, quoteID, containerStatus, modeOfOperation, customer, businessLine, operationDate, coordinator, bookingBl, containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, idOperation])
+export const updateOperation = async (operationData) => {
+  const setFields = Object.entries(operationData)
+    .filter(([key, value]) => key !== 'idOperation' && value !== undefined && value !== null)
+    .map(([key, value]) => `${key} = ?`)
+    .join(', ');
+
+  if (!setFields) throw new Error('No valid fields to update.');
+  const values = Object.entries(operationData)
+    .filter(([key, value]) => key !== 'idOperation' && value !== undefined && value !== null)
+    .map(([key, value]) => value);
+  values.push(operationData.idOperation);
+  const query = `UPDATE operations SET ${setFields} WHERE id = ?`;
+
+  return pool.query(query, values)
     .then(() => true)
     .catch((error) => console.log(error));
 };

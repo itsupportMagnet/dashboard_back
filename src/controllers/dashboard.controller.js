@@ -1441,66 +1441,12 @@ export const changeWeight = async (req, res) => {
 };
 
 export const updateOperationById = async (req, res) => {
-  const {
-    idOperation,
-    quoteID,
-    status,
-    containerStatus,
-    modeOfOperation,
-    customer,
-    businessLine,
-    operationDate,
-    coordinator,
-    bookingBl,
-    containerId,
-    provider,
-    port,
-    inptEmptyPickUp,
-    inptFullPickUp,
-    ssline,
-    state,
-    city,
-    equipment,
-    containerSize,
-    containerType,
-    weight,
-    commodity,
-    hazardous,
-    bonded,
-    cargoCut,
-    lfd
-  } = req.body;
-
-  updateOperation(
-    lfd,
-    quoteID,
-    status,
-    containerStatus,
-    modeOfOperation,
-    customer,
-    businessLine,
-    operationDate,
-    coordinator,
-    bookingBl,
-    containerId,
-    provider,
-    port,
-    inptEmptyPickUp,
-    inptFullPickUp,
-    ssline,
-    state,
-    city,
-    equipment,
-    containerSize,
-    containerType,
-    weight,
-    commodity,
-    hazardous,
-    bonded,
-    cargoCut,
-    idOperation
-  )
-    .then(() => res.status(200).json({ message: 'ok' }))
+  const operationData = req.body;
+  if (!operationData.idOperation) {
+    return res.status(400).json({ message: 'idOperation is required' });
+  }
+  updateOperation(operationData)
+    .then(() => res.status(200).json({ message: 'Update successful' }))
     .catch(error => res.status(500).json(error));
 };
 

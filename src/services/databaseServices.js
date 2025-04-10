@@ -84,9 +84,58 @@ export const getQuoteFeeById = async (id) => {
 };
 
 export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes) => {
-  const query = 'UPDATE carriers_fees SET buyDrayageUnitRate = ?, buyChassisUnitRate = ?, buyAccesorials = ?, sellDrayageUnitRate = ?, sellChassisUnitRate = ?,  sellAccesorials  = ?, notes = ?, carrierEmail = ? WHERE id = ?';
+  const fields = [];
+  const values = [];
 
-  return pool.query(query, (query, [buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes, carrierEmail, id]))
+  if (buyDrayageUnitRate !== null) {
+    fields.push('buyDrayageUnitRate = ?');
+    values.push(buyDrayageUnitRate);
+  }
+
+  if (buyChassisUnitRate !== null) {
+    fields.push('buyChassisUnitRate = ?');
+    values.push(buyChassisUnitRate);
+  }
+
+  if (buyaccessorialsJSON !== null) {
+    fields.push('buyAccesorials = ?');
+    values.push(buyaccessorialsJSON);
+  }
+
+  if (sellDrayageUnitRate !== null) {
+    fields.push('sellDrayageUnitRate = ?');
+    values.push(sellDrayageUnitRate);
+  }
+
+  if (sellChassisUnitRate !== null) {
+    fields.push('sellChassisUnitRate = ?');
+    values.push(sellChassisUnitRate);
+  }
+
+  if (sellaccessorialsJSON !== null) {
+    fields.push('sellAccesorials = ?');
+    values.push(sellaccessorialsJSON);
+  }
+
+  if (notes !== null) {
+    fields.push('notes = ?');
+    values.push(notes);
+  }
+
+  if (carrierEmail !== null) {
+    fields.push('carrierEmail = ?');
+    values.push(carrierEmail);
+  }
+
+  if (fields.length === 0) {
+    throw new Error('No valid fields provided for update');
+  }
+
+  const query = `UPDATE carriers_fees SET ${fields.join(', ')} WHERE id = ?`;
+  values.push(id);
+
+
+  return pool.query(query, values)
     .then(() => true)
     .catch(error => {
       console.log('Error trying to update fee', error);

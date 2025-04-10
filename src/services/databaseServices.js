@@ -83,48 +83,13 @@ export const getQuoteFeeById = async (id) => {
   }
 };
 
-export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes) => {
+export const updateCarrierFeeById = async (id, data) => {
   const fields = [];
   const values = [];
 
-  if (buyDrayageUnitRate !== null) {
-    fields.push('buyDrayageUnitRate = ?');
-    values.push(buyDrayageUnitRate);
-  }
-
-  if (buyChassisUnitRate !== null) {
-    fields.push('buyChassisUnitRate = ?');
-    values.push(buyChassisUnitRate);
-  }
-
-  if (buyaccessorialsJSON !== null) {
-    fields.push('buyAccesorials = ?');
-    values.push(buyaccessorialsJSON);
-  }
-
-  if (sellDrayageUnitRate !== null) {
-    fields.push('sellDrayageUnitRate = ?');
-    values.push(sellDrayageUnitRate);
-  }
-
-  if (sellChassisUnitRate !== null) {
-    fields.push('sellChassisUnitRate = ?');
-    values.push(sellChassisUnitRate);
-  }
-
-  if (sellaccessorialsJSON !== null) {
-    fields.push('sellAccesorials = ?');
-    values.push(sellaccessorialsJSON);
-  }
-
-  if (notes !== null) {
-    fields.push('notes = ?');
-    values.push(notes);
-  }
-
-  if (carrierEmail !== null) {
-    fields.push('carrierEmail = ?');
-    values.push(carrierEmail);
+  for (const [key, value] of Object.entries(data)) {
+    fields.push(`${key} = ?`);
+    values.push(value);
   }
 
   if (fields.length === 0) {
@@ -133,7 +98,6 @@ export const updateCarrierFeeById = async (id, carrierEmail, buyDrayageUnitRate,
 
   const query = `UPDATE carriers_fees SET ${fields.join(', ')} WHERE id = ?`;
   values.push(id);
-
 
   return pool.query(query, values)
     .then(() => true)

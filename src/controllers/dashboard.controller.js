@@ -867,12 +867,30 @@ export const getCarriersFeeByID = async (req, res) => {
 };
 
 export const updateCarrierFee = async (req, res) => {
-  const { id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorials, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorials, notes } = req.body;
+  const {
+    id,
+    carrierEmail,
+    buyDrayageUnitRate,
+    buyChassisUnitRate,
+    buyaccessorials,
+    sellDrayageUnitRate,
+    sellChassisUnitRate,
+    sellaccessorials,
+    notes
+  } = req.body;
+  
+  const updateData = {};
+  
+  if (carrierEmail !== null && carrierEmail !== undefined) updateData.carrierEmail = carrierEmail;
+  if (buyDrayageUnitRate !== null && buyDrayageUnitRate !== undefined) updateData.buyDrayageUnitRate = buyDrayageUnitRate;
+  if (buyChassisUnitRate !== null && buyChassisUnitRate !== undefined) updateData.buyChassisUnitRate = buyChassisUnitRate;
+  if (buyaccessorials !== null && buyaccessorials !== undefined) updateData.buyAccesorials = JSON.stringify(buyaccessorials);
+  if (sellDrayageUnitRate !== null && sellDrayageUnitRate !== undefined) updateData.sellDrayageUnitRate = sellDrayageUnitRate;
+  if (sellChassisUnitRate !== null && sellChassisUnitRate !== undefined) updateData.sellChassisUnitRate = sellChassisUnitRate;
+  if (sellaccessorials !== null && sellaccessorials !== undefined) updateData.sellAccesorials = JSON.stringify(sellaccessorials);
+  if (notes !== null && notes !== undefined) updateData.notes = notes;
 
-  const buyaccessorialsJSON = JSON.stringify(buyaccessorials);
-  const sellaccessorialsJSON = JSON.stringify(sellaccessorials);
-
-  updateCarrierFeeById(id, carrierEmail, buyDrayageUnitRate, buyChassisUnitRate, buyaccessorialsJSON, sellDrayageUnitRate, sellChassisUnitRate, sellaccessorialsJSON, notes)
+  updateCarrierFeeById(id, updateData)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => {
       console.log(error);

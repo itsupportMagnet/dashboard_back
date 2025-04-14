@@ -12,7 +12,7 @@ import {
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 router
-  .post('/post/operation-fees/:id', updateOperationFeesByID)
+  .post('/post/operation-fees', updateOperationFeesByID)
   .get('/get/operation-fees/:id', getOperationFeesByID)
 
   .post('/post/newOperation', newOperation)

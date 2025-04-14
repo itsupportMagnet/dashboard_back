@@ -541,7 +541,6 @@ export const changeWeightxId = async (weight, idOperation) => {
 
 
 export const updateOperationFees = async (operationData) => {
-  console.log(operationData)
   const keys = Object.keys(operationData);
   
   const fields = keys.join(', ');

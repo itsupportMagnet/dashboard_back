@@ -919,7 +919,7 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
 
 
 export const getOpFeeById = async (id) => {
-  const query = 'SELECT * FROM operation_fees WHERE operation_id = ?';
+  const query = 'SELECT * FROM operation_fees WHERE operationId = ?';
   return pool.query(query, [id])
     .then(data => {
       const rows = data[0];

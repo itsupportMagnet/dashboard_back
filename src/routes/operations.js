@@ -7,11 +7,14 @@ import {
   updateOperationById, 
   deleteOperationFromTable, 
   filterOperationCol, 
-  getOperationFeesByID
+  getOperationFeesByID,
+  updateOperationFeesByID,
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 router
+  .post('/post/operation-fees/:id', updateOperationFeesByID)
   .get('/get/operation-fees/:id', getOperationFeesByID)
+
   .post('/post/newOperation', newOperation)
   .get('/get/all-operations', getOperations)
   .get('/get/getOperation/:id/:idCompany', getOperation)

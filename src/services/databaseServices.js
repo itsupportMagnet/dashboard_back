@@ -538,6 +538,32 @@ export const changeWeightxId = async (weight, idOperation) => {
     .then(() => { return true; })
     .catch((error) => console.log(error));
 };
+
+
+export const updateOperationFees = async (operationData) => {
+  console.log(operationData)
+  const keys = Object.keys(operationData);
+  
+  const fields = keys.join(', ');
+  const placeholders = keys.map(() => '?').join(', ');
+  const updateFields = keys
+    .filter(key => key !== 'id') // evitar actualizar la PK
+    .map(key => `${key} = VALUES(${key})`)
+    .join(', ');
+
+  const values = Object.values(operationData);
+
+  const query = `
+    INSERT INTO operation_fees (${fields})
+    VALUES (${placeholders})
+    ON DUPLICATE KEY UPDATE ${updateFields}
+  `;
+
+  return pool.query(query, values)
+    .then(() => true)
+    .catch((error) => console.log(error));
+};
+
 export const updateOperation = async (operationData) => {
   const fieldMappings = {
     inptEmptyPickUp: 'emptyPickUp',

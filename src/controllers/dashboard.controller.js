@@ -1843,13 +1843,13 @@ export const getAllClientsCompany = async (req, res) => {
 export const getOperationFeesByID = async (req, res) => {
   const id = req.params.id;
   try {
-    const [rows] = await getOpFeeById(id);
+    const rows = await getOpFeeById(id);
     res.status(200).json(rows);
   } catch (error) {
     console.error(error);
     return res.status(500).json(error);
   }
-}
+};
 
 export const filterOperationCol = async (req, res) => {
   const colList = Object.keys(req.body);

@@ -892,6 +892,17 @@ export const deleteGenericRowById = async (tableCalled, columnCalled, id, idComp
     });
 };
 
+
+export const getOpFeeById = async (id) => {
+  const query = 'SELECT * FROM operation_fees WHERE operation_id = ?';
+  return pool.query(query, [id])
+    .then(data => data[0])
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+};
+
 export const getCarrierByIdAndCompany = async (idCarrier, idCompany) => {
   const query = 'SELECT * FROM carriers WHERE id = ? AND company_userID = ?';
   return pool.query(query, [idCarrier, idCompany])

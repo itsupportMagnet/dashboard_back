@@ -98,6 +98,7 @@ import {
   fetchEmailWithStateId,
   getCompanyName,
   deleteClosedQuoteById,
+  getOpFeeById,
 } from '../services/databaseServices.js';
 import {
   saveNewQuote,
@@ -1838,6 +1839,17 @@ export const getAllClientsCompany = async (req, res) => {
     .then(data => res.status(200).json(data))
     .catch(error => res.status(500).json({ error }));
 };
+
+export const getOperationFeesByID = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [rows] = await getOpFeeById(id);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+}
 
 export const filterOperationCol = async (req, res) => {
   const colList = Object.keys(req.body);

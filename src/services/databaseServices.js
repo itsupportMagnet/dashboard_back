@@ -202,7 +202,17 @@ export const getApprovedQuotes = async (id) => {
 };
 
 export const getSales = async (id) => {
-  const query = `SELECT *
+  const query = `SELECT o.*, 
+    f.operationId,
+    f.buyAccesorials,
+    f.buyAccesorialsQuantity,
+    f.sellAccesorials,
+    f.sellAccesorialsQuantity,
+    f.notes,
+    f.totalFee,
+    f.totalChassis,
+    f.created_at,
+    f.updated_at
     FROM operations o
     JOIN operation_fees f ON o.id = f.operationId
     WHERE o.company_userID = ?`;

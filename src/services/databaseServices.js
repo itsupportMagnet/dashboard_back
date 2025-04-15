@@ -202,7 +202,10 @@ export const getApprovedQuotes = async (id) => {
 };
 
 export const getSales = async (id) => {
-  const query = 'SELECT id, operation_id, booking_bl, container_id, provider, provider_invoice, status, buy, sell, profit, customer, invoice, invoice_date FROM sales_gross WHERE company_userID = ? '; //Empiezo a Especificar las tablas pedidas
+  const query = `SELECT *
+    FROM operations o
+    LEFT JOIN operation_fees f ON o.id = f.operationId
+    WHERE o.company_userID = ?`;
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

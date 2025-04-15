@@ -214,8 +214,8 @@ export const getSales = async (id) => {
     f.created_at,
     f.updated_at
     FROM operations o
-    JOIN operation_fees f ON o.id = f.operationId
-    WHERE o.company_userID = ?`;
+    LEFT JOIN operation_fees f ON o.id = f.operationId
+    WHERE o.status = 3 && o.company_userID = ?`;
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

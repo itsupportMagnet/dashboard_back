@@ -209,8 +209,8 @@ export const getSales = async (id) => {
     f.sellAccesorials,
     f.sellAccesorialsQuantity,
     f.notes,
-    f.totalFee,
-    f.totalChassis,
+    f.totalCost,
+    f.totalSell,
     f.created_at,
     f.updated_at
     FROM operations o

@@ -204,7 +204,7 @@ export const getApprovedQuotes = async (id) => {
 export const getSales = async (id) => {
   const query = `SELECT *
     FROM operations o
-    LEFT JOIN operation_fees f ON o.id = f.operationId
+    JOIN operation_fees f ON o.id = f.operationId
     WHERE o.company_userID = ?`;
   return pool.query(query, [id])
     .then(rows => rows[0])

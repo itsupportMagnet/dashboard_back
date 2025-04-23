@@ -8,8 +8,17 @@ export const getUserEmail = async (email) => {
       console.error(error);
       throw error;
     });
+};
 
-
+export const findUserByEmail = async (email) => {
+  const query = 'SELECT * FROM users WHERE email = ?';
+  try {
+    const [rows] = await pool.execute(query, [email]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error finding user by email:', error);
+    throw new Error('Database error');
+  }
 };
 
 export const saveNewQuoteFee = async (quoteID,

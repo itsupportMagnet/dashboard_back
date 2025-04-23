@@ -100,11 +100,18 @@ import {
   getCompanyName,
   deleteClosedQuoteById,
   getOpFeeById,
+  findUserByEmail,
 } from '../services/databaseServices.js';
 import {
   saveNewQuote,
   generateNextQuoteID,
 } from '../services/quotes.js';
+import {
+  hashPassword
+} from '../utils/hashPassword.js';
+import { 
+  createUser 
+} from '../services/userService.js';
 import { sendEmail } from '../services/emailService.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -121,7 +128,7 @@ export const login = async (req, res) => {
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
-      const rol = user.rol;
+      const role = user.role;
       const companyUser = user.company_userID;
 
 
@@ -136,7 +143,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: 'error' });
         } else {
-          res.status(200).send({ token, userName, rol, companyUser });
+          res.status(200).send({ token, userName, role, companyUser });
           console.log(res);
         }
       });
@@ -1500,25 +1507,21 @@ export const getClosedQuotes = async (req, res) => {
 };
 
 export const newAccount = async (req, res) => {
-  const { userName, email, password } = req.body;
+  try {
+    const { fullName, email, password, phone, role } = req.body;
 
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ error: 'error encrypt' });
+    const existingUser = await findUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email is already registered' });
     }
 
-    bcrypt.hash(password, salt, async (err, hash) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({ error: 'error encrypt' });
-      }
-
-      create(userName, email, hash)
-        .then((data) => res.status(201).json({ message: data }))
-        .catch((error) => res.status(500).json({ error }));
-    });
-  });
+    const hashedPassword = await hashPassword(password);
+    const user = await createUser(fullName, email, hashedPassword, phone, role);
+    return res.status(201).json({ message: 'Account created successfully', user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 export const deleteOperationFromTable = async (req, res) => {

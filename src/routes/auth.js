@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { login, verifyToken, newAccount } from '../controllers/dashboard.controller.js';
-import { validateRole } from '../../middlewares/verifyRol.js';
+// import { validateRole } from '../../middlewares/verifyRol.js';
 import { validarJWT } from '../../middlewares/validar-jwt.js';
 const router = Router();
 router
   .post('/login/users/sign_in', login)
-  .post('/login/users/register',[validateRole],newAccount)
+  // .post('/login/users/register',[validateRole],newAccount)
+  .post('/signUp',newAccount)
   .get('/login/users/verify-token', [validarJWT], verifyToken);
 
 export default router;

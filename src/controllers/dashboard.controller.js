@@ -1516,7 +1516,7 @@ export const newAccount = async (req, res) => {
     }
 
     const hashedPassword = await hashPassword(password);
-    const user = await createUser(fullName, email, hashedPassword, phone, role);
+    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role);
     return res.status(201).json({ message: 'Account created successfully', user });
   } catch (err) {
     console.error(err);

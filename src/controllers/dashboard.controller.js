@@ -137,9 +137,8 @@ export const login = async (req, res) => {
       if (!validPassword) {
         return res.status(400).json({ message: 'password incorrect! ' });
       }
-
       //make jwt
-      jwt.sign(user.userID, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
+      jwt.sign(user.email, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
         if (err) {
           res.status(400).send({ msg: 'error' });
         } else {

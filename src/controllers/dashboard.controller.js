@@ -132,6 +132,7 @@ export const login = async (req, res) => {
       const fullName = user.fullName;
       const role = user.role;
       const phone = user.phone;
+      const email = user.email;      
       const companyUser = user.company_userID;
 
 
@@ -145,7 +146,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: 'error' });
         } else {
-          res.status(200).send({ token, userName, role, companyUser, phone, fullName, userID });
+          res.status(200).send({ token, userName, role, companyUser, phone, fullName, userID, email });
           console.log(res);
         }
       });

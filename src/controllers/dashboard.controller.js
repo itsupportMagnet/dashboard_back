@@ -128,7 +128,10 @@ export const login = async (req, res) => {
     .then((data) => {
       const user = data[0];
       const userName = user.userName;
+      const userID = user.userID;
+      const fullName = user.fullName;
       const role = user.role;
+      const phone = user.phone;
       const companyUser = user.company_userID;
 
 
@@ -142,7 +145,7 @@ export const login = async (req, res) => {
         if (err) {
           res.status(400).send({ msg: 'error' });
         } else {
-          res.status(200).send({ token, userName, role, companyUser });
+          res.status(200).send({ token, userName, role, companyUser, phone, fullName, userID });
           console.log(res);
         }
       });

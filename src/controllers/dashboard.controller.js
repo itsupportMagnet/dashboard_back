@@ -1523,7 +1523,7 @@ export const updateUser = async (req, res) => {
     const updatedUser = await updateUserDetails(
       existingUser.id, fullName, userName, phone, role
     );
-    return res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+    return res.status(200).send({ email, fullName, userName, phone, role });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Internal server error' });

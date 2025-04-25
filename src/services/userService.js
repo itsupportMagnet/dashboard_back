@@ -24,3 +24,21 @@ export const updateUserDetails = async (id, fullName, userName, phone, role) => 
     throw new Error('Database error');
   }
 }
+
+export const updateUserPassword = async (id, hashedNewPassword) => {
+  const query = 'UPDATE users SET password = ? WHERE id = ?';
+
+  try {
+    const [result] = await pool.execute(query, [hashedNewPassword, id]);
+
+    if (result.affectedRows === 0) {
+      throw new Error('User not found or no changes were made');
+    }
+    return { id: id};
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Database error');
+  }
+}
+
+

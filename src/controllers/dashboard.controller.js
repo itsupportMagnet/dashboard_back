@@ -112,6 +112,7 @@ import {
 import { 
   createUser,
   updateUserDetails,
+  updateUserPassword,
 } from '../services/userService.js';
 import { sendEmail } from '../services/emailService.js';
 import bcrypt from 'bcrypt';
@@ -1532,16 +1533,22 @@ export const updateUser = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    const { fullName, email, password, phone, role } = req.body;
+    const email = decodeURIComponent(req.params.email);
+    const { currentPassword, newPassword } = req.body;
 
     const existingUser = await findUserByEmail(email);
-    if (existingUser) {
-      return res.status(400).json({ error: 'Email is already registered' });
+    if (!existingUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const isMatch = await bcrypt.compare(currentPassword, existingUser.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Current password is incorrect' });
     }
 
-    const hashedPassword = await hashPassword(password);
-    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role);
-    return res.status(201).json({ message: 'Account created successfully', user });
+    const hashedNewPassword = await hashPassword(newPassword);
+    const updatedUser = await updateUserPassword(existingUser.id, hashedNewPassword);
+    return res.status(200).json({ message: 'Password updated successfully', user: updatedUser });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Internal server error' });

@@ -110,7 +110,8 @@ import {
   hashPassword
 } from '../utils/hashPassword.js';
 import { 
-  createUser 
+  createUser,
+  updateUserDetails,
 } from '../services/userService.js';
 import { sendEmail } from '../services/emailService.js';
 import bcrypt from 'bcrypt';
@@ -1507,6 +1508,44 @@ export const getClosedQuotes = async (req, res) => {
       console.log(error);
       res.status(500).json(error);
     });
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const email = decodeURIComponent(req.params.email);
+    const { fullName, userName, phone, role } = req.body;
+
+    const existingUser = await findUserByEmail(email);
+    if (!existingUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const updatedUser = await updateUserDetails(
+      existingUser.id, fullName, userName, phone, role
+    );
+    return res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const { fullName, email, password, phone, role } = req.body;
+
+    const existingUser = await findUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email is already registered' });
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role);
+    return res.status(201).json({ message: 'Account created successfully', user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 export const newAccount = async (req, res) => {

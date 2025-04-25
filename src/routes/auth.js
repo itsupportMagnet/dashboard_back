@@ -9,7 +9,7 @@ router
   .post('/signUp',newAccount)
   .get('/login/users/verify-token', [validarJWT], verifyToken)
   .put('/users/:email',updateUser)
-  .post('/users/changePassword/:email',changePassword);
+  .put('/users/changePassword/:email',changePassword);
 
 export default router;
 

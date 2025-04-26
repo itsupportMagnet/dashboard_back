@@ -813,10 +813,9 @@ export const updateSaleGrossById = async (operation_id, booking_bl, container_id
     });
 };
 
-export const deleteClientById = async (id, idCompany) => {
-  console.log(id + 'y tambien : ' + idCompany);
-  const query = 'DELETE FROM clients WHERE id_Client = ? AND company_userID = ? ';
-  return pool.query(query, [id, idCompany])
+export const deleteClientById = async (id) => {
+  const query = 'DELETE FROM clients WHERE id = ?';
+  return pool.query(query, [id])
     .then(() => true)
     .catch(error => {
       console.error('Error on SQL :' + error);

@@ -13,7 +13,7 @@ router
   .post('/post/addClient', addClient)
   .get('/get/clients', getAllClients)
   .get('/get/clients/:id', getAllClientsCompany)
-  .delete('/delete/deleteClient/:id/:idCompany', deleteClient)
+  .delete('/delete/deleteClient/:id', deleteClient)
   .get('/get/clientsById/:id/:idCompany', fetchClientById)
   .post('/post/updateClient', updateClientInfoById);
 

@@ -421,7 +421,6 @@ export const getOperationById = async (operationId) => {
 
 export const addNewClient = async (clientData) => {
   const {
-    customerId, 
     customerType, 
     name, 
     contact, 
@@ -432,14 +431,13 @@ export const addNewClient = async (clientData) => {
     address, 
     creditTerms, 
     idCompany,
-    ein
   } = clientData;
   const query = `
-    INSERT INTO clients (id_Client, type, name, contact, phone, email, country, city, address, EIN, creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
+    INSERT INTO clients (type, name, contact, phone, email, country, city, address, creditTerms, company_userID) VALUES (?,?,?,?,?,?,?,?,?,?)`;
 
   try {
     const [result] = await pool.query(query, [
-      customerId, customerType, name, contact, phoneNumber, email, country, city, address, ein, creditTerms, idCompany
+      customerType, name, contact, phoneNumber, email, country, city, address, creditTerms, idCompany
     ]); 
 
     const newClientId = result.insertId;

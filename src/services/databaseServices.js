@@ -302,7 +302,7 @@ export const getCarriersList = async (id) => {
            c.type,
            c.contact_email, 
            c.phone_number, 
-           c.ports,
+           c.ports
     FROM carriers c
     WHERE c.company_userID = ?;
 `;

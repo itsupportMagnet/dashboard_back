@@ -500,7 +500,7 @@ export const getStates = async () => {
 };
 
 export const changeQuote = async (status, id) => {
-  const query = 'UPDATE quotes SET quoteStatus = ? WHERE quoteID = ?';
+  const query = 'UPDATE quotes SET quoteStatus = ? WHERE id = ?';
   return pool.query(query, [status, id])
     .then(() => { return true; })
     .catch(error => {

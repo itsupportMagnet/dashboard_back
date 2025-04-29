@@ -160,7 +160,7 @@ export const login = async (req, res) => {
 
 export const saveFee = async (req, res) => {
   const {
-    quoteID,
+    id,
     modeOfOperation,
     pol,
     deliveryAddress,
@@ -191,7 +191,7 @@ export const saveFee = async (req, res) => {
     const sellaccessorialsJSON = JSON.stringify(sellaccessorials);
 
     await saveNewQuoteFee(
-      quoteID,
+      id,
       modeOfOperation,
       pol,
       deliveryAddress,

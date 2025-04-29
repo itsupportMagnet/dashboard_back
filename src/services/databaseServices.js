@@ -149,7 +149,7 @@ export const getQuoteById = async (id) => {
 };
 
 export const getQuoteByIdAndCompanyID = async (id, idCompany) => {
-  const query = 'SELECT * FROM quotes WHERE quoteID = ? AND company_userID = ?';
+  const query = 'SELECT * FROM quotes WHERE id = ? AND company_userID = ?';
   return pool.query(query, [id, idCompany])
     .then(rows => rows[0])
     .catch(error => {

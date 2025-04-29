@@ -128,7 +128,7 @@ export const deleteClosedQuoteById = async (id) => {
 };
 
 export const deleteQuoteById = async (id) => {
-  const query = 'DELETE FROM quotes WHERE quoteID = ?';
+  const query = 'DELETE FROM quotes WHERE id = ?';
   return pool.query(query, [id])
     .then(() => true)
     .catch(error => {

@@ -654,7 +654,7 @@ export const getAllRequestedQuotes = async (id) => {
     });
 };
 export const getAllQuotesWithFees = async (id) => {
-  const query = 'SELECT q.*, cf.carrierEmail FROM EasyFreightDB.quotes q JOIN EasyFreightDB.carriers_fees cf ON q.quoteId = cf.quoteId WHERE q.company_userID = ? AND q.quoteStatus NOT IN (5, 6)';
+  const query = 'SELECT q.*, cf.carrierEmail FROM EasyFreightDB.quotes q JOIN EasyFreightDB.carriers_fees cf ON q.id = cf.quoteId WHERE q.company_userID = ? AND q.quoteStatus NOT IN (5, 6)';
   return pool.query(query, [id]).then(row => row[0])
     .catch(error => {
       console.error('Error trying to get all florida operations', error);

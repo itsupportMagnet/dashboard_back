@@ -190,7 +190,7 @@ export const getPorts = async () => {
 
 
 export const getQuotes = async (id) => {
-  const query = 'SELECT quoteID, modeOfOperation, quoteStatus , pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, date ,cordinator FROM quotes WHERE company_userID = ? ';
+  const query = 'SELECT id, modeOfOperation, quoteStatus , pol, deliveryAddress, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, loadType, date ,cordinator FROM quotes WHERE company_userID = ? ';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

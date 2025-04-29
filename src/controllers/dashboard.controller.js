@@ -1811,26 +1811,25 @@ export const addNewOperationToSaleGross = async (req, res) => {
 
 export const addNewCloseQuote = async (req, res) => {
   try {
-    const { quoteID } = req.body;
-    if (!quoteID) {
-      return res.status(400).json({ message: 'Quote ID is required' });
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ message: 'Quote id is required' });
     }
-    const quotes = await getQuoteById(quoteID);
+    const quotes = await getQuoteById(id);
     if (!quotes || quotes.length === 0) {
       return res.status(404).json({ message: 'Quote not found' });
     }
     const quote = quotes[0];
 
-    const isQuoteClosed = await isQuoteAlreadyClosed(quoteID);
+    const isQuoteClosed = await isQuoteAlreadyClosed(id);
 
     if (isQuoteClosed) {
       return res.status(400).json({
-        message: 'This quote is already closed. Please use a different QuoteID.'
+        message: 'This quote is already closed. Please use a different id.'
       });
     }
 
     const {
-      quoteID: id,
       modeOfOperation,
       pol,
       deliveryAddress,
@@ -1871,7 +1870,7 @@ export const addNewCloseQuote = async (req, res) => {
       buyDrayageUnitRate
     });
 
-    await deleteQuoteById(quoteID);
+    await deleteQuoteById(id);
 
     return res.status(200).json({ message: 'Closed quote saved successfully' });
 

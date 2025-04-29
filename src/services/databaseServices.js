@@ -139,7 +139,7 @@ export const deleteQuoteById = async (id) => {
 
 //Check in quotes to move to closed_quotes
 export const getQuoteById = async (id) => {
-  const query = 'SELECT * FROM EasyFreightDB.quotes q LEFT JOIN EasyFreightDB.carriers_fees cf ON q.quoteID = cf.quoteId WHERE q.quoteID = ?';
+  const query = 'SELECT * FROM EasyFreightDB.quotes q LEFT JOIN EasyFreightDB.carriers_fees cf ON q.id = cf.quoteId WHERE q.id = ?';
   return pool.query(query, [id])
     .then(rows => rows[0])
     .catch(error => {

@@ -104,7 +104,6 @@ import {
 } from '../services/databaseServices.js';
 import {
   saveNewQuote,
-  generateNextQuoteID,
 } from '../services/quotes.js';
 import {
   hashPassword
@@ -114,6 +113,9 @@ import {
   updateUserDetails,
   updateUserPassword,
 } from '../services/userService.js';
+import { 
+  saveCompanyRow
+} from '../services/companyService.js';
 import { sendEmail } from '../services/emailService.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -1556,8 +1558,16 @@ export const newAccount = async (req, res) => {
       return res.status(400).json({ error: 'Email is already registered' });
     }
 
+    const newCompany = await saveCompanyRow({
+      name: 'Test company',
+      company_phone: 111111,
+      company_address: 'company_address',
+      company_webpage: 'company_webpage',
+      company_email: 'company_email'
+    });
+
     const hashedPassword = await hashPassword(password);
-    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role);
+    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role, newCompany.id);
     return res.status(201).json({ message: 'Account created successfully', user });
   } catch (err) {
     console.error(err);
@@ -2143,6 +2153,15 @@ export const getAllEmailsWithStateId = (req, res) => {
 export const getCompanyNameForSendQuote = (req, res) => {
   getCompanyName(req.params.idCompany)
     .then(data => res.status(200).json(data[0].name))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    });
+};
+
+export const saveCompany = (req, res) => {
+  saveCompanyRow(req.body)
+    .then(data => res.status(200).json(data))
     .catch((error) => {
       console.error(error);
       res.status(500).json(error);

@@ -6,7 +6,8 @@ import {
   getAllProviders, 
   getAllPorts,
   getAllCities,
-  getAllCitiesID
+  getAllCitiesID,
+  saveCompany
 } from '../controllers/dashboard.controller.js';
 
 const router = Router();
@@ -17,6 +18,7 @@ router
   .get('/get/providers/:idCompany', getAllProviders)
   .get('/get/ports', getAllPorts)
   .get('/get/cities', getAllCities)
-  .get('/get/cities/:id', getAllCitiesID);
+  .get('/get/cities/:id', getAllCitiesID)
+  .post('/company', saveCompany);
 
 export default router;

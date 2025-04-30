@@ -939,8 +939,7 @@ export const createQuote = async (req, res) => {
     companyName
   } = req.body;
 
-  const quoteID = await generateNextQuoteID();
-  const emailSubject = `Drayage request from ${companyName} / ${quoteID}`;
+  const emailSubject = `Drayage request from ${companyName}`;
 
   const emailBody = `<!DOCTYPE html>
   <html lang="en">
@@ -952,12 +951,6 @@ export const createQuote = async (req, res) => {
         as follow:</h1>
       <table border="1" cellpadding="8"
         style="width: 600px; margin: 20px; border-collapse: collapse;">
-        <tr>
-          <td
-            style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Quote ID</td>
-          <td
-            style="border: 1px solid black; padding: 8px; text-align: start; font-size: 15px; padding-left: 10px;">${quoteID}</td>
-        </tr>
         <tr>
           <td
             style="border: 1px solid black; padding: 8px; text-align: center; background-color: #1A6AFF; color: white; font-size: 18px; font-weight: 600; width: 170px;">Mode
@@ -1047,7 +1040,6 @@ export const createQuote = async (req, res) => {
     </html>`;
 
   saveNewQuote(
-    quoteID,
     operation,
     pol,
     address,

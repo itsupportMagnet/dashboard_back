@@ -1551,7 +1551,6 @@ export const changePassword = async (req, res) => {
 
 export const newAccount = async (req, res) => {
   try {
-    return res.status(201).json({ message: 'wat' });
     const { fullName, email, password, phone, role } = req.body;
 
     const existingUser = await findUserByEmail(email);

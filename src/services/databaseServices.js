@@ -1,8 +1,20 @@
 import { pool } from '../../db.js';
 
 
-export const getUserEmail = async (email) => {
-  const query = 'SELECT * FROM users WHERE email = ?';
+export const getUserEmailAndCompany = async (email) => {
+  const query = `
+      SELECT 
+        u.*, 
+        c.name AS company_name,
+        c.company_email AS company_email,
+        c.company_phone AS company_phone,
+        c.company_address AS company_address,
+        c.company_webpage AS company_webpage,
+        c.invite_code AS invite_code
+      FROM users u
+      LEFT JOIN companies c ON u.company_userID = c.id
+      WHERE u.email = ?
+  `;
   return pool.query(query, [email])
     .then(rows => { return rows[0]; }).catch(error => {
       console.error(error);

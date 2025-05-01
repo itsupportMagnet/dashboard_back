@@ -9,7 +9,7 @@ import {
   getQuoteFeeById,
   updateCarrierFeeById,
   getCarriersList,
-  getUserEmail,
+  getUserEmailAndCompany,
   getCities,
   getCitiesID,
   getQuoteByIdAndCompanyID,
@@ -128,7 +128,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [user] = await getUserEmail(email);
+    const [user] = await getUserEmailAndCompany(email);
 
     if (!user) {
       return res.status(400).json({ message: 'Email does not exist' });
@@ -154,6 +154,15 @@ export const login = async (req, res) => {
       company_userID: companyUser
     } = user;
 
+    const company = {
+      companyName: user.company_name,
+      companyPhone: user.company_phone,
+      companyAddress: user.company_address,
+      companyWebPage: user.company_webpage,
+      companyEmail: user.company_email,
+      inviteCode: user.company_invite_code
+    };
+
     return res.status(200).json({
       token,
       userName,
@@ -162,7 +171,8 @@ export const login = async (req, res) => {
       phone,
       fullName,
       userID,
-      email: userEmail
+      email: userEmail,
+      company
     });
   } catch (error) {
     console.error('Login error:', error);

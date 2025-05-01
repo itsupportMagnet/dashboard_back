@@ -100,6 +100,7 @@ import {
   deleteClosedQuoteById,
   getOpFeeById,
   findUserByEmail,
+  findUserByInviteCode,
 } from '../services/databaseServices.js';
 import {
   saveNewQuote,
@@ -1571,23 +1572,33 @@ export const changePassword = async (req, res) => {
 
 export const newAccount = async (req, res) => {
   try {
-    const { fullName, email, password, phone, role } = req.body;
+    const { fullName, email, password, phone, role, invitationCode } = req.body;
 
     const existingUser = await findUserByEmail(email);
     if (existingUser) {
       return res.status(400).json({ error: 'Email is already registered' });
     }
 
-    const newCompany = await saveCompanyRow({
-      name: 'Test company',
-      company_phone: 111111,
-      company_address: 'company_address',
-      company_webpage: 'company_webpage',
-      company_email: 'company_email'
-    });
+    let companyID;
+    if (invitationCode) {
+      const invitationCodeIsValid = await findUserByInviteCode(invitationCode);
+      if (!invitationCodeIsValid) {
+        return res.status(400).json({ error: 'The invitation code is invalid or does not exist.' });
+      }
+      companyID = invitationCodeIsValid.id;
+    } else {
+      const newCompany = await saveCompanyRow({
+        name: 'Test company',
+        company_phone: 111111,
+        company_address: 'company_address',
+        company_webpage: 'company_webpage',
+        company_email: 'company_email'
+      });
+      companyID = newCompany.id;
+    }
 
     const hashedPassword = await hashPassword(password);
-    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role, newCompany.id);
+    const user = await createUser(fullName, fullName, email, hashedPassword, phone, role, companyID);
     return res.status(201).json({ message: 'Account created successfully', user });
   } catch (err) {
     console.error(err);

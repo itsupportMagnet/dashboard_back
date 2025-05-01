@@ -22,6 +22,18 @@ export const getUserEmailAndCompany = async (email) => {
     });
 };
 
+
+export const findUserByInviteCode = async (code) => {
+  const query = 'SELECT * FROM companies WHERE invite_code = ?';
+  try {
+    const [rows] = await pool.execute(query, [code]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error finding invitation code:', error);
+    throw new Error('Database error');
+  }
+};
+
 export const findUserByEmail = async (email) => {
   const query = 'SELECT * FROM users WHERE email = ?';
   try {

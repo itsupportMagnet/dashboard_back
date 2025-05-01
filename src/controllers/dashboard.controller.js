@@ -127,36 +127,47 @@ export const verifyToken = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  getUserEmail(email)
-    .then((data) => {
-      const user = data[0];
-      const userName = user.userName;
-      const userID = user.userID;
-      const fullName = user.fullName;
-      const role = user.role;
-      const phone = user.phone;
-      const email = user.email;      
-      const companyUser = user.company_userID;
+  try {
+    const [user] = await getUserEmail(email);
 
+    if (!user) {
+      return res.status(400).json({ message: 'Email does not exist' });
+    }
 
-      //verify password
-      const validPassword = bcrypt.compareSync(password, user.password);
-      if (!validPassword) {
-        return res.status(400).json({ message: 'password incorrect! ' });
-      }
-      //make jwt
-      jwt.sign(user.email, 'testtoken', (err, token) => {  //process.env.tokenPrivateKey
-        if (err) {
-          res.status(400).send({ msg: 'error' });
-        } else {
-          res.status(200).send({ token, userName, role, companyUser, phone, fullName, userID, email });
-          console.log(res);
-        }
-      });
-    })
-    .catch(() => {
-      return res.status(400).json({ message: 'email does not exist' });
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Password is incorrect' });
+    }
+
+    const tokenPayload = { email: user.email, userID: user.userID };
+    const token = jwt.sign(tokenPayload, process.env.TOKEN_SECRET || 'testtoken', {
+      expiresIn: '2h'
     });
+
+    const {
+      userName,
+      userID,
+      fullName,
+      role,
+      phone,
+      email: userEmail,
+      company_userID: companyUser
+    } = user;
+
+    return res.status(200).json({
+      token,
+      userName,
+      role,
+      companyUser,
+      phone,
+      fullName,
+      userID,
+      email: userEmail
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 export const saveFee = async (req, res) => {

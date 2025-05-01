@@ -160,7 +160,7 @@ export const login = async (req, res) => {
       companyAddress: user.company_address,
       companyWebPage: user.company_webpage,
       companyEmail: user.company_email,
-      inviteCode: user.company_invite_code
+      inviteCode: user.invite_code
     };
 
     return res.status(200).json({

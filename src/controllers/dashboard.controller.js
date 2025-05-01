@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import {
   getSales,
   getClients,
@@ -2160,10 +2159,7 @@ export const getCompanyNameForSendQuote = (req, res) => {
 };
 
 export const saveCompany = (req, res) => {
-  const invite_code = crypto.randomBytes(5).toString('hex');
-  const bodyWithCode = { ...req.body, invite_code };
-
-  saveCompanyRow(bodyWithCode)
+  saveCompanyRow(req.body)
     .then(data => res.status(200).json(data))
     .catch((error) => {
       console.error(error);

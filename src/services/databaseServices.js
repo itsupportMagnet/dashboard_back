@@ -413,20 +413,23 @@ export const changeContainerId = async (idOperation, containerId, idCompany) => 
 };
 
 export const getOperationByIdAndCompany = async (operationId, idCompany) => {
-  const query = `SELECT operations.*, closed_quotes.*
-  FROM operations
-  LEFT JOIN closed_quotes ON operations.quoteID = closed_quotes.quoteID
-  WHERE operations.id = ? AND operations.company_userID = ?`;
-  return pool.query(query, [operationId, idCompany])
-    .then(data => {
-      console.log(data[0]);
-      return data[0];
-    })
-    .catch(error => {
-      console.log(error);
-      throw error;
-    });
+  const [columns] = await pool.query('SHOW COLUMNS FROM closed_quotes');
+  const fields = columns
+    .filter(col => col.Field !== 'hazardous')
+    .map(col => `closed_quotes.${col.Field} AS cq_${col.Field}`)
+    .join(', ');
+
+  const query = `
+    SELECT operations.*, ${fields}
+    FROM operations
+    LEFT JOIN closed_quotes ON operations.quoteID = closed_quotes.quoteID
+    WHERE operations.id = ? AND operations.company_userID = ?;
+  `;
+
+  const [rows] = await pool.query(query, [operationId, idCompany]);
+  return rows;
 };
+
 
 export const getOperationById = async (operationId) => {
   const query = 'SELECT * FROM operations WHERE quoteID = ?';

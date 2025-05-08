@@ -656,12 +656,21 @@ export const getAllClosedCompletedQuotes = async (id) => {
   AND warehouseID IS NOT NULL 
   AND warehouseID != '';
   `;
-  return pool.query(query, [id]).then(row => row[0])
-    .catch(error => {
-      console.error('Error trying to get all florida operations', error);
-      throw error;
+  
+  return pool.query(query, [id]).then(row => {
+    const data = row[0];
+    data.forEach(item => {
+      const { quoteID, warehouseID, ...rest } = item;
+      item = { ...rest, quoteID, warehouseID };
     });
+
+    return data;
+  }).catch(error => {
+    console.error('Error trying to get all florida operations', error);
+    throw error;
+  });
 };
+
 
 export const getAllClosedQuotes = async (id) => {
   const query = 'SELECT * FROM closed_quotes WHERE company_userID = ? ';

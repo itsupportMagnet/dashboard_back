@@ -641,13 +641,22 @@ export const updateOperation = async (operationData) => {
 
 export const getAllOperationsForTable = async (id) => {
   const query = 'SELECT * FROM operations WHERE company_userID = ?';
+
   return pool.query(query, [id])
-    .then(rows => rows[0])
+    .then(([rows]) => {
+      if (!rows || rows.length === 0) return [];
+
+      return rows.map(row => {
+        const { quoteID, warehouseID, ...rest } = row;
+        return { ...rest, quoteID, warehouseID };
+      });
+    })
     .catch(error => {
       console.error('Error trying to get all operations', error);
       throw error;
     });
 };
+
 export const getAllClosedCompletedQuotes = async (id) => {
   const query = `
   SELECT * 

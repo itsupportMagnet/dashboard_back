@@ -203,17 +203,22 @@ export const saveFee = async (req, res) => {
     buyDrayageUnitRate,
     buyChassisUnitRate,
     buyaccessorials,
+    buyAccesorialsQuantity,
     sellDrayageUniteRate,
     sellChassisUnitRate,
     sellaccessorials,
+    sellAccesorialsQuantity,
     notes,
     companyID
   } = req.body;
 
   try {
     const buyaccessorialsJSON = JSON.stringify(buyaccessorials);
+    const buyAccesorialsQuantityJSON = JSON.stringify(buyAccesorialsQuantity);
+    
     const sellaccessorialsJSON = JSON.stringify(sellaccessorials);
-
+    const sellAccesorialsQuantityJSON = JSON.stringify(sellAccesorialsQuantity);
+    
     await saveNewQuoteFee(
       id,
       modeOfOperation,
@@ -234,9 +239,11 @@ export const saveFee = async (req, res) => {
       buyDrayageUnitRate,
       buyChassisUnitRate,
       buyaccessorialsJSON,
+      buyAccesorialsQuantityJSON,
       sellDrayageUniteRate,
       sellChassisUnitRate,
       sellaccessorialsJSON,
+      sellAccesorialsQuantityJSON,
       notes,
       companyID
     );

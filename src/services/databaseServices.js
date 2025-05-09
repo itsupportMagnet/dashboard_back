@@ -107,6 +107,7 @@ export const getCarrierFeeByQuoteId = async (id, idCompany) => {
 };
 
 export const getQuoteFeeById = async (id) => {
+  console.log('ID:', id);
   const query = 'SELECT * FROM carriers_fees WHERE quoteID = ?';
   try {
     const [rows] = await pool.query(query, [id]);
@@ -340,20 +341,59 @@ export const getCarriersList = async (id) => {
     });
 };
 
-export const saveNewOperation = async (quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, scheduledAction, coordinator, bookingBl, containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus, qty) => {
-  const query = 'INSERT INTO operations(quoteID, warehouseID, company_userID, modeOfOperation, customer, businessLine, scheduledAction, coordinator, bookingBl, containerId, provider, port, emptyPickUp, fullPickUp, ssline, state, city, equipment, containerSize, containerType, weight, commodity, hazardous , bonded, cargoCut, timeLine, lfd, status, containerStatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-  try {
-    for (let i = 0; i < qty; i++) {
-      await pool.query(query, [
-        quoteID, warehouseID, idCompany, modeOfOperation, customer, businessLine, scheduledAction, coordinator, bookingBl,
-        containerId, provider, port, inptEmptyPickUp, inptFullPickUp, ssline, state, city, equipment, containerSize, containerType,
-        weight, commodity, hazardous, bonded, cargoCut, timeLine, lfd, status, containerStatus
-      ]);
-    }
-  } catch (error) {
-    console.error('Error to ger specific newOperation:', error);
-    throw error;
+export const saveNewOperation = async (operation, qty) => {
+  const query = `
+    INSERT INTO operations(
+      quoteID, warehouseID, company_userID, modeOfOperation, customer, businessLine,
+      scheduledAction, coordinator, bookingBl, containerId, provider, port,
+      emptyPickUp, fullPickUp, ssline, state, city, equipment,
+      containerSize, containerType, weight, commodity, hazardous, bonded,
+      cargoCut, timeLine, lfd, status, containerStatus
+    ) VALUES (
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    )
+  `;
+
+  const values = [
+    operation.quoteID,
+    operation.warehouseID,
+    operation.idCompany,
+    operation.modeOfOperation,
+    operation.customer,
+    operation.businessLine,
+    operation.scheduledAction,
+    operation.coordinator,
+    operation.bookingBl,
+    operation.containerId,
+    operation.provider,
+    operation.port,
+    operation.inptEmptyPickUp,
+    operation.inptFullPickUp,
+    operation.ssline,
+    operation.state,
+    operation.city,
+    operation.equipment,
+    operation.containerSize,
+    operation.containerType,
+    operation.weight,
+    operation.commodity,
+    operation.hazardous,
+    operation.bonded,
+    operation.cargoCut,
+    operation.timeLine,
+    operation.lfd,
+    operation.status,
+    operation.containerStatus
+  ];
+
+  const insertedIds = [];
+
+  for (let i = 0; i < qty; i++) {
+    const [result] = await pool.query(query, values);
+    insertedIds.push(result.insertId);
   }
+
+  return insertedIds;
 };
 
 export const getTerminals = async (id) => {
@@ -585,7 +625,7 @@ export const changeWeightxId = async (weight, idOperation) => {
 };
 
 
-export const updateOperationFees = async (operationData) => {
+export const saveOperationFees = async (operationData) => {
   const keys = Object.keys(operationData);
   
   const fields = keys.join(', ');
@@ -607,6 +647,48 @@ export const updateOperationFees = async (operationData) => {
     .then(() => true)
     .catch((error) => console.log(error));
 };
+
+export const saveBunchOperationFees = async (operationIds, quoteFees) => {
+  const baseData = {
+    operationID: null,
+    buyDrayageUnitRate: quoteFees[0].buyDrayageUnitRate,
+    buyChassisUnitRate: quoteFees[0].buyChassisUnitRate,
+    buyAccesorials: JSON.stringify(quoteFees[0].buyAccesorials),
+    buyAccesorialsQuantity: JSON.stringify(quoteFees[0].buyAccesorialsQuantity),
+    sellDrayageUnitRate: quoteFees[0].sellDrayageUnitRate,
+    sellChassisUnitRate: quoteFees[0].sellChassisUnitRate,
+    sellAccesorials: JSON.stringify(quoteFees[0].sellAccesorials),
+    sellAccesorialsQuantity: JSON.stringify(quoteFees[0].sellAccesorialsQuantity),
+  };
+
+  const keys = Object.keys(baseData);
+  const fields = keys.join(', ');
+  const placeholders = `(${keys.map(() => '?').join(', ')})`;
+
+  const allValues = [];
+  const rowsPlaceholders = [];
+
+  for (const id of operationIds) {
+    const rowData = { ...baseData, operationID: id };
+    allValues.push(...Object.values(rowData));
+    rowsPlaceholders.push(placeholders);
+  }
+
+  const query = `
+    INSERT INTO operation_fees (${fields})
+    VALUES ${rowsPlaceholders.join(', ')}
+  `;
+
+  try {
+    await pool.query(query, allValues);
+    return true;
+  } catch (error) {
+    console.error('Error inserting operation_fees:', error);
+    return false;
+  }
+};
+
+
 
 export const updateOperation = async (operationData) => {
   const fieldMappings = {

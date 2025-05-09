@@ -8,11 +8,11 @@ import {
   deleteOperationFromTable, 
   filterOperationCol, 
   getOperationFeesByID,
-  updateOperationFeesByID,
+  saveOperationFeesByID,
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 router
-  .post('/post/operation-fees', updateOperationFeesByID)
+  .post('/post/operation-fees', saveOperationFeesByID)
   .get('/get/operation-fees/:id', getOperationFeesByID)
 
   .post('/post/newOperation', newOperation)

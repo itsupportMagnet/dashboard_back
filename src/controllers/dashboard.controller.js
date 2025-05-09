@@ -45,7 +45,8 @@ import {
   getAllRequestedQuotes,
   getAllQuotesWithFees,
   updateOperation,
-  updateOperationFees,
+  saveOperationFees,
+  saveBunchOperationFees,
   deleteOperationByID,
   create,
   newInputQuerySaleGross,
@@ -1216,79 +1217,16 @@ export const getAllCarriers = (req, res) => {
 };
 
 export const newOperation = async (req, res) => {
-
-  const {
-    quoteID,
-    warehouseID,
-    idCompany,
-    modeOfOperation,
-    customer,
-    businessLine,
-    scheduledAction,
-    coordinator,
-    bookingBl,
-    containerId,
-    provider,
-    port,
-    inptEmptyPickUp,
-    inptFullPickUp,
-    ssline,
-    state,
-    city,
-    equipment,
-    containerSize,
-    containerType,
-    weight,
-    commodity,
-    hazardous,
-    bonded,
-    cargoCut,
-    timeLine,
-    lfd,
-    status,
-    containerStatus,
-    qty,
-  } = req.body;
-
-  saveNewOperation(
-    quoteID,
-    warehouseID,
-    idCompany,
-    modeOfOperation,
-    customer,
-    businessLine,
-    scheduledAction,
-    coordinator,
-    bookingBl,
-    containerId,
-    provider,
-    port,
-    inptEmptyPickUp,
-    inptFullPickUp,
-    ssline,
-    state,
-    city,
-    equipment,
-    containerSize,
-    containerType,
-    weight,
-    commodity,
-    hazardous,
-    bonded,
-    cargoCut,
-    timeLine,
-    lfd,
-    status,
-    containerStatus,
-    qty,
-  )
-    .then(() => {
-      res.status(200).json({ message: 'ok' });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error });
-    });
+  try {
+    const { qty = 1, ...operationData } = req.body;
+    const insertedIds = await saveNewOperation(operationData, qty);
+    const [quoteFee] = await getQuoteFeeById(req.body.quoteID);
+    await saveBunchOperationFees(insertedIds, quoteFee);
+    res.status(200).json({ message: 'ok' });
+  } catch (error) {
+    console.error('Error saving new operation:', error);
+    res.status(500).json({ error });
+  }
 };
 
 export const getAllTerminals = async (req, res) => {
@@ -1492,8 +1430,8 @@ export const changeWeight = async (req, res) => {
 };
 
 
-export const updateOperationFeesByID = async (req, res) => {
-  updateOperationFees(req.body)
+export const saveOperationFeesByID = async (req, res) => {
+  saveOperationFees(req.body)
     .then(() => res.status(200).json({ message: 'ok' }))
     .catch(error => res.status(500).json(error));
 };

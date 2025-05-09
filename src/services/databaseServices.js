@@ -631,7 +631,7 @@ export const saveOperationFees = async (operationData) => {
   const fields = keys.join(', ');
   const placeholders = keys.map(() => '?').join(', ');
   const updateFields = keys
-    .filter(key => key !== 'id') // evitar actualizar la PK
+    .filter(key => key !== 'id')
     .map(key => `${key} = VALUES(${key})`)
     .join(', ');
 

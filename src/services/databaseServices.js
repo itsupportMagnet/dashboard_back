@@ -653,12 +653,12 @@ export const saveBunchOperationFees = async (operationIds, quoteFees) => {
     operationID: null,
     buyDrayageUnitRate: quoteFees[0].buyDrayageUnitRate,
     buyChassisUnitRate: quoteFees[0].buyChassisUnitRate,
-    buyAccesorials: JSON.stringify(quoteFees[0].buyAccesorials),
-    buyAccesorialsQuantity: JSON.stringify(quoteFees[0].buyAccesorialsQuantity),
+    buyAccesorials: JSON.stringify(quoteFees[0].buyAccesorials || {}),
+    buyAccesorialsQuantity: JSON.stringify(quoteFees[0].buyAccesorialsQuantity || {}),
     sellDrayageUnitRate: quoteFees[0].sellDrayageUnitRate,
     sellChassisUnitRate: quoteFees[0].sellChassisUnitRate,
-    sellAccesorials: JSON.stringify(quoteFees[0].sellAccesorials),
-    sellAccesorialsQuantity: JSON.stringify(quoteFees[0].sellAccesorialsQuantity),
+    sellAccesorials: JSON.stringify(quoteFees[0].sellAccesorials || {}),
+    sellAccesorialsQuantity: JSON.stringify(quoteFees[0].sellAccesorialsQuantity || {}),
   };
 
   const keys = Object.keys(baseData);

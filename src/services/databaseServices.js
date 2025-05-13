@@ -661,6 +661,9 @@ export const saveBunchOperationFees = async (operationIds, quoteFees) => {
     sellChassisUnitRate: quoteFees[0].sellChassisUnitRate,
     sellAccesorials: JSON.stringify(quoteFees[0].sellAccesorials || {}),
     sellAccesorialsQuantity: JSON.stringify(quoteFees[0].sellAccesorialsQuantity || {}),
+    totalCost: quoteFees[0].totalCost,
+    totalSell: quoteFees[0].totalSell,
+    
   };
 
   const keys = Object.keys(baseData);

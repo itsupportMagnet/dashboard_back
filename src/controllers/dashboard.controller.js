@@ -40,6 +40,7 @@ import {
   changeQuoteIdById,
   changeWeightxId,
   getAllOperationsForTable,
+  getAllOperationsDashboard,
   getAllClosedQuotes,
   getAllClosedCompletedQuotes,
   getAllRequestedQuotes,
@@ -48,7 +49,6 @@ import {
   saveOperationFees,
   saveBunchOperationFees,
   deleteOperationByID,
-  create,
   newInputQuerySaleGross,
   newInputQueryFLSaleGross,
   changeProviderSalesGross,
@@ -1454,7 +1454,7 @@ export const updateOperationById = async (req, res) => {
 };
 
 export const allOperationsDashboard = async (req, res) => {
-  getAllOperationsForTable(req.params.id)
+  getAllOperationsDashboard(req.params.id)
     .then((row) => res.status(200).json(row))
     .catch((error) => {
       console.log(error);

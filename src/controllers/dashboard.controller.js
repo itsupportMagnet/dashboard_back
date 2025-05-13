@@ -923,6 +923,8 @@ export const updateCarrierFee = async (req, res) => {
     sellChassisUnitRate,
     sellaccessorials,
     sellAccesorialsQuantity,
+    totalCost,
+    totalSell,
     notes
   } = req.body;
   
@@ -938,6 +940,8 @@ export const updateCarrierFee = async (req, res) => {
   if (sellChassisUnitRate !== null && sellChassisUnitRate !== undefined) updateData.sellChassisUnitRate = sellChassisUnitRate;
   if (sellaccessorials !== null && sellaccessorials !== undefined) updateData.sellAccesorials = JSON.stringify(sellaccessorials);
   if (notes !== null && notes !== undefined) updateData.notes = notes;
+  if (totalCost !== null && totalCost !== undefined) updateData.totalCost = totalCost;
+  if (totalSell !== null && totalSell !== undefined) updateData.totalSell = totalSell;
 
   updateCarrierFeeById(id, updateData)
     .then(() => res.status(200).json({ message: 'ok' }))

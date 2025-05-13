@@ -9,6 +9,7 @@ import {
   filterOperationCol, 
   getOperationFeesByID,
   saveOperationFeesByID,
+  allOperationsDashboard,
 } from '../controllers/dashboard.controller.js';
 const router = Router();
 router
@@ -19,6 +20,7 @@ router
   .get('/get/all-operations', getOperations)
   .get('/get/getOperation/:id/:idCompany', getOperation)
   .get('/get/allOperationsTable/:id', getAllOperationsTable)
+  .get('/get/allOperationsDashboard/:id', allOperationsDashboard)
   .post('/post/updateOperation/:idCompany', updateOperationById)
   .delete('/delete/deleteOperation/:id', deleteOperationFromTable)
   .post('/post/filterOperationCol/:idCompany', filterOperationCol);

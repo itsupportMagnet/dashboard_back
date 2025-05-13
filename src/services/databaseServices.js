@@ -723,6 +723,30 @@ export const updateOperation = async (operationData) => {
     .catch((error) => console.log(error));
 };
 
+
+export const getAllOperationsDashboard = async (id) => {
+  const query = `SELECT o.*, 
+    f.totalCost,
+    f.totalSell
+    FROM operations o
+    LEFT JOIN operation_fees f ON o.id = f.operationId
+    WHERE o.company_userID = ?`;
+
+  return pool.query(query, [id])
+    .then(([rows]) => {
+      if (!rows || rows.length === 0) return [];
+
+      return rows.map(row => {
+        const { quoteID, warehouseID, ...rest } = row;
+        return { ...rest, quoteID, warehouseID };
+      });
+    })
+    .catch(error => {
+      console.error('Error trying to get all operations', error);
+      throw error;
+    });
+};
+
 export const getAllOperationsForTable = async (id) => {
   const query = 'SELECT * FROM operations WHERE company_userID = ?';
 

@@ -1453,6 +1453,15 @@ export const updateOperationById = async (req, res) => {
     .catch(error => res.status(500).json(error));
 };
 
+export const allOperationsDashboard = async (req, res) => {
+  getAllOperationsForTable(req.params.id)
+    .then((row) => res.status(200).json(row))
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+};
+
 export const getAllOperationsTable = async (req, res) => {
   getAllOperationsForTable(req.params.id)
     .then((row) => res.status(200).json(row))

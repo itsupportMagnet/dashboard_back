@@ -19,6 +19,7 @@ import {
   getQuote,
   getAllQuotes,
   createQuote,
+  sendDO,
   getAllApprovedQuotes,
   getAllClosedQuote,
   getAllClosedCompletedQuote,
@@ -38,6 +39,7 @@ router
   .get('/quotes/requested/:idCompany', getAllRequestedQuote)
   .get('/quotes/requestedWithFees/:idCompany', getAllQuotesWithFess)
   .post('/createQuote', createQuote)
+  .post('sendDO/', sendDO)
   .get('/get/allQuotes/:id', getAllQuotes)
   .get('/get/quotes/:id/:idCompany', getQuote)
   .get('/get/quotes-fees/:id', getQuotesFeeById)

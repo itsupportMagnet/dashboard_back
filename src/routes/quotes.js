@@ -19,7 +19,6 @@ import {
   getQuote,
   getAllQuotes,
   createQuote,
-  sendDO,
   getAllApprovedQuotes,
   getAllClosedQuote,
   getAllClosedCompletedQuote,
@@ -28,6 +27,9 @@ import {
   deleteQuote,
   deleteClosedQuote,
 } from '../controllers/dashboard.controller.js';
+import { 
+  sendDO
+} from '../controllers/attachments.js';
 const router = Router();
 
 router

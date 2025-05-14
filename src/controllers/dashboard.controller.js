@@ -951,10 +951,6 @@ export const updateCarrierFee = async (req, res) => {
     });
 };
 
-export const sendDO = async (req, res) => {
-  res.status(200).json({ message: 'ok' });  
-};
-
 export const createQuote = async (req, res) => {
   const {
     carriers,

@@ -1957,6 +1957,15 @@ export const updateClosedQuoteInfoById = async (req, res) => {
 
 };
 
+export const fetchCarriersNamesEmailsByCompanyId = (req, res) => {
+  getAllCarriersNameEmailByCompanyId(req.params.idCompany)
+    .then((row) => res.status(200).json(row))
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error });
+    });
+};
+
 export const fetchCarriersNamesByCompanyId = (req, res) => {
   getAllCarriersNameByCompanyId(req.params.idCompany)
     .then((row) => res.status(200).json(row))

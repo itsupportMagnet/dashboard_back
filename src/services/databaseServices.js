@@ -1149,6 +1149,17 @@ export const changeClosedQuoteInfoById = async (quoteID, operationType, pol, war
     });
 };
 
+
+export const getAllCarriersNameEmailsByCompanyId = async (idCompany) => {
+  const query = 'SELECT name, contact_email FROM carriers WHERE company_userID = ?';
+  return pool.query(query, [idCompany])
+    .then((rows) => rows[0])
+    .catch(error => {
+      console.error('Error on SQL: ' + error);
+      throw error;
+    });
+};
+
 export const getAllCarriersNameByCompanyId = async (idCompany) => {
   const query = 'SELECT name FROM carriers WHERE company_userID = ?';
   return pool.query(query, [idCompany])

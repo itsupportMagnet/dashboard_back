@@ -26,6 +26,7 @@ router
   .get('/get/carriersByID/:idCarrier/:idCompany', fetchCarrierById)
   .post('/post/updateCarrier', updateCarrierInfoById)
   .get('/get/carriersNames/:idCompany', fetchCarriersNamesByCompanyId)
+  .get('/get/carriersNamesEmails/:idCompany', fetchCarriersNamesEmailsByCompanyId)
   .get('/get/carriersPortCoverage/:idCarrier/:idCompany', getCarriersPortCoverage)
   .get('/get/portCarriersEmails/:id/:idCompany', getAllEmailsWithPortId);
   

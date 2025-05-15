@@ -79,6 +79,7 @@ import {
   getClosedQuoteByIdAndCompany,
   changeClosedQuoteInfoById,
   getAllCarriersNameByCompanyId,
+  getAllCarriersNameEmailsByCompanyId,
   getAllSaleGrossToCompare,
   addNewCarrierPorts,
   getCarrierPortCoverageByID,
@@ -1958,7 +1959,7 @@ export const updateClosedQuoteInfoById = async (req, res) => {
 };
 
 export const fetchCarriersNamesEmailsByCompanyId = (req, res) => {
-  getAllCarriersNameEmailByCompanyId(req.params.idCompany)
+  getAllCarriersNameEmailsByCompanyId(req.params.idCompany)
     .then((row) => res.status(200).json(row))
     .catch(error => {
       console.log(error);

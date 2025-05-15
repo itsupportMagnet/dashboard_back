@@ -8,6 +8,7 @@ import {
   fetchCarrierById, 
   updateCarrierInfoById,
   fetchCarriersNamesByCompanyId,
+  fetchCarriersNamesEmailsByCompanyId,
   getCarriersPortCoverage,
   getAllEmailsWithPortId,
   addCarrier,

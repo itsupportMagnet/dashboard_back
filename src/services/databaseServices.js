@@ -244,7 +244,15 @@ export const getSales = async (id) => {
     f.totalCost,
     f.totalSell,
     f.created_at,
-    f.updated_at
+    f.updated_at,
+    f.buyDrayageUnitRate,
+    f.buyChassisUnitRate,
+    f.sellDrayageUnitRate,
+    f.sellChassisUnitRate,
+    f.buyAccesorials,
+    f.buyAccesorialsQuantity,
+    f.sellAccesorials,
+    f.sellAccesorialsQuantity
     FROM operations o
     LEFT JOIN operation_fees f ON o.id = f.operationId
     WHERE o.status = 5 && o.company_userID = ?`;

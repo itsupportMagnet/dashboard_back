@@ -240,10 +240,6 @@ export const getApprovedQuotes = async (id) => {
 export const getSales = async (id) => {
   const query = `SELECT o.*, 
     f.operationId,
-    f.buyAccesorials,
-    f.buyAccesorialsQuantity,
-    f.sellAccesorials,
-    f.sellAccesorialsQuantity,
     f.notes,
     f.totalCost,
     f.totalSell,

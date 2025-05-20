@@ -466,12 +466,9 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
     .join(', ');
 
   const query = `
-    SELECT operations.*,
-    warehouses.name AS warehouse_name, 
-    ${fields}
+    SELECT operations.*, ${fields}
     FROM operations
     LEFT JOIN closed_quotes ON operations.quoteID = closed_quotes.quoteID
-    LEFT JOIN warehouses ON operations.warehouseID = warehouses.id
     WHERE operations.id = ? AND operations.company_userID = ?;
   `;
 
@@ -758,15 +755,20 @@ export const getAllOperationsDashboard = async (id) => {
 };
 
 export const getAllOperationsForTable = async (id) => {
-  const query = 'SELECT * FROM operations WHERE company_userID = ?';
+  const query = `
+    SELECT operations.*, warehouses.name AS warehouse_name
+    FROM operations
+    LEFT JOIN warehouses ON operations.warehouseID = warehouses.id
+    WHERE company_userID = ?
+  `;
 
   return pool.query(query, [id])
     .then(([rows]) => {
       if (!rows || rows.length === 0) return [];
 
       return rows.map(row => {
-        const { quoteID, warehouseID, ...rest } = row;
-        return { ...rest, quoteID, warehouseID };
+        const { quoteID, warehouseID, warehouse_name, ...rest } = row;
+        return { ...rest, quoteID, warehouseID, warehouse_name };
       });
     })
     .catch(error => {
@@ -774,6 +776,7 @@ export const getAllOperationsForTable = async (id) => {
       throw error;
     });
 };
+
 
 export const getAllClosedCompletedQuotes = async (id) => {
   const query = `

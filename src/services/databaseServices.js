@@ -466,9 +466,12 @@ export const getOperationByIdAndCompany = async (operationId, idCompany) => {
     .join(', ');
 
   const query = `
-    SELECT operations.*, ${fields}
+    SELECT operations.*,
+    warehouses.name AS warehouse_name, 
+    ${fields}
     FROM operations
     LEFT JOIN closed_quotes ON operations.quoteID = closed_quotes.quoteID
+    LEFT JOIN warehouses ON operations.warehouseID = warehouses.id
     WHERE operations.id = ? AND operations.company_userID = ?;
   `;
 

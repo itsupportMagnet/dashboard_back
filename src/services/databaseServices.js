@@ -759,7 +759,7 @@ export const getAllOperationsForTable = async (id) => {
     SELECT operations.*, warehouses.name AS warehouse_name
     FROM operations
     LEFT JOIN warehouses ON operations.warehouseID = warehouses.id
-    WHERE company_userID = ?
+    WHERE operations.company_userID = ?
   `;
 
   return pool.query(query, [id])
